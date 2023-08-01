@@ -46,6 +46,13 @@ public class Korisnik implements UserDetails {
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Uloga> uloge;
 
+    @ManyToMany()
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Tip>listaTipova;
+
+    @OneToMany(mappedBy = "musterija", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Racun>listaRacuna;
+
     public Korisnik(Integer id, String ime, String prezime, String email, String lozinka) {
         this.id = id;
         this.ime = ime;
