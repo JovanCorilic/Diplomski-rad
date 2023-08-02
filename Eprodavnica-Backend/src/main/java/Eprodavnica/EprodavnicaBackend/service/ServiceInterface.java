@@ -5,11 +5,11 @@ import java.util.List;
 public interface ServiceInterface<T>{
     List<T> findAll();
 
-    T findOne(Integer id);
+    T findOne(String id);
 
     T create(T entity);
 
-    T update(T entity, Integer id);
+    T update(T entity, String id);
 
-    void delete(Integer id);
+    void delete(String id);
 }

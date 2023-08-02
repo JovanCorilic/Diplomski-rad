@@ -53,6 +53,9 @@ public class Korisnik implements UserDetails {
     @OneToMany(mappedBy = "musterija", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Racun>listaRacuna;
 
+    @OneToMany(mappedBy = "prodavac", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Produkt>listaProdukata;
+
     public Korisnik(Integer id, String ime, String prezime, String email, String lozinka) {
         this.id = id;
         this.ime = ime;

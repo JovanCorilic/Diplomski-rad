@@ -41,6 +41,10 @@ public class Produkt {
     @OneToMany(mappedBy = "produkt", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Artikal>artikals;
 
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @JoinColumn
+    private Korisnik prodavac;
+
     public Produkt(Integer id, String naziv, String deskripcija, String serijskiBroj, double cena) {
         this.id = id;
         this.naziv = naziv;
