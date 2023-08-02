@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface RacunRepository extends JpaRepository<Racun,Integer> {
     Optional<Racun>findByBrojRacuna(String id);
+    Boolean existsRacunByBrojRacuna(String id);
 }

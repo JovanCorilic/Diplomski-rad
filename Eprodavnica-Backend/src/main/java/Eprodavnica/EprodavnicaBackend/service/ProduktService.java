@@ -32,6 +32,8 @@ public class ProduktService implements ServiceInterface<Produkt>{
 
     @Override
     public Produkt create(Produkt entity) {
+        if (produktRepository.existsProduktBySerijskiBroj(entity.getSerijskiBroj()))
+            return null;
         for (Tip tip : entity.getListaTipova()){
             tip = tipRepository.findByNaziv(tip.getNaziv()).orElse(null);
         }

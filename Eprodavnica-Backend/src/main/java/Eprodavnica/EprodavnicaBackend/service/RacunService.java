@@ -36,6 +36,8 @@ public class RacunService implements ServiceInterface<Racun> {
 
     @Override
     public Racun create(Racun entity) {
+        if (racunRepository.existsRacunByBrojRacuna(entity.getBrojRacuna()))
+            return null;
         for (Artikal artikal : entity.getArtikals()){
             artikal.setProdukt(produktRepository.findBySerijskiBroj(artikal.getProdukt().getSerijskiBroj()).orElse(null));
             artikal = artikalRepository.save(artikal);

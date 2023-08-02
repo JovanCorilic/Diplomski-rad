@@ -28,14 +28,18 @@ public class TipService implements ServiceInterface<Tip>{
 
     @Override
     public Tip create(Tip entity) {
-        return tipRepository.save(entity);
+        if (!tipRepository.existsTipByNaziv(entity.getNaziv()))
+            return tipRepository.save(entity);
+        else
+            return null;
     }
 
     @Override
     public Tip update(Tip entity, String id) {
         Tip tip = tipRepository.findByNaziv(id).orElse(null);
         assert tip != null;
-        tip.setNaziv(entity.getNaziv());
+        if (!tipRepository.existsTipByNaziv(entity.getNaziv()) && !tip.getNaziv().equals(entity.getNaziv()))
+            tip.setNaziv(entity.getNaziv());
         return tipRepository.save(tip);
     }
 

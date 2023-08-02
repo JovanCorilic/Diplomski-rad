@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -14,6 +16,8 @@ public class MusterijaDTO {
     private String prezime;
     private String email;
     private String lozinka;
+    private List<TipDTO>listaTipova;
+    private List<RacunDTO>listaRacuna;
 
     public boolean proveraPodataka(){
         if (ime.isEmpty() || prezime.isEmpty() || email.isEmpty() || lozinka.isEmpty())
@@ -22,5 +26,12 @@ public class MusterijaDTO {
             return true;
         }
         return false;
+    }
+
+    public MusterijaDTO(String ime, String prezime, String email, String lozinka) {
+        this.ime = ime;
+        this.prezime = prezime;
+        this.email = email;
+        this.lozinka = lozinka;
     }
 }

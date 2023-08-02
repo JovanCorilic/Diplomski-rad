@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface ProduktRepository extends JpaRepository<Produkt,Integer> {
     Optional<Produkt>findBySerijskiBroj(String id);
+    Boolean existsProduktBySerijskiBroj(String id);
 }

@@ -27,4 +27,9 @@ public class Artikal {
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @JoinColumn
     private Racun racun;
+
+    public Artikal(int broj, Produkt produkt) {
+        this.broj = broj;
+        this.produkt = produkt;
+    }
 }

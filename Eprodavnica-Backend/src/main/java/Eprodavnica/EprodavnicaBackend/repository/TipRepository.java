@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface TipRepository extends JpaRepository<Tip,Integer> {
     Optional<Tip>findByNaziv(String id);
+    Boolean existsTipByNaziv(String id);
 }
