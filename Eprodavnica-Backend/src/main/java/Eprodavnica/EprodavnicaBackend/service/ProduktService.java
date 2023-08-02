@@ -21,7 +21,7 @@ public class ProduktService implements ServiceInterface<Produkt>{
     private KorisnikRepository korisnikRepository;
 
     @Override
-    public List findAll() {
+    public List<Produkt> findAll() {
         return produktRepository.findAll();
     }
 
