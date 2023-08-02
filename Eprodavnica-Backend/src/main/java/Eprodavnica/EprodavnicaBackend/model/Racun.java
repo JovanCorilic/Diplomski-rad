@@ -30,4 +30,10 @@ public class Racun {
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @JoinColumn
     private Korisnik musterija;
+
+    public Racun(double konacnaCena, String brojRacuna, Set<Artikal> artikals) {
+        this.konacnaCena = konacnaCena;
+        this.brojRacuna = brojRacuna;
+        this.artikals = artikals;
+    }
 }

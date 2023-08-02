@@ -45,11 +45,11 @@ public class Produkt {
     @JoinColumn
     private Korisnik prodavac;
 
-    public Produkt(Integer id, String naziv, String deskripcija, String serijskiBroj, double cena) {
-        this.id = id;
+    public Produkt(String naziv, String deskripcija, String serijskiBroj, double cena, List<Tip> listaTipova) {
         this.naziv = naziv;
         this.deskripcija = deskripcija;
         this.serijskiBroj = serijskiBroj;
         this.cena = cena;
+        this.listaTipova = listaTipova;
     }
 }

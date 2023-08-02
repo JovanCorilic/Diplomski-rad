@@ -16,5 +16,5 @@ public class ProdavacDTO {
     private String ime;
     private String prezime;
     private String email;
-    private List<Produkt>listaProdukata;
+    private List<ProduktDTO>listaProdukata;
 }

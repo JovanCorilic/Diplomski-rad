@@ -74,6 +74,21 @@ public class Korisnik implements UserDetails {
         this.uloge = uloge;
     }
 
+    public Korisnik(String ime, String prezime, String email, List<Tip> listaTipova, List<Racun> listaRacuna) {
+        this.ime = ime;
+        this.prezime = prezime;
+        this.email = email;
+        this.listaTipova = listaTipova;
+        this.listaRacuna = listaRacuna;
+    }
+
+    public Korisnik(String ime, String prezime, String email, List<Produkt> listaProdukata) {
+        this.ime = ime;
+        this.prezime = prezime;
+        this.email = email;
+        this.listaProdukata = listaProdukata;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> permissions = new ArrayList<>(20);
