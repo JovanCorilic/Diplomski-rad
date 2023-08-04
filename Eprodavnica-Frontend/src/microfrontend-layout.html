@@ -1,4 +1,4 @@
-<single-spa-router>
+<single-spa-router mode="hash">
   <!--
 
     This is the single-spa Layout Definition for your microfrontends.
@@ -16,10 +16,16 @@
   </route>
 
   -->
-
+  <nav>
+    <application name="@app/navbar"></application>
+  </nav>
   <main>
-    <route default>
-      <application name="@single-spa/welcome"></application>
+    <redirect from="/" to="/home"></redirect>
+    <route path="home">
+      <application name="@app/home" ></application>
+    </route>
+    <route path="other">
+      <application name="@app/other"></application>
     </route>
   </main>
 </single-spa-router>
