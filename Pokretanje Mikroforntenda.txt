@@ -1,0 +1,5 @@
+npm run serve:single-spa:home
+npm run serve:single-spa:navbar
+npm run serve:single-spa:other
+npm run build:webpack
+npm start
