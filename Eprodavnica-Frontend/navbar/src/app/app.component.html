@@ -1,5 +1,9 @@
-<ul>
-  <li><a href="#/home">Home</a></li>
-  <li><a href="#/other">Other</a></li>
-</ul>
-<h1>Test</h1>
+<mat-toolbar color="primary">
+  <button mat-mini-fab  (click)="goToHome()" id="home_btn">
+    <mat-icon>home</mat-icon>
+  </button>
+  <span>E-Prodavnica</span>
+  <span class="example-spacer"></span>
+  <button mat-raised-button color="accent" (click)="goToLogin()">Login</button>
+  <button mat-raised-button color="accent" (click)="register()">Register</button>
+</mat-toolbar>
