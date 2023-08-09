@@ -12,7 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { Interceptor } from './SECURITY/Interceptor';
 import { AuthenticationService } from './SERVICE/authentication.service';
-
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,8 @@ import { AuthenticationService } from './SERVICE/authentication.service';
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    
   ],
   providers: [
     {

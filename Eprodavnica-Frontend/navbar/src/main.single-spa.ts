@@ -13,6 +13,8 @@ import { singleSpaPropsSubject } from './single-spa/single-spa-props';
 if (environment.production) {
   enableProdMode();
 }
+/// @ts-ignore
+require('node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css?ngGlobalStyle');
 
 const lifecycles = singleSpaAngular({
   bootstrapFunction: singleSpaProps => {

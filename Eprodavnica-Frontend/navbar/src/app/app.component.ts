@@ -14,14 +14,15 @@ export class AppComponent {
   ){}
 
   goToHome() {
-    this.router.navigate(['']);
+    this.router.navigate(['/']);
   }
 
   goToLogin(){
-    this.router.navigate(['#/home']);
+    
+    this.router.navigate(['/home']);
   }
 
   register(){
-    this.router.navigate(['#/other']);
+    this.router.navigate(['/other']);
   }
 }

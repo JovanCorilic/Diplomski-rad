@@ -16,16 +16,17 @@
   </route>
 
   -->
+
   <nav>
     <application name="@app/navbar"></application>
   </nav>
   <main>
     <redirect from="/" to="/home"></redirect>
     <route default>
-      <application name="@app/home" ></application>
+      <application name="@app/home" loader="customLoader"></application>
     </route>
     <route path="other">
-      <application name="@app/other"></application>
+      <application name="@app/other" loader="customLoader"></application>
     </route>
   </main>
 </single-spa-router>
