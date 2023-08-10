@@ -5,8 +5,144 @@
     <button mat-mini-fab  (click)="goToHome()" id="home_btn">
       <mat-icon>home</mat-icon>
     </button>&nbsp;&nbsp;
-    <span>E-Prodavnica</span>
+    <span>E-Prodavnica</span>&nbsp;&nbsp;
     <span class="example-spacer"></span>
-    <button mat-raised-button color="accent" (click)="goToLogin()">Login</button>&nbsp;&nbsp;
-    <button mat-raised-button color="accent" (click)="register()">Register</button>
+    <button mat-raised-button color="accent" [mtBasicSpinner]="status" [hideText]="status" (click)="open(login)">Login</button>&nbsp;&nbsp;
+    <button mat-raised-button color="accent" [mtBasicSpinner]="status2" [hideText]="status2" (click)="open(registerProzor)">Register</button>
   </mat-toolbar>
+
+  <ng-template #login let-modal>
+
+    <div class="modal-header">
+      <h4 class="modal-title" 
+          id="modal-basic-title">
+          Login
+      </h4>
+      <button type="button" class="close"
+              aria-label="Close" (click)=
+              "modal.dismiss('Cross click')">
+          <span aria-hidden="true">
+              ×
+          </span>
+      </button>
+  </div>
+
+  <form [formGroup]="logForm" (ngSubmit)="logIn()">
+    <div class="modal-body">
+      <div class="input-group">
+        <mat-form-field appearance="outline">
+          <mat-label>Unesite vaš email</mat-label>
+          <input matInput placeholder="pat@example.com" class="form-control" formControlName = "email" required>
+          <button matSuffix mat-icon-button aria-label="Clear" (click)="logForm.controls.email.setValue('')">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-error *ngIf="logForm.controls.email.invalid">{{getErrorMessage(logForm.controls.email)}}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="input-group"><br></div>
+      <div class="input-group">
+        <mat-form-field appearance="outline">
+          <mat-label>Unesite vašu šifru</mat-label>
+          <input type="password" matInput placeholder="Nesto89#" class="form-control" formControlName = "password" required>
+          <button matSuffix mat-icon-button aria-label="Clear" (click)="logForm.controls.password.setValue('')">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-error *ngIf="logForm.controls.password.invalid">{{getErrorMessage(logForm.controls.password)}}</mat-error>
+        </mat-form-field>
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <button  mat-raised-button type="submit"
+                  color="accent" 
+                  (click)="modal.close('Save click')"  [disabled]="logForm.invalid">
+                  Login
+              </button>
+    </div>
+
+  </form >
+    
+  </ng-template>
+
+  <ng-template #registerProzor let-modal>
+
+    <div class="modal-header">
+      <h4 class="modal-title" 
+          id="modal-basic-title">
+          Registracija
+      </h4>
+      <button type="button" class="close"
+              aria-label="Close" (click)=
+              "modal.dismiss('Cross click')">
+          <span aria-hidden="true">
+              ×
+          </span>
+      </button>
+  </div>
+
+  <form [formGroup]="registerForm" (ngSubmit)="register()">
+    <div class="modal-body">
+      <div class="input-group">
+        <mat-form-field appearance="outline">
+          <mat-label>Unesite vaš email</mat-label>
+          <input matInput placeholder="pat@example.com" class="form-control" formControlName = "email" required>
+          <button matSuffix mat-icon-button aria-label="Clear" (click)="registerForm.controls.email.setValue('')">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-error *ngIf="registerForm.controls.email.invalid">{{getErrorMessage(registerForm.controls.email)}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="input-group"><br></div>
+
+      <div class="input-group">
+        <mat-form-field appearance="outline">
+          <mat-label>Unesite vašu šifru</mat-label>
+          <input type="lozinka" matInput placeholder="Nesto89#" class="form-control" formControlName = "lozinka" required>
+          <button matSuffix mat-icon-button aria-label="Clear" (click)="registerForm.controls.lozinka.setValue('')">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-error *ngIf="registerForm.controls.lozinka.invalid">{{getErrorMessage(registerForm.controls.lozinka)}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="input-group"><br></div>
+
+      <div class="input-group">
+        <mat-form-field appearance="outline">
+          <mat-label>Unesite vaše ime</mat-label>
+          <input matInput class="form-control" formControlName = "ime" required>
+          <button matSuffix mat-icon-button aria-label="Clear" (click)="registerForm.controls.ime.setValue('')">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-error *ngIf="registerForm.controls.ime.invalid">{{getErrorMessage(registerForm.controls.ime)}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="input-group"><br></div>
+
+      <div class="input-group">
+        <mat-form-field appearance="outline">
+          <mat-label>Unesite vaše prezime</mat-label>
+          <input matInput class="form-control" formControlName = "prezime" required>
+          <button matSuffix mat-icon-button aria-label="Clear" (click)="registerForm.controls.prezime.setValue('')">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-error *ngIf="registerForm.controls.prezime.invalid">{{getErrorMessage(registerForm.controls.prezime)}}</mat-error>
+        </mat-form-field>
+      </div>
+      
+    </div>
+
+    <div class="modal-footer">
+      <button  mat-raised-button type="submit"
+                  color="accent" 
+                  (click)="modal.close('Save click')"  [disabled]="registerForm.invalid">
+                  Registruj se
+              </button>
+    </div>
+
+  </form >
+    
+  </ng-template>

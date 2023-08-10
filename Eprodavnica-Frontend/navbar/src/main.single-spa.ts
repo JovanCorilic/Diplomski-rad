@@ -15,6 +15,8 @@ if (environment.production) {
 }
 /// @ts-ignore
 require('node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css?ngGlobalStyle');
+/// @ts-ignore
+require('node_modules/bootstrap/dist/css/bootstrap.min.css?ngGlobalStyle');
 
 const lifecycles = singleSpaAngular({
   bootstrapFunction: singleSpaProps => {

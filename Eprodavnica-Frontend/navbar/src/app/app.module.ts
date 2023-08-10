@@ -12,7 +12,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { Interceptor } from './SECURITY/Interceptor';
 import { AuthenticationService } from './SERVICE/authentication.service';
-import { RouterModule } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MatInputModule } from '@angular/material/input';
+import { NgxLoadingButtonsModule } from 'ngx-loading-buttons';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     MatButtonModule,
     MatIconModule,
-    
+    NgbModule,
+    MatInputModule,
+    NgxLoadingButtonsModule,
   ],
   providers: [
     {
