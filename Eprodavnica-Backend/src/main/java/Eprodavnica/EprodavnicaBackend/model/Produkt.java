@@ -34,6 +34,9 @@ public class Produkt {
     @Column
     private double cena;
 
+    @Column
+    private double ocena;
+
     @ManyToMany()
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Tip>listaTipova;
@@ -45,11 +48,29 @@ public class Produkt {
     @JoinColumn
     private Korisnik prodavac;
 
-    public Produkt(String naziv, String deskripcija, String serijskiBroj, double cena, List<Tip> listaTipova) {
+    @OneToMany(mappedBy = "produkt", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Recenzija>listaRecenzija;
+
+    public Produkt(String naziv, String deskripcija, String serijskiBroj, double cena, double ocena, List<Tip> listaTipova, Korisnik prodavac, List<Recenzija> listaRecenzija) {
         this.naziv = naziv;
         this.deskripcija = deskripcija;
         this.serijskiBroj = serijskiBroj;
         this.cena = cena;
+        this.ocena = ocena;
         this.listaTipova = listaTipova;
+        this.prodavac = prodavac;
+        this.listaRecenzija = listaRecenzija;
+    }
+
+    public Produkt(String serijskiBroj) {
+        this.serijskiBroj = serijskiBroj;
+    }
+
+    public void IzracunajProsecnuOcenu(){
+        double temp = 0.0;
+        for (Recenzija recenzija : listaRecenzija){
+            temp += recenzija.getOcena();
+        }
+        ocena = temp/listaRecenzija.size();
     }
 }

@@ -31,9 +31,10 @@ public class Racun {
     @JoinColumn
     private Korisnik musterija;
 
-    public Racun(double konacnaCena, String brojRacuna, Set<Artikal> artikals) {
+    public Racun(double konacnaCena, String brojRacuna, Set<Artikal> artikals, Korisnik musterija) {
         this.konacnaCena = konacnaCena;
         this.brojRacuna = brojRacuna;
         this.artikals = artikals;
+        this.musterija = musterija;
     }
 }

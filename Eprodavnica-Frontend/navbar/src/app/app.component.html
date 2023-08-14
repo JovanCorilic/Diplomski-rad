@@ -33,10 +33,11 @@
         <mat-form-field appearance="outline">
           <mat-label>Unesite vaš email</mat-label>
           <input matInput placeholder="pat@example.com" class="form-control" formControlName = "email" required>
-          <button matSuffix mat-icon-button aria-label="Clear" (click)="logForm.controls.email.setValue('')">
+          <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="logForm.controls.email.setValue('')">
             <mat-icon>close</mat-icon>
           </button>
           <mat-error *ngIf="logForm.controls.email.invalid">{{getErrorMessage(logForm.controls.email)}}</mat-error>
+          <mat-hint>Email</mat-hint>
         </mat-form-field>
       </div>
       <div class="input-group"><br></div>
@@ -44,10 +45,11 @@
         <mat-form-field appearance="outline">
           <mat-label>Unesite vašu šifru</mat-label>
           <input type="password" matInput placeholder="Nesto89#" class="form-control" formControlName = "password" required>
-          <button matSuffix mat-icon-button aria-label="Clear" (click)="logForm.controls.password.setValue('')">
+          <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="logForm.controls.password.setValue('')">
             <mat-icon>close</mat-icon>
           </button>
           <mat-error *ngIf="logForm.controls.password.invalid">{{getErrorMessage(logForm.controls.password)}}</mat-error>
+          <mat-hint>Lozinka</mat-hint>
         </mat-form-field>
       </div>
 
@@ -87,10 +89,11 @@
         <mat-form-field appearance="outline">
           <mat-label>Unesite vaš email</mat-label>
           <input matInput placeholder="pat@example.com" class="form-control" formControlName = "email" required>
-          <button matSuffix mat-icon-button aria-label="Clear" (click)="registerForm.controls.email.setValue('')">
+          <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="registerForm.controls.email.setValue('')">
             <mat-icon>close</mat-icon>
           </button>
           <mat-error *ngIf="registerForm.controls.email.invalid">{{getErrorMessage(registerForm.controls.email)}}</mat-error>
+          <mat-hint>Email</mat-hint>
         </mat-form-field>
       </div>
 
@@ -100,10 +103,11 @@
         <mat-form-field appearance="outline">
           <mat-label>Unesite vašu šifru</mat-label>
           <input type="lozinka" matInput placeholder="Nesto89#" class="form-control" formControlName = "lozinka" required>
-          <button matSuffix mat-icon-button aria-label="Clear" (click)="registerForm.controls.lozinka.setValue('')">
+          <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="registerForm.controls.lozinka.setValue('')">
             <mat-icon>close</mat-icon>
           </button>
           <mat-error *ngIf="registerForm.controls.lozinka.invalid">{{getErrorMessage(registerForm.controls.lozinka)}}</mat-error>
+          <mat-hint>Lozinka</mat-hint>
         </mat-form-field>
       </div>
 
@@ -113,10 +117,11 @@
         <mat-form-field appearance="outline">
           <mat-label>Unesite vaše ime</mat-label>
           <input matInput class="form-control" formControlName = "ime" required>
-          <button matSuffix mat-icon-button aria-label="Clear" (click)="registerForm.controls.ime.setValue('')">
+          <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="registerForm.controls.ime.setValue('')">
             <mat-icon>close</mat-icon>
           </button>
           <mat-error *ngIf="registerForm.controls.ime.invalid">{{getErrorMessage(registerForm.controls.ime)}}</mat-error>
+          <mat-hint>Ime</mat-hint>
         </mat-form-field>
       </div>
 
@@ -126,10 +131,11 @@
         <mat-form-field appearance="outline">
           <mat-label>Unesite vaše prezime</mat-label>
           <input matInput class="form-control" formControlName = "prezime" required>
-          <button matSuffix mat-icon-button aria-label="Clear" (click)="registerForm.controls.prezime.setValue('')">
+          <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="registerForm.controls.prezime.setValue('')">
             <mat-icon>close</mat-icon>
           </button>
           <mat-error *ngIf="registerForm.controls.prezime.invalid">{{getErrorMessage(registerForm.controls.prezime)}}</mat-error>
+          <mat-hint>Prezime</mat-hint>
         </mat-form-field>
       </div>
       

@@ -3,6 +3,7 @@ package Eprodavnica.EprodavnicaBackend.mapper;
 import Eprodavnica.EprodavnicaBackend.dto.ArtikalDTO;
 import Eprodavnica.EprodavnicaBackend.dto.RacunDTO;
 import Eprodavnica.EprodavnicaBackend.model.Artikal;
+import Eprodavnica.EprodavnicaBackend.model.Korisnik;
 import Eprodavnica.EprodavnicaBackend.model.Racun;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class RacunMapper implements MapperInterface<Racun, RacunDTO> {
         for (ArtikalDTO artikal : dto.getArtikals()){
             artikals.add(artikalMapper.toModel(artikal));
         }
-        return new Racun(dto.getKonacnaCena(),dto.getBrojRacuna(),artikals);
+        return new Racun(dto.getKonacnaCena(),dto.getBrojRacuna(),artikals,new Korisnik(dto.getEmailMusterija()));
     }
 
     @Override
@@ -28,7 +29,7 @@ public class RacunMapper implements MapperInterface<Racun, RacunDTO> {
         for (Artikal artikal : entity.getArtikals()){
             artikalDTOS.add(artikalMapper.toDto(artikal));
         }
-        return new RacunDTO(entity.getKonacnaCena(),entity.getBrojRacuna(),artikalDTOS);
+        return new RacunDTO(entity.getKonacnaCena(),entity.getBrojRacuna(),artikalDTOS,entity.getMusterija().getEmail());
     }
 
     public RacunMapper() {

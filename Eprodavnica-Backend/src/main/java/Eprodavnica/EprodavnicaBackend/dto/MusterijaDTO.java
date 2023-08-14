@@ -18,6 +18,7 @@ public class MusterijaDTO {
     private String lozinka;
     private List<TipDTO>listaTipova;
     private List<RacunDTO>listaRacuna;
+    private List<RecenzijaDTO>listaRecenzija;
 
     public boolean proveraPodataka(){
         if (ime.isEmpty() || prezime.isEmpty() || email.isEmpty() || lozinka.isEmpty())
