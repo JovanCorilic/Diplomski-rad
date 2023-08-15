@@ -1,1 +1,42 @@
-<h1>HOME</h1>
+<button type="button" mat-raised-button (click)="drawer.toggle()" color="accent">
+    Toggle sidenav
+  </button>
+<mat-drawer-container  autosize>
+    <mat-drawer #drawer class="example-sidenav" mode="side">
+      <p>Auto-resizing sidenav</p>
+      
+      <button  mat-raised-button>
+        Toggle extra text
+      </button>
+    </mat-drawer>
+  
+    <div class="example-sidenav-content">
+  
+  <button mat-stroked-button matTooltip="how to activate tooltip when text are ellipsis using a directive in angular." 
+  [disableRipple]="true"
+  style="width : 450px;height: 450px;">
+    
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="370" height="300">
+    <p style=" white-space: normal;">
+      <br>
+      how  how to activate tooltip when text are ellipsis using a directive in angular.
+    </p>
+    <p>
+      123.00 din
+    </p>
+  </button>&nbsp;&nbsp;
+  <button mat-stroked-button matTooltip="how to activate tooltip when text are ellipsis using a directive in angular." 
+  [disableRipple]="true"
+  style="width : 450px;height: 450px;">
+    
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="370" height="300">
+    <p style=" white-space: normal;">
+      <br>
+      how  how to activate tooltip when text are ellipsis using a directive in angular.
+    </p>
+    <p>
+      123.00 din
+    </p>
+  </button>&nbsp;&nbsp;
+  </div>
+  </mat-drawer-container>

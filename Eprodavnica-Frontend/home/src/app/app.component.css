@@ -1,0 +1,25 @@
+.example-form-field {
+    width: 1000px;
+  }
+
+.ellipsis{
+  width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.example-container {
+  display: flex;
+  width: 500px;
+  height: 300px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.example-sidenav-content {
+  display: block;
+}
+
+.example-sidenav {
+  padding: 100px;
+}

@@ -18,7 +18,7 @@ require('node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css?ngG
 /// @ts-ignore
 require('node_modules/bootstrap/dist/css/bootstrap.min.css?ngGlobalStyle');
 /// @ts-ignore
-require('./node_modules/ngx-loading-buttons/src/styles.css?ngGlobalStyle');
+require('node_modules/ngx-loading-buttons/src/styles.css?ngGlobalStyle');
 
 const lifecycles = singleSpaAngular({
   bootstrapFunction: singleSpaProps => {
