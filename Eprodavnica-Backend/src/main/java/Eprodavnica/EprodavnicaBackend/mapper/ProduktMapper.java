@@ -1,6 +1,7 @@
 package Eprodavnica.EprodavnicaBackend.mapper;
 
 import Eprodavnica.EprodavnicaBackend.dto.ProduktDTO;
+import Eprodavnica.EprodavnicaBackend.dto.ProduktMiniDTO;
 import Eprodavnica.EprodavnicaBackend.dto.RecenzijaDTO;
 import Eprodavnica.EprodavnicaBackend.dto.TipDTO;
 import Eprodavnica.EprodavnicaBackend.model.Korisnik;
@@ -41,6 +42,10 @@ public class ProduktMapper implements MapperInterface<Produkt, ProduktDTO> {
         }
         return new ProduktDTO(entity.getNaziv(),entity.getDeskripcija(),entity.getSerijskiBroj(),entity.getCena(),
                 entity.getOcena(),tipDTOS,recenzijaDTOS,entity.getProdavac().getEmail());
+    }
+
+    public ProduktMiniDTO toDTOMini(Produkt entity){
+        return new ProduktMiniDTO(entity.getNaziv(),entity.getCena(),entity.getOcena());
     }
 
     public ProduktMapper() {

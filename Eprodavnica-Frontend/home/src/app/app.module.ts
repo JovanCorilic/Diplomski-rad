@@ -13,10 +13,15 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PaginationComponent } from './pagination/pagination.component';
+import { TabelaDugmadiComponent } from './tabela-dugmadi/tabela-dugmadi.component';
+import { ProduktMiniService } from './SERVICE/ProduktMini.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PaginationComponent,
+    TabelaDugmadiComponent
   ],
   imports: [
     BrowserModule,
@@ -38,6 +43,7 @@ import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
       useClass: Interceptor, 
       multi: true
     },
+    ProduktMiniService,
   ],
   bootstrap: [AppComponent]
 })

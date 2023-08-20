@@ -11,32 +11,13 @@
     </mat-drawer>
   
     <div class="example-sidenav-content">
-  
-  <button mat-stroked-button matTooltip="how to activate tooltip when text are ellipsis using a directive in angular." 
-  [disableRipple]="true"
-  style="width : 450px;height: 450px;">
-    
-    <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="370" height="300">
-    <p style=" white-space: normal;">
-      <br>
-      how  how to activate tooltip when text are ellipsis using a directive in angular.
-    </p>
-    <p>
-      123.00 din
-    </p>
-  </button>&nbsp;&nbsp;
-  <button mat-stroked-button matTooltip="how to activate tooltip when text are ellipsis using a directive in angular." 
-  [disableRipple]="true"
-  style="width : 450px;height: 450px;">
-    
-    <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="370" height="300">
-    <p style=" white-space: normal;">
-      <br>
-      how  how to activate tooltip when text are ellipsis using a directive in angular.
-    </p>
-    <p>
-      123.00 din
-    </p>
-  </button>&nbsp;&nbsp;
-  </div>
+      <div>
+        <app-tabela-dugmadi [listaProdukataMini]="lista"></app-tabela-dugmadi>
+      </div>
+      <div>
+        <app-pagination [totalItems]="totalSize" [pageSize]="pageSize">
+          (pageSelected)="changePage($event)"
+        </app-pagination>
+      </div>  
+    </div>
   </mat-drawer-container>
