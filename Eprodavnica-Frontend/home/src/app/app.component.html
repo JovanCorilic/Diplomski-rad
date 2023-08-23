@@ -7,7 +7,7 @@
 
       <mat-divider></mat-divider> <br>
 
-      <form [formGroup]="filterForm" (ngSubmit)="filter()">
+      <form [formGroup]="filterForm" (ngSubmit)="filters()">
         Cena <br>Od
         <mat-form-field appearance="fill"  [style.height.px]=65>
           <input matInput class="form-control" formControlName = "od" required>
@@ -31,6 +31,8 @@
 
         <br> <br><mat-divider></mat-divider> <br>
 
+        Resetuj pretragu<br>
+        <button mat-raised-button color="accent"  style="height: 60px;width: 250px;font-size: 15px;" (click)="resetuj()">Resetuj</button>
       </form>
 
     </mat-drawer>

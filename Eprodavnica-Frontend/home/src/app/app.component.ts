@@ -6,6 +6,8 @@ import { ProduktMiniService } from './SERVICE/ProduktMini.service';
 import { Tip } from './MODEL/Tip';
 import { TipService } from './SERVICE/Tip.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Filter } from './MODEL/Filter';
+import { Ocena } from './MODEL/Ocena';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +22,9 @@ export class AppComponent implements OnInit{
   pageSize: number;
   currentPage: number;
   totalSize: number;
+  filter = <Filter>{}
+  ukljucioFilter:boolean = false;
+
   filterForm : FormGroup;
   tipoviForm : FormGroup;
   ocenaForm : FormGroup;
@@ -72,8 +77,33 @@ export class AppComponent implements OnInit{
 
   }
 
-  filter(){
-    
+  resetuj(){
+    this.filter = <Filter>{}
+    this.filterForm.reset();
+    this.tipoviForm.reset();
+    this.ocenaForm.reset();
+    this.ukljucioFilter = false;
+  }
+
+  filters(){
+    this.filter.cena.Od = this.ocenaForm.value.od;
+    this.filter.cena.Do = this.ocenaForm.value.do;
+
+    for( let i in this.listaTipova ){
+      this.filter.tip.push(new Tip(this.listaTipova[i].naziv,this.tipoviForm.value.tipovi.at[i]));
+    }
+
+    for( let i in this.listaOcena ){
+      this.filter.ocena.push(new Ocena(this.listaOcena[i],this.ocenaForm.value.ocene.at[i]));
+    }
+
+    this.produktMiniService.filterByPage(this.filter,this.currentPage,this.pageSize).subscribe(
+      res =>{
+        this.lista = res.content as ProduktMini[];
+        this.totalSize = Number(res.totalElements);
+        this.ukljucioFilter = true;
+      }
+    )
   }
 
   open(content:any) {
@@ -87,7 +117,6 @@ export class AppComponent implements OnInit{
   }
 
   get tipovi() : FormArray {
-    let temp = this.tipoviForm.value.skills.at(0);
     return this.tipoviForm.get("tipovi") as FormArray
   }
 
@@ -127,12 +156,21 @@ export class AppComponent implements OnInit{
   }
 
   changePage(newPage: number) {
-    this.produktMiniService.getByPage(newPage - 1,this.pageSize).subscribe(
-      res=>{
-        this.lista = res.content as ProduktMini[];
-        this.totalSize = Number(res.totalElements);
-      }
-    )
+    if (this.ukljucioFilter){
+      this.produktMiniService.filterByPage(this.filter,this.currentPage,this.pageSize).subscribe(
+        res =>{
+          this.lista = res.content as ProduktMini[];
+          this.totalSize = Number(res.totalElements);
+        }
+      )
+    }else {
+      this.produktMiniService.getByPage(newPage - 1,this.pageSize).subscribe(
+        res=>{
+          this.lista = res.content as ProduktMini[];
+          this.totalSize = Number(res.totalElements);
+        }
+      )
+    }
   }
 
   notANumber(): ValidatorFn {
