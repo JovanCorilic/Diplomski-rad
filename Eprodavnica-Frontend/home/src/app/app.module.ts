@@ -16,6 +16,11 @@ import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaginationComponent } from './pagination/pagination.component';
 import { TabelaDugmadiComponent } from './tabela-dugmadi/tabela-dugmadi.component';
 import { ProduktMiniService } from './SERVICE/ProduktMini.service';
+import {MatListModule} from '@angular/material/list';
+import {MatDividerModule} from '@angular/material/divider';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxLoadingButtonsModule } from 'ngx-loading-buttons';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -36,6 +41,11 @@ import { ProduktMiniService } from './SERVICE/ProduktMini.service';
     MatSidenavModule,
     MatButtonModule,
     MatInputModule,
+    MatListModule,
+    MatDividerModule,
+    NgbModule,
+    NgxLoadingButtonsModule,
+    MatCheckboxModule
   ],
   providers: [
     {
