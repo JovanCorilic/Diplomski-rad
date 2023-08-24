@@ -1,10 +1,14 @@
 package Eprodavnica.EprodavnicaBackend.controller;
 
 import Eprodavnica.EprodavnicaBackend.dto.ProduktDTO;
+import Eprodavnica.EprodavnicaBackend.dto.ProduktMiniDTO;
 import Eprodavnica.EprodavnicaBackend.mapper.ProduktMapper;
 import Eprodavnica.EprodavnicaBackend.model.Produkt;
 import Eprodavnica.EprodavnicaBackend.service.ProduktService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +43,14 @@ public class ProduktController {
     public ResponseEntity<?>get(@PathVariable String id){
         ProduktDTO produktDTO = produktMapper.toDto(produktService.findOne(id));
         return new ResponseEntity<>(produktDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/by-page")
+    public ResponseEntity<Page<ProduktMiniDTO>>getProduktPageable(Pageable pageable){
+        Page<Produkt>page = produktService.findAllPageable(pageable);
+        List<ProduktMiniDTO>lista = produktMapper.toDTOListaMiniProdukt(page.toList());
+        Page<ProduktMiniDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
     @GetMapping("/getAll")

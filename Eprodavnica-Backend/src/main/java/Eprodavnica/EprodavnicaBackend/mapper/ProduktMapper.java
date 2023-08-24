@@ -48,6 +48,14 @@ public class ProduktMapper implements MapperInterface<Produkt, ProduktDTO> {
         return new ProduktMiniDTO(entity.getNaziv(),entity.getCena(),entity.getOcena());
     }
 
+    public List<ProduktMiniDTO> toDTOListaMiniProdukt(List<Produkt>lista){
+        List<ProduktMiniDTO>temp = new ArrayList<>();
+        for (Produkt produkt : lista){
+            temp.add(toDTOMini(produkt));
+        }
+        return temp;
+    }
+
     public ProduktMapper() {
         this.tipMapper = new TipMapper();
         this.recenzijaMapper = new RecenzijaMapper();

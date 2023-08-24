@@ -25,7 +25,7 @@ public class Tip {
     private int brojPojavljivanja;
 
     @ManyToMany(mappedBy = "listaTipova")
-    private List<Produkt>listaArtikala;
+    private List<Produkt>listaProdukata;
 
     @ManyToMany(mappedBy = "listaTipova")
     private List<Korisnik>listaKorisnika;
