@@ -10,6 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CenaDTO {
-    private String Od;
-    private String Do;
+    private String odCena;
+    private String doCena;
 }

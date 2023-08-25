@@ -46,8 +46,6 @@ public class ProduktService implements ServiceInterface<Produkt>{
             if (ocenaDTO.isKoristiSe())
                 ocene.add(ocenaDTO.getOcena());
         }
-        if (ocene.isEmpty())
-            ocene = null;
         List<String>tipovi = new ArrayList<>();
         for (TipFilterDTO tipFilterDTO : filterDTO.getTip()){
             if (tipFilterDTO.isKoristiSe())
@@ -55,20 +53,22 @@ public class ProduktService implements ServiceInterface<Produkt>{
         }
         List<Tip> listaTipova;
         if (tipovi.isEmpty()) {
-            listaTipova = null;
+            listaTipova = new ArrayList<>();
         }
         else {
             listaTipova = tipRepository.findByNazivIgnoreCaseIn(tipovi);
         }
         double od = -1;
         double do1 = -1;
-        if (filterDTO.getCena().getDo()!=null && filterDTO.getCena().getOd()!=null){
-            if (isNumeric(filterDTO.getCena().getDo()) && isNumeric(filterDTO.getCena().getOd())){
-                od = Double.parseDouble(filterDTO.getCena().getOd());
-                do1 = Double.parseDouble(filterDTO.getCena().getDo());
+        if (filterDTO.getCena()!=null)
+            if (filterDTO.getCena().getDoCena()!=null && filterDTO.getCena().getOdCena()!=null){
+                if (isNumeric(filterDTO.getCena().getDoCena()) && isNumeric(filterDTO.getCena().getOdCena())){
+                    od = Double.parseDouble(filterDTO.getCena().getOdCena());
+                    do1 = Double.parseDouble(filterDTO.getCena().getDoCena());
+                }
             }
-        }
-        return produktRepository.findByCustomCriteria(filterDTO.getNaziv(),od,do1, listaTipova,ocene,pageable);
+        return produktRepository.findByOcenaPunBrojInOrderByDatumPravljenja(ocene, pageable);
+        //return produktRepository.findByNazivContainingIgnoreCaseOrCenaIsBetweenOrListaTipovaInOrOcenaPunBrojInOrderByDatumPravljenja(pageable,filterDTO.getNaziv(),od,do1, listaTipova,ocene);
     }
 
     public static boolean isNumeric(String str) {

@@ -8,6 +8,7 @@ import { TipService } from './SERVICE/Tip.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Filter } from './MODEL/Filter';
 import { Ocena } from './MODEL/Ocena';
+import { Cena } from './MODEL/Cena';
 
 @Component({
   selector: 'app-root',
@@ -87,22 +88,28 @@ export class AppComponent implements OnInit{
   }
 
   filters(){
-    this.filter.naziv = this.filterForm.value.naziv;
-    this.filter.cena.Od = this.filterForm.value.od;
-    this.filter.cena.Do = this.filterForm.value.do;
+    if( this.filterForm.value.naziv != "")
+      this.filter.naziv = this.filterForm.value.naziv;
 
+    this.filter.cena = <Cena>{};
+    if( this.filterForm.value.od != "")
+      this.filter.cena.odCena = this.filterForm.value.od;
+    if( this.filterForm.value.do != "")
+      this.filter.cena.doCena = this.filterForm.value.do;
+
+    this.filter.tip = []
     for( let i in this.listaTipova ){
-      this.filter.tip.push(new Tip(this.listaTipova[i].naziv,this.tipoviForm.value.tipovi.at[i]));
+      this.filter.tip.push(new Tip(this.listaTipova[i].naziv,this.tipoviForm.value.tipovi.at(i).tip));
     }
 
+    this.filter.ocena = []
     for( let i in this.listaOcena ){
-      this.filter.ocena.push(new Ocena(this.listaOcena[i],this.ocenaForm.value.ocene.at[i]));
+      this.filter.ocena.push(new Ocena(this.listaOcena[i],this.ocenaForm.value.ocene.at(i).ocena));
     }
-
-    this.produktMiniService.filterByPage(this.filter,this.currentPage,this.pageSize).subscribe(
+    this.produktMiniService.filterByPage(this.filter,this.currentPage-1,this.pageSize).subscribe(
       res =>{
-        this.lista = res.content as ProduktMini[];
-        this.totalSize = Number(res.totalElements);
+        this.lista = res.body.content as ProduktMini[];
+        this.totalSize = Number(res.body.totalElements);
         this.ukljucioFilter = true;
       }
     )
@@ -155,6 +162,10 @@ export class AppComponent implements OnInit{
     }
     else
     return temp.hasError('email') ? 'To nije validan email' : '';
+  }
+
+  getErrorMessageFilter(temp:any) {
+    return temp.hasError('notANumber') ? 'Morate uneti broj' : '';
   }
 
   changePage(newPage: number) {

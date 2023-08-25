@@ -1,8 +1,8 @@
 export class Cena {
-    Od: string
-    Do: string
-    constructor(Od: string, Do: string) {
-        this.Od = Od
-        this.Do = Do
+    odCena: string
+    doCena: string
+    constructor(odCena: string, doCena: string) {
+        this.odCena = odCena
+        this.doCena = doCena
     }
 }
