@@ -67,7 +67,7 @@ public class ProduktService implements ServiceInterface<Produkt>{
                     do1 = Double.parseDouble(filterDTO.getCena().getDoCena());
                 }
             }
-        return produktRepository.findByOcenaPunBrojInOrderByDatumPravljenja(ocene, pageable);
+        return produktRepository.findByCustomCriteria(filterDTO.getNaziv(), od,do1,listaTipova,ocene,pageable);
         //return produktRepository.findByNazivContainingIgnoreCaseOrCenaIsBetweenOrListaTipovaInOrOcenaPunBrojInOrderByDatumPravljenja(pageable,filterDTO.getNaziv(),od,do1, listaTipova,ocene);
     }
 
