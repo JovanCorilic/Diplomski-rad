@@ -8,6 +8,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -36,6 +37,12 @@ public class Produkt {
 
     @Column
     private double ocena;
+
+    @Column
+    private int ocenaPunBroj;
+
+    @Column
+    private Date datumPravljenja;
 
     @ManyToMany()
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -72,5 +79,9 @@ public class Produkt {
             temp += recenzija.getOcena();
         }
         ocena = temp/listaRecenzija.size();
+    }
+
+    public void PretvoriUPunBroj(){
+        ocenaPunBroj = (int)ocena;
     }
 }

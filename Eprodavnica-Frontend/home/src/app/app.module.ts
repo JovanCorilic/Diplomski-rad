@@ -21,6 +21,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxLoadingButtonsModule } from 'ngx-loading-buttons';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { TipService } from './SERVICE/Tip.service';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
       multi: true
     },
     ProduktMiniService,
+    TipService
   ],
   bootstrap: [AppComponent]
 })

@@ -41,6 +41,7 @@ export class AppComponent implements OnInit{
 		this.totalSize = 1;
 
     this.filterForm = fBuilder.group({
+      naziv:"",
       od:["",[this.notANumber()]],
       do:["",[this.notANumber()]]
     });
@@ -86,8 +87,9 @@ export class AppComponent implements OnInit{
   }
 
   filters(){
-    this.filter.cena.Od = this.ocenaForm.value.od;
-    this.filter.cena.Do = this.ocenaForm.value.do;
+    this.filter.naziv = this.filterForm.value.naziv;
+    this.filter.cena.Od = this.filterForm.value.od;
+    this.filter.cena.Do = this.filterForm.value.do;
 
     for( let i in this.listaTipova ){
       this.filter.tip.push(new Tip(this.listaTipova[i].naziv,this.tipoviForm.value.tipovi.at[i]));

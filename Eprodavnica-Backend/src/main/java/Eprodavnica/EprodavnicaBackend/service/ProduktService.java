@@ -2,6 +2,7 @@ package Eprodavnica.EprodavnicaBackend.service;
 
 import Eprodavnica.EprodavnicaBackend.dto.Filter.CenaDTO;
 import Eprodavnica.EprodavnicaBackend.dto.Filter.FilterDTO;
+import Eprodavnica.EprodavnicaBackend.dto.Filter.OcenaDTO;
 import Eprodavnica.EprodavnicaBackend.dto.Filter.TipFilterDTO;
 import Eprodavnica.EprodavnicaBackend.model.Produkt;
 import Eprodavnica.EprodavnicaBackend.model.Tip;
@@ -17,6 +18,7 @@ import org.springframework.util.NumberUtils;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -39,42 +41,34 @@ public class ProduktService implements ServiceInterface<Produkt>{
     }
 
     public Page<Produkt>filterPageable(FilterDTO filterDTO, Pageable pageable){
-        boolean cenaKoristi = false;
-        List<Produkt>listaCena = new ArrayList<>();
-
-        boolean tipKoristi = false;
-        List<Produkt>listaTip = new ArrayList<>();
-
-        boolean ocenaKoristi = false;
-        List<Produkt>listaOcena = new ArrayList<>();
-
-        List<Produkt>lista = findAll();
-
-        CenaDTO cenaDTO = filterDTO.getCena();
-        if (cenaDTO.getDo() != null && cenaDTO.getOd() != null){
-            if (!cenaDTO.getOd().isBlank() && !cenaDTO.getDo().isBlank()){
-                if (isNumeric(cenaDTO.getOd()) && isNumeric(cenaDTO.getDo())){
-                    double od = Double.parseDouble(cenaDTO.getOd());
-                    double do1 = Double.parseDouble(cenaDTO.getDo());
-                    if (od < do1){
-                        listaCena = produktRepository.findByCenaIsGreaterThanEqualAndCenaIsLessThanEqual(od,do1);
-                        cenaKoristi = true;
-                    }
-                }
+        List<Integer>ocene = new ArrayList<>();
+        for (OcenaDTO ocenaDTO : filterDTO.getOcena()){
+            if (ocenaDTO.isKoristiSe())
+                ocene.add(ocenaDTO.getOcena());
+        }
+        if (ocene.isEmpty())
+            ocene = null;
+        List<String>tipovi = new ArrayList<>();
+        for (TipFilterDTO tipFilterDTO : filterDTO.getTip()){
+            if (tipFilterDTO.isKoristiSe())
+                tipovi.add(tipFilterDTO.getNaziv());
+        }
+        List<Tip> listaTipova;
+        if (tipovi.isEmpty()) {
+            listaTipova = null;
+        }
+        else {
+            listaTipova = tipRepository.findByNazivIgnoreCaseIn(tipovi);
+        }
+        double od = -1;
+        double do1 = -1;
+        if (filterDTO.getCena().getDo()!=null && filterDTO.getCena().getOd()!=null){
+            if (isNumeric(filterDTO.getCena().getDo()) && isNumeric(filterDTO.getCena().getOd())){
+                od = Double.parseDouble(filterDTO.getCena().getOd());
+                do1 = Double.parseDouble(filterDTO.getCena().getDo());
             }
         }
-
-        if (filterDTO.getTip() != null){
-            if (!filterDTO.getTip().isEmpty()){
-                List<String>tempLista = new ArrayList<>();
-                for (TipFilterDTO tipFilterDTO : filterDTO.getTip()){
-                    if (tipFilterDTO.isKoristiSe())
-                        tempLista.add(tipFilterDTO.getNaziv());
-                }
-                List<Tip>tempLista2 = tipRepository.findByNazivIgnoreCaseIn(tempLista);
-
-            }
-        }
+        return produktRepository.findByCustomCriteria(filterDTO.getNaziv(),od,do1, listaTipova,ocene,pageable);
     }
 
     public static boolean isNumeric(String str) {
@@ -96,6 +90,7 @@ public class ProduktService implements ServiceInterface<Produkt>{
             tip = tipRepository.findByNaziv(tip.getNaziv()).orElse(null);
         }
         entity.setProdavac(korisnikRepository.findByEmail(entity.getProdavac().getEmail()));
+        entity.setDatumPravljenja(new Date());
         return produktRepository.save(entity);
     }
 

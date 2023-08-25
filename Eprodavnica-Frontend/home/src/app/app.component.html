@@ -8,6 +8,13 @@
       <mat-divider></mat-divider> <br>
 
       <form [formGroup]="filterForm" (ngSubmit)="filters()">
+        Naziv produkta <br>
+        <mat-form-field appearance="fill"  [style.height.px]=65>
+          <input matInput class="form-control" formControlName = "naziv" required>
+        </mat-form-field> 
+
+        <br> <br><mat-divider></mat-divider> <br>
+
         Cena <br>Od
         <mat-form-field appearance="fill"  [style.height.px]=65>
           <input matInput class="form-control" formControlName = "od" required>

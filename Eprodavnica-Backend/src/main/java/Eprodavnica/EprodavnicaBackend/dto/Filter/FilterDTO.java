@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FilterDTO {
+    private String naziv;
     private CenaDTO cena;
     private List<TipFilterDTO>tip;
     private List<OcenaDTO>ocena;

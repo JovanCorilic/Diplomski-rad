@@ -1,5 +1,6 @@
 package Eprodavnica.EprodavnicaBackend.controller;
 
+import Eprodavnica.EprodavnicaBackend.dto.Filter.FilterDTO;
 import Eprodavnica.EprodavnicaBackend.dto.ProduktDTO;
 import Eprodavnica.EprodavnicaBackend.dto.ProduktMiniDTO;
 import Eprodavnica.EprodavnicaBackend.mapper.ProduktMapper;
@@ -48,6 +49,14 @@ public class ProduktController {
     @GetMapping("/by-page")
     public ResponseEntity<Page<ProduktMiniDTO>>getProduktPageable(Pageable pageable){
         Page<Produkt>page = produktService.findAllPageable(pageable);
+        List<ProduktMiniDTO>lista = produktMapper.toDTOListaMiniProdukt(page.toList());
+        Page<ProduktMiniDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
+    @PostMapping("/filter-by-page")
+    public ResponseEntity<Page<ProduktMiniDTO>>getProduktFilter(@RequestBody FilterDTO filterDTO, Pageable pageable){
+        Page<Produkt>page = produktService.filterPageable(filterDTO,pageable);
         List<ProduktMiniDTO>lista = produktMapper.toDTOListaMiniProdukt(page.toList());
         Page<ProduktMiniDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
         return new ResponseEntity<>(dtos,HttpStatus.OK);
