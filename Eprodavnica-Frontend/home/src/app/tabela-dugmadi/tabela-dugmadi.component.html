@@ -1,17 +1,19 @@
 <div *ngIf="listaProdukataMini?.length === 0 || listaProdukataMini === undefined" style="float:right;">
     <h4><b>Nema artikala!</b></h4>
 </div>
-<button mat-stroked-button matTooltip={{produktMini.naziv}} *ngFor="let produktMini of listaProdukataMini" 
-  [disableRipple]="true" style="width : 450px;height: 450px;">
-  
-  <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="370" height="300">
+<b *ngFor="let produktMini of listaProdukataMini">
+  <button mat-stroked-button matTooltip={{produktMini.naziv}}  
+    [disableRipple]="true" style="width : 450px;height: 450px;">
+    
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="370" height="300">
 
-  <p class="ellipsis">
-    <br>
-    {{produktMini.naziv}}
-  </p>
-  <p>
-    Ocena : &nbsp; {{produktMini.ocena}}<br>
-    {{produktMini.cena}} &nbsp; din.
-  </p>
-</button>&nbsp;&nbsp;
+    <p class="ellipsis">
+      <br>
+      {{produktMini.naziv}}
+    </p>
+    <p>
+      Ocena : &nbsp; {{produktMini.ocena}}<br>
+      {{produktMini.cena}} &nbsp; din.
+    </p>
+  </button>&nbsp;&nbsp;
+</b>

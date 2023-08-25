@@ -85,6 +85,12 @@ export class AppComponent implements OnInit{
     this.tipoviForm.reset();
     this.ocenaForm.reset();
     this.ukljucioFilter = false;
+    this.produktMiniService.getByPage(this.currentPage - 1,this.pageSize).subscribe(
+      res =>{
+        this.lista = res.content as ProduktMini[];
+        this.totalSize = Number(res.totalElements);
+      }
+    )
   }
 
   filters(){
@@ -170,10 +176,10 @@ export class AppComponent implements OnInit{
 
   changePage(newPage: number) {
     if (this.ukljucioFilter){
-      this.produktMiniService.filterByPage(this.filter,this.currentPage,this.pageSize).subscribe(
+      this.produktMiniService.filterByPage(this.filter,newPage-1,this.pageSize).subscribe(
         res =>{
-          this.lista = res.content as ProduktMini[];
-          this.totalSize = Number(res.totalElements);
+          this.lista = res.body.content as ProduktMini[];
+          this.totalSize = Number(res.body.totalElements);
         }
       )
     }else {
