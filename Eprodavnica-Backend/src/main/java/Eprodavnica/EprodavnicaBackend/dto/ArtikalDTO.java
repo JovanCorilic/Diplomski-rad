@@ -8,5 +8,5 @@ import lombok.*;
 @AllArgsConstructor
 public class ArtikalDTO {
     private int broj;
-    private ProduktDTO produkt;
+    private ProduktMiniDTO produkt;
 }

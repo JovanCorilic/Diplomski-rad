@@ -18,6 +18,10 @@ import { MatInputModule } from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ProduktService } from './SERVICE/produkt.service';
+import { RacunService } from './SERVICE/Racun.service';
+import { RecenzijaService } from './SERVICE/Recenzija.service';
+import { TipService } from './SERVICE/Tip.service';
 
 
 @NgModule({
@@ -49,6 +53,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       useClass: Interceptor, 
       multi: true
     },
+    ProduktService,
+    RacunService,
+    RecenzijaService,
+    TipService
   ],
   bootstrap: [AppComponent]
 })

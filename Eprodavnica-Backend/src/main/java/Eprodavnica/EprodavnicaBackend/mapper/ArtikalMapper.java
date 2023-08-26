@@ -8,12 +8,12 @@ public class ArtikalMapper implements MapperInterface<Artikal, ArtikalDTO> {
 
     @Override
     public Artikal toModel(ArtikalDTO dto) {
-        return new Artikal(dto.getBroj(),produktMapper.toModel(dto.getProdukt()));
+        return new Artikal(dto.getBroj(),produktMapper.toMini(dto.getProdukt()));
     }
 
     @Override
     public ArtikalDTO toDto(Artikal entity) {
-        return new ArtikalDTO(entity.getBroj(),produktMapper.toDto(entity.getProdukt()));
+        return new ArtikalDTO(entity.getBroj(),produktMapper.toDTOMini(entity.getProdukt()));
     }
 
     public ArtikalMapper() {
