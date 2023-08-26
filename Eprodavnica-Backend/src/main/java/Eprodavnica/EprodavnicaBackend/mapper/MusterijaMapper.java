@@ -1,13 +1,7 @@
 package Eprodavnica.EprodavnicaBackend.mapper;
 
-import Eprodavnica.EprodavnicaBackend.dto.MusterijaDTO;
-import Eprodavnica.EprodavnicaBackend.dto.RacunDTO;
-import Eprodavnica.EprodavnicaBackend.dto.RecenzijaDTO;
-import Eprodavnica.EprodavnicaBackend.dto.TipDTO;
-import Eprodavnica.EprodavnicaBackend.model.Korisnik;
-import Eprodavnica.EprodavnicaBackend.model.Racun;
-import Eprodavnica.EprodavnicaBackend.model.Recenzija;
-import Eprodavnica.EprodavnicaBackend.model.Tip;
+import Eprodavnica.EprodavnicaBackend.dto.*;
+import Eprodavnica.EprodavnicaBackend.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +10,7 @@ public class MusterijaMapper implements MapperInterface<Korisnik, MusterijaDTO> 
     private final TipMapper tipMapper;
     private final RacunMapper racunMapper;
     private final RecenzijaMapper recenzijaMapper;
+    private final ProduktMapper produktMapper;
 
     @Override
     public Korisnik toModel(MusterijaDTO dto) {
@@ -31,7 +26,11 @@ public class MusterijaMapper implements MapperInterface<Korisnik, MusterijaDTO> 
         for (RecenzijaDTO recenzijaDTO : dto.getListaRecenzija()){
             recenzijas.add(recenzijaMapper.toModel(recenzijaDTO));
         }
-        return new Korisnik(dto.getIme(),dto.getPrezime(),dto.getEmail(),tips,racuns,recenzijas);
+        List<Produkt>produkts = new ArrayList<>();
+        for (ProduktMiniDTO produktMiniDTO : dto.getWishlist()){
+            produkts.add(produktMapper.toMini(produktMiniDTO));
+        }
+        return new Korisnik(dto.getIme(),dto.getPrezime(),dto.getEmail(),tips,racuns,recenzijas,produkts);
     }
 
     @Override
@@ -48,12 +47,15 @@ public class MusterijaMapper implements MapperInterface<Korisnik, MusterijaDTO> 
         for (Recenzija recenzija : entity.getListaRecenzija()){
             recenzijaDTOS.add(recenzijaMapper.toDto(recenzija));
         }
-        return new MusterijaDTO(entity.getIme(),entity.getPrezime(),entity.getEmail(),"-1",tipDTOS,racunDTOS,recenzijaDTOS);
+        List<ProduktMiniDTO>produktMiniDTOS = produktMapper.toDTOListaMiniProdukt(entity.getWishlist());
+        return new MusterijaDTO(entity.getIme(),entity.getPrezime(),entity.getEmail(),"-1",tipDTOS,racunDTOS,
+                recenzijaDTOS,produktMiniDTOS);
     }
 
     public MusterijaMapper() {
         this.tipMapper = new TipMapper();
         this.racunMapper = new RacunMapper();
         this.recenzijaMapper = new RecenzijaMapper();
+        this.produktMapper = new ProduktMapper();
     }
 }

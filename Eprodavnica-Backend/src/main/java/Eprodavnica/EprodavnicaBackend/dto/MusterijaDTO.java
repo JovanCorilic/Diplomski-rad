@@ -19,6 +19,7 @@ public class MusterijaDTO {
     private List<TipDTO>listaTipova;
     private List<RacunDTO>listaRacuna;
     private List<RecenzijaDTO>listaRecenzija;
+    private List<ProduktMiniDTO>wishlist;
 
     public boolean proveraPodataka(){
         if (ime.isEmpty() || prezime.isEmpty() || email.isEmpty() || lozinka.isEmpty())

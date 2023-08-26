@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -17,8 +18,10 @@ public class ProduktDTO {
     private String serijskiBroj;
     private double cena;
     private double ocena;
+    private Date datumPravljenja;
+    private int akcija;
     private List<TipDTO>listaTipova;
-    private List<RecenzijaDTO>listaRecenzija;
     private String emailProdavac;
+    private List<RecenzijaDTO>listaRecenzija;
     //private KorisnikDTO prodavac;
 }

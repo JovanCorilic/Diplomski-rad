@@ -8,13 +8,13 @@ import Eprodavnica.EprodavnicaBackend.model.Recenzija;
 public class RecenzijaMapper implements MapperInterface<Recenzija, RecenzijaDTO> {
     @Override
     public Recenzija toModel(RecenzijaDTO dto) {
-        return new Recenzija(dto.getId(),dto.getOcena(),dto.getKomentar(),new Korisnik(dto.getEmailMustarija()),
-                new Produkt(dto.getSerijskiBrojProdukt()));
+        return new Recenzija(dto.getId(),dto.getOcena(),dto.getKomentar(),dto.getDatumPravljenja(),
+                new Korisnik(dto.getEmailMustarija()), new Produkt(dto.getSerijskiBrojProdukt()));
     }
 
     @Override
     public RecenzijaDTO toDto(Recenzija entity) {
-        return new RecenzijaDTO(entity.getId(),entity.getOcena(),entity.getKomentar(),entity.getMusterija().getEmail(),
-                entity.getProdukt().getSerijskiBroj());
+        return new RecenzijaDTO(entity.getId(),entity.getOcena(),entity.getKomentar(),entity.getDatumPravljenja(),
+                entity.getMusterija().getEmail(), entity.getProdukt().getSerijskiBroj());
     }
 }

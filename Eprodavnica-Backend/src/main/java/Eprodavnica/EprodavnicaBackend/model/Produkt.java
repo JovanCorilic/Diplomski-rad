@@ -44,6 +44,9 @@ public class Produkt {
     @Column
     private Date datumPravljenja;
 
+    @Column
+    private int akcija;
+
     @ManyToMany()
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Tip>listaTipova;
@@ -58,15 +61,30 @@ public class Produkt {
     @OneToMany(mappedBy = "produkt", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Recenzija>listaRecenzija;
 
-    public Produkt(String naziv, String deskripcija, String serijskiBroj, double cena, double ocena, List<Tip> listaTipova, Korisnik prodavac, List<Recenzija> listaRecenzija) {
+    @ManyToMany(mappedBy = "wishlist")
+    private List<Korisnik>wishlist;
+
+    public Produkt(String naziv, String deskripcija, String serijskiBroj, double cena, double ocena,
+                   Date datumPravljenja, int akcija, List<Tip> listaTipova, Korisnik prodavac,
+                   List<Recenzija> listaRecenzija) {
         this.naziv = naziv;
         this.deskripcija = deskripcija;
         this.serijskiBroj = serijskiBroj;
         this.cena = cena;
         this.ocena = ocena;
+        this.datumPravljenja = datumPravljenja;
+        this.akcija = akcija;
         this.listaTipova = listaTipova;
         this.prodavac = prodavac;
         this.listaRecenzija = listaRecenzija;
+    }
+
+    public Produkt(String naziv, String serijskiBroj, double cena, double ocena, int akcija) {
+        this.naziv = naziv;
+        this.serijskiBroj = serijskiBroj;
+        this.cena = cena;
+        this.ocena = ocena;
+        this.akcija = akcija;
     }
 
     public Produkt(String serijskiBroj) {

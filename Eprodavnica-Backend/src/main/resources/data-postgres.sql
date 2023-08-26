@@ -14,3 +14,8 @@ INSERT INTO produkt_lista_tipova(lista_produkata_id,lista_tipova_id) VALUES (2,2
 INSERT INTO produkt_lista_tipova(lista_produkata_id,lista_tipova_id) VALUES (3,3)
 INSERT INTO produkt_lista_tipova(lista_produkata_id,lista_tipova_id) VALUES (3,1)
 INSERT INTO produkt_lista_tipova(lista_produkata_id,lista_tipova_id) VALUES (3,2)
+
+/*Musterija*/
+
+
+/*Recenzija*/

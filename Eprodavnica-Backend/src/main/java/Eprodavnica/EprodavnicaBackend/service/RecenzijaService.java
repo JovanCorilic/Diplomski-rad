@@ -7,6 +7,7 @@ import Eprodavnica.EprodavnicaBackend.repository.RecenzijaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -31,6 +32,7 @@ public class RecenzijaService implements ServiceInterface<Recenzija>{
     public Recenzija create(Recenzija entity) {
         entity.setMusterija(korisnikRepository.findByEmail(entity.getMusterija().getEmail()));
         entity.setProdukt(produktRepository.findBySerijskiBroj(entity.getProdukt().getSerijskiBroj()).orElse(null));
+        entity.setDatumPravljenja(new Date());
         return recenzijaRepository.save(entity);
     }
 

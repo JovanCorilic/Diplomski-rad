@@ -27,7 +27,7 @@ public class ProduktMapper implements MapperInterface<Produkt, ProduktDTO> {
             recenzijas.add(recenzijaMapper.toModel(recenzijaDTO));
         }
         return new Produkt(dto.getNaziv(),dto.getDeskripcija(),dto.getSerijskiBroj(),dto.getCena(),dto.getOcena(),
-                tips,new Korisnik(dto.getEmailProdavac()),recenzijas);
+                dto.getDatumPravljenja(),dto.getAkcija(),tips,new Korisnik(dto.getEmailProdavac()),recenzijas);
     }
 
     @Override
@@ -41,11 +41,16 @@ public class ProduktMapper implements MapperInterface<Produkt, ProduktDTO> {
             recenzijaDTOS.add(recenzijaMapper.toDto(recenzija));
         }
         return new ProduktDTO(entity.getNaziv(),entity.getDeskripcija(),entity.getSerijskiBroj(),entity.getCena(),
-                entity.getOcena(),tipDTOS,recenzijaDTOS,entity.getProdavac().getEmail());
+                entity.getOcena(),entity.getDatumPravljenja(),entity.getAkcija(),tipDTOS,entity.getProdavac().getEmail(),recenzijaDTOS);
     }
 
     public ProduktMiniDTO toDTOMini(Produkt entity){
-        return new ProduktMiniDTO(entity.getNaziv(),entity.getCena(),entity.getOcena());
+        return new ProduktMiniDTO(entity.getNaziv(),entity.getSerijskiBroj(),entity.getCena(),entity.getOcena(),
+                entity.getAkcija());
+    }
+
+    public Produkt toMini(ProduktMiniDTO dto){
+        return new Produkt(dto.getNaziv(),dto.getSerijskiBroj(),dto.getCena(),dto.getOcena(),dto.getAkcija());
     }
 
     public List<ProduktMiniDTO> toDTOListaMiniProdukt(List<Produkt>lista){

@@ -12,8 +12,9 @@
       {{produktMini.naziv}}
     </p>
     <p>
+      <b style="color: red;" *ngIf="produktMini.akcija !== 0">Akcija {{produktMini.akcija}}%</b><br>
       Ocena : &nbsp; {{produktMini.ocena}}<br>
-      {{produktMini.cena}} &nbsp; din.
+      {{produktMini.cena - (produktMini.cena*produktMini.akcija/100)}} &nbsp; din.
     </p>
   </button>&nbsp;&nbsp;
 </b>

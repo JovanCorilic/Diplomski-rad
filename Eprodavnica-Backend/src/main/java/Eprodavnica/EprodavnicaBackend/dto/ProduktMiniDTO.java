@@ -11,6 +11,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ProduktMiniDTO {
     private String naziv;
+    private String serijskiBroj;
     private double cena;
     private double ocena;
+    private int akcija;
+
 }

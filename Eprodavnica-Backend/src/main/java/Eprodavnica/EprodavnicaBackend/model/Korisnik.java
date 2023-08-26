@@ -59,6 +59,10 @@ public class Korisnik implements UserDetails {
     @OneToMany(mappedBy = "prodavac", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Produkt>listaProdukata;
 
+    @ManyToMany()
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Produkt>wishlist;
+
     public Korisnik(Integer id, String ime, String prezime, String email, String lozinka) {
         this.id = id;
         this.ime = ime;
@@ -77,13 +81,15 @@ public class Korisnik implements UserDetails {
         this.uloge = uloge;
     }
 
-    public Korisnik(String ime, String prezime, String email, List<Tip> listaTipova, List<Racun> listaRacuna, List<Recenzija>listaRecenzija) {
+    public Korisnik(String ime, String prezime, String email, List<Tip> listaTipova, List<Racun> listaRacuna,
+                    List<Recenzija>listaRecenzija,List<Produkt>wishlist) {
         this.ime = ime;
         this.prezime = prezime;
         this.email = email;
         this.listaTipova = listaTipova;
         this.listaRacuna = listaRacuna;
         this.listaRecenzija = listaRecenzija;
+        this.wishlist=wishlist;
     }
 
     public Korisnik(String ime, String prezime, String email, List<Produkt> listaProdukata) {
