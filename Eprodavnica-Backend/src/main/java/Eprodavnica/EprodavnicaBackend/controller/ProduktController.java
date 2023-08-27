@@ -40,9 +40,9 @@ public class ProduktController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity<?>get(@PathVariable String id){
-        ProduktDTO produktDTO = produktMapper.toDto(produktService.findOne(id));
+    @GetMapping("/get/{serijskiBroj}")
+    public ResponseEntity<?>get(@PathVariable String serijskiBroj){
+        ProduktDTO produktDTO = produktMapper.toDto(produktService.findOne(serijskiBroj));
         return new ResponseEntity<>(produktDTO, HttpStatus.OK);
     }
 

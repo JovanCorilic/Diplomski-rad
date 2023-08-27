@@ -18,15 +18,29 @@ import { MatInputModule } from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ProduktService } from './SERVICE/produkt.service';
+import { ProduktService } from './SERVICE/Produkt.service';
 import { RacunService } from './SERVICE/Racun.service';
 import { RecenzijaService } from './SERVICE/Recenzija.service';
 import { TipService } from './SERVICE/Tip.service';
+import { ProduktDetaljnoComponent } from './PRODUKT/produkt-detaljno/produkt-detaljno.component';
+import { ProduktCreateComponent } from './PRODUKT/produkt-create/produkt-create.component';
+import { ProduktEditComponent } from './PRODUKT/produkt-edit/produkt-edit.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import { PaginationComponent } from './pagination/pagination.component';
+import { RecenzijaTableComponent } from './RECENZIJA/recenzija-table/recenzija-table.component';
+import { RecenzijaCreateComponent } from './RECENZIJA/recenzija-create/recenzija-create.component';
+import {MatCardModule} from '@angular/material/card';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ProduktDetaljnoComponent,
+    ProduktCreateComponent,
+    ProduktEditComponent,
+    PaginationComponent,
+    RecenzijaTableComponent,
+    RecenzijaCreateComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +59,9 @@ import { TipService } from './SERVICE/Tip.service';
     MatDividerModule,
     NgbModule,
     NgxLoadingButtonsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatTabsModule,
+    MatCardModule
   ],
   providers: [
     {

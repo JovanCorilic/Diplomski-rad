@@ -1,0 +1,16 @@
+<div *ngIf="listaRecenzija?.length === 0 || listaRecenzija === undefined" style="float:right;">
+    <h4><b>Nema recenzija</b></h4>
+</div>
+<b *ngFor="let recenzija of listaRecenzija">
+    <mat-card class="example-card">
+        <mat-card-header>
+          <mat-card-title-group>
+            <mat-card-title>{{recenzija.ocena}}</mat-card-title>
+            <mat-card-subtitle>{{recenzija.datumPravljenja | date:'dd.MM.yyyy HH:mm'}}</mat-card-subtitle>
+          </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content>
+          {{recenzija.komentar}}
+        </mat-card-content>
+      </mat-card>
+</b>

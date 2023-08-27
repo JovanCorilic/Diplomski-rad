@@ -1,0 +1,89 @@
+<br>
+<h2>{{produkt.naziv}}</h2>
+<table style="text-align: center;">
+    <tr>
+        <td>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="600" height="400">
+        </td>
+        <td>
+            <button type="button" mat-raised-button color="accent">Kupi</button> <br> <br>
+            <button type="button" mat-raised-button>Dodaj u Wishlist</button> <br> <br>
+            <button type="button" mat-raised-button color="warn">Edit</button>
+        </td>
+    </tr>
+</table>
+<br>
+<mat-tab-group dynamicHeight>
+    <mat-tab label="Deskripcija">
+        <p>Ocena : &nbsp; {{produkt.ocena}}</p>
+        <p>Cena : &nbsp; {{produkt.cena}}</p>
+        <h3>Deskripcija</h3>
+        <p>
+            {{produkt.deskripcija}}
+        </p>
+    </mat-tab>
+    <mat-tab label="Recenzije">
+        <mat-drawer-container  style="height: 120vh;" autosize>
+            <mat-drawer #drawer class="example-sidenav" mode="side" opened>
+              <p style="font-size: 25px;">Pretraga</p>
+        
+              <mat-divider></mat-divider> <br>
+        
+                <button type="button" mat-raised-button color="accent"  style="height: 28px;width: 250px;font-size: 15px;" (click)="open(OcenaProzor)">Ocene</button>
+        
+                <br> <br><mat-divider></mat-divider> <br>
+        
+                <button type="button" mat-raised-button color="primary"  style="height: 50px;width: 250px;font-size: 15px;">Pretraži</button>
+        
+                <br> <br><mat-divider></mat-divider> <br>
+        
+                <button type="button" mat-raised-button color="warn"  style="height: 50px;width: 250px;font-size: 15px;" (click)="resetuj()">Resetuj</button>
+        
+            </mat-drawer>
+          
+            <div class="example-sidenav-content">
+              <div>
+                <app-recenzija-table [listaRecenzija]="lista"></app-recenzija-table>
+              </div>
+              <br>
+              <div style="text-align: center;">
+                <app-pagination [totalItems]="totalSize" [pageSize]="pageSize" (pageSelected)="changePage($event)">
+                  
+                </app-pagination>
+              </div>  
+            </div>
+        </mat-drawer-container>
+    </mat-tab>
+</mat-tab-group>
+
+<ng-template #OcenaProzor let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" 
+            id="modal-basic-title">
+            Ocene
+        </h4>
+        <button type="button" class="close"
+                aria-label="Close" (click)=
+                "modal.dismiss('Cross click')">
+  
+            <span aria-hidden="true">
+                ×
+            </span>
+        </button>
+    </div>
+    <form [formGroup]="ocenaForm">
+        <div class="modal-body">
+                <div class="form-group">
+                    <div class="input-group" formArrayName="ocene">
+                        <div *ngFor="let ocena of ocene.controls; let i=index">
+                          <div  [formGroupName]="i">
+                            <mat-checkbox formControlName="ocena" color="accent">{{listaOcena[i]}}</mat-checkbox>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div [ngClass]="['modal-footer','form-group']">
+        </div>
+    </form>
+  </ng-template>
