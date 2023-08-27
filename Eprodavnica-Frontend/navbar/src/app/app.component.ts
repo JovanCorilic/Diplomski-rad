@@ -5,6 +5,11 @@ import { Router } from '@angular/router';
 import { Musterija } from './MODEL/Musterija';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'navbar-root',
@@ -20,11 +25,15 @@ export class AppComponent {
   status: boolean = false;
   status2: boolean = false;
 
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+
   constructor(
     private router:Router,
     private authenticationService:AuthenticationService,
     private fBuilder: FormBuilder,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private _snackBar: MatSnackBar
   ){
     this.registerForm = this.fBuilder.group({
       ime: ["",[Validators.required]],
@@ -36,6 +45,13 @@ export class AppComponent {
     this.logForm = this.fBuilder.group({
       email: ["",[Validators.required, Validators.email]],
       password: ["",[Validators.required]]
+    });
+  }
+
+  openSnackBar(poruka:string) {
+    this._snackBar.open(poruka, 'x', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
     });
   }
 
@@ -68,6 +84,7 @@ export class AppComponent {
         const info = jwt.decodeToken(decodedItem.accessToken);
         sessionStorage.setItem('uloga', info['uloga']);
         this.status= !this.status;
+        this.openSnackBar("Uspešno ulogovan");
 			},
 			error => {
         this.status= !this.status;
@@ -86,6 +103,7 @@ export class AppComponent {
     this.authenticationService.register(this.musterija).subscribe(
       res=>{
         this.status2= !this.status2;
+        this.openSnackBar("Uspešno napravljen zahtev za registraciju, molimo vas potvrdite preko email da bi ste nastavili dalje");
       },error =>{
         alert("Nisu pravilno uneti podaci!")
         this.status2 = !this.status2;

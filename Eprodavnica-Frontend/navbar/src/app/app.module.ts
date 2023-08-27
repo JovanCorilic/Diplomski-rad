@@ -15,6 +15,7 @@ import { AuthenticationService } from './SERVICE/authentication.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatInputModule } from '@angular/material/input';
 import { NgxLoadingButtonsModule } from 'ngx-loading-buttons';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { NgxLoadingButtonsModule } from 'ngx-loading-buttons';
     NgbModule,
     MatInputModule,
     NgxLoadingButtonsModule,
+    MatSnackBarModule
   ],
   providers: [
     {

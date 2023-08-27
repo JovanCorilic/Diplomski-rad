@@ -30,7 +30,8 @@ import { PaginationComponent } from './pagination/pagination.component';
 import { RecenzijaTableComponent } from './RECENZIJA/recenzija-table/recenzija-table.component';
 import { RecenzijaCreateComponent } from './RECENZIJA/recenzija-create/recenzija-create.component';
 import {MatCardModule} from '@angular/material/card';
-
+import {MatChipsModule} from '@angular/material/chips';
+import {CdkDrag, CdkDropList} from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,10 @@ import {MatCardModule} from '@angular/material/card';
     NgxLoadingButtonsModule,
     MatCheckboxModule,
     MatTabsModule,
-    MatCardModule
+    MatCardModule,
+    MatChipsModule,
+    CdkDropList,
+    CdkDrag
   ],
   providers: [
     {

@@ -6,9 +6,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Filter } from 'src/app/MODEL/Filter/Filter';
 import { Ocena } from 'src/app/MODEL/Filter/Ocena';
 import { Recenzija } from 'src/app/MODEL/Recenzija';
+import { Tip } from 'src/app/MODEL/Tip';
 import { ProduktService } from 'src/app/SERVICE/Produkt.service';
 import { RecenzijaService } from 'src/app/SERVICE/Recenzija.service';
-
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-produkt-detaljno',
@@ -69,7 +70,9 @@ export class ProduktDetaljnoComponent implements OnInit {
     }
   }
 
-  
+  drop(event: CdkDragDrop<Tip[]>) {
+    moveItemInArray(this.produkt.listaTipova, event.previousIndex, event.currentIndex);
+  }
 
   resetuj(){
     this.filter = <Filter>{}

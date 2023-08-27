@@ -58,7 +58,7 @@
     <div class="modal-footer">
       <button  mat-raised-button type="submit"
                   color="accent" 
-                  (click)="modal.close('Save click')"  [disabled]="logForm.invalid">
+                  (click)="modal.close('Save click');logIn();"  [disabled]="logForm.invalid">
                   Login
               </button>
     </div>
@@ -144,7 +144,7 @@
     <div class="modal-footer">
       <button  mat-raised-button type="submit"
                   color="accent" 
-                  (click)="modal.close('Save click')"  [disabled]="registerForm.invalid">
+                  (click)="modal.close('Save click');register();"  [disabled]="registerForm.invalid">
                   Registruj se
               </button>
     </div>
