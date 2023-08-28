@@ -48,6 +48,18 @@ export class AppComponent {
     });
   }
 
+  idiNaProfil(uloga:string){
+    if (uloga === "ROLE_MUSTERIJA"){
+      this.router.navigate(['/other/mojProfilMusterija']);
+    }else if(uloga === "ROLE_PRODAVAC"){
+      this.router.navigate(['/other/mojProfilProdavac']);
+    }
+  }
+
+  idiNaOdobrenjeAdminAkaunt(){
+    this.router.navigate(['/other/odobrenjeAdminAkaunta']);
+  }
+
   openSnackBar(poruka:string) {
     this._snackBar.open(poruka, 'x', {
       horizontalPosition: this.horizontalPosition,
@@ -82,7 +94,8 @@ export class AppComponent {
         sessionStorage.setItem('accessToken', decodedItem.accessToken);
         const jwt: JwtHelperService = new JwtHelperService();
         const info = jwt.decodeToken(decodedItem.accessToken);
-        sessionStorage.setItem('uloga', info['uloga']);
+        //sessionStorage.setItem('uloga', info['uloga']);
+
         this.status= !this.status;
         this.openSnackBar("Uspešno ulogovan");
 			},
@@ -93,6 +106,19 @@ export class AppComponent {
 			}
 		);
 	}
+
+  getRole():string{
+    const item = sessionStorage.getItem('user');
+
+    if(!item){
+      return "";
+    }
+
+    const jwt:JwtHelperService = new JwtHelperService();
+    const decodedItem = JSON.parse(item!);
+    const info = jwt.decodeToken(decodedItem.accessToken);
+    return info['uloga'];
+  }
 
   register(){
     this.status2= !this.status2;

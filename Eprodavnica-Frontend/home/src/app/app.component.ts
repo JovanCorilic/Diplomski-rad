@@ -25,6 +25,8 @@ export class AppComponent implements OnInit{
   totalSize: number;
   filter = <Filter>{}
   ukljucioFilter:boolean = false;
+  status:boolean=false;
+  status2:boolean=false;
 
   filterForm : FormGroup;
   tipoviForm : FormGroup;
@@ -80,6 +82,7 @@ export class AppComponent implements OnInit{
   }
 
   resetuj(){
+    this.status2 = !this.status2
     this.filter = <Filter>{}
     this.filterForm.reset();
     this.tipoviForm.reset();
@@ -89,11 +92,16 @@ export class AppComponent implements OnInit{
       res =>{
         this.lista = res.content as ProduktMini[];
         this.totalSize = Number(res.totalElements);
+        this.status2 = !this.status2
+      },
+      error=>{
+        this.status2 = !this.status2
       }
     )
   }
 
   filters(){
+    this.status = !this.status
     if( this.filterForm.value.naziv != "")
       this.filter.naziv = this.filterForm.value.naziv;
 
@@ -117,6 +125,10 @@ export class AppComponent implements OnInit{
         this.lista = res.body.content as ProduktMini[];
         this.totalSize = Number(res.body.totalElements);
         this.ukljucioFilter = true;
+        this.status = !this.status
+      },
+      error=>{
+        this.status = !this.status
       }
     )
   }

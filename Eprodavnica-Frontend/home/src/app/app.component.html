@@ -33,11 +33,13 @@
 
         <br> <br><mat-divider></mat-divider> <br>
 
-        <button type="submit" mat-raised-button color="primary"  style="height: 50px;width: 250px;font-size: 15px;">Pretraži</button>
+        <button type="submit" mat-raised-button color="primary"  style="height: 50px;width: 250px;font-size: 15px;" 
+        [mtBasicSpinner]="status" [hideText]="status">Pretraži</button>
 
         <br> <br><mat-divider></mat-divider> <br>
 
-        <button type="button" mat-raised-button color="warn"  style="height: 50px;width: 250px;font-size: 15px;" (click)="resetuj()">Resetuj</button>
+        <button type="button" mat-raised-button color="warn"  style="height: 50px;width: 250px;font-size: 15px;" (click)="resetuj()" 
+        [mtBasicSpinner]="status2" [hideText]="status2">Resetuj</button>
       </form>
 
     </mat-drawer>

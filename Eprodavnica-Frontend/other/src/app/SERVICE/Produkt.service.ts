@@ -12,5 +12,13 @@ export class ProduktService{
     public dajProdukt(serijskiBroj:string):Observable<Produkt>{
         return this.http.get<Produkt>(this.path+"/get"+`/${serijskiBroj}`);
     }
+
+    public dodajuWishlist(serijskiBroj:string){
+        return this.http.post(this.path+"/dodajuWishlist",serijskiBroj);
+    }
+
+    public daLiJeUWishlist(serijskiBroj:string):Observable<boolean>{
+        return this.http.get<boolean>(this.path+"/daLiJeUWishlist"+`/${serijskiBroj}`)
+    }
     
 }

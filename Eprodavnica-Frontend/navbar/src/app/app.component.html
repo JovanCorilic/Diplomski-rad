@@ -6,9 +6,23 @@
       <mat-icon>home</mat-icon>
     </button>&nbsp;&nbsp;
     <span>E-Prodavnica</span>&nbsp;&nbsp;
+
+    <button mat-raised-button color="accent" [mtBasicSpinner]="status" [hideText]="status"
+    *ngIf="getRole()==='ROLE_MUSTERIJA' || getRole()==='ROLE_PRODAVAC'"
+    >Moj profil</button>&nbsp;&nbsp;
+
+    <button mat-raised-button color="accent" [mtBasicSpinner]="status" [hideText]="status"
+    *ngIf="getRole()==='ROLE_SUPERADMIN'"
+    >Odobrenje admin akaunta</button>&nbsp;&nbsp;
+
     <span class="example-spacer"></span>
-    <button mat-raised-button color="accent" [mtBasicSpinner]="status" [hideText]="status" (click)="open(login)">Login</button>&nbsp;&nbsp;
-    <button mat-raised-button color="accent" [mtBasicSpinner]="status2" [hideText]="status2" (click)="open(registerProzor)">Registracija</button>
+    <button mat-raised-button color="accent" [mtBasicSpinner]="status" [hideText]="status" (click)="open(login)"
+    *ngIf="getRole()!=='ROLE_ADMIN' && getRole()!=='ROLE_SUPERADMIN' && getRole()!=='ROLE_MUSTERIJA' && getRole()!=='ROLE_PRODAVAC'"
+    >Login</button>&nbsp;&nbsp;
+
+    <button mat-raised-button color="accent" [mtBasicSpinner]="status2" [hideText]="status2" (click)="open(registerProzor)"
+    *ngIf="getRole()!=='ROLE_ADMIN' && getRole()!=='ROLE_SUPERADMIN' && getRole()!=='ROLE_MUSTERIJA' && getRole()!=='ROLE_PRODAVAC'"
+    >Registracija</button>
   </mat-toolbar>
 
   <ng-template #login let-modal>

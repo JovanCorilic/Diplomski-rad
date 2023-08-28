@@ -1,6 +1,6 @@
 import { Produkt } from './../../MODEL/Produkt';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, AbstractControl, ValidatorFn, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Filter } from 'src/app/MODEL/Filter/Filter';
@@ -10,6 +10,9 @@ import { Tip } from 'src/app/MODEL/Tip';
 import { ProduktService } from 'src/app/SERVICE/Produkt.service';
 import { RecenzijaService } from 'src/app/SERVICE/Recenzija.service';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { Artikal } from 'src/app/MODEL/Artikal';
+import { RacunService } from 'src/app/SERVICE/Racun.service';
 
 @Component({
   selector: 'app-produkt-detaljno',
@@ -22,6 +25,11 @@ export class ProduktDetaljnoComponent implements OnInit {
   filter = <Filter>{}
   lista:Recenzija[]|undefined;
   ukljucioFilter:boolean = false;
+  kolicinaFormControl = new FormControl(1,[this.notANumber(),this.viseOdNula()])
+  daLiJeUWishlist:boolean = false
+  status: boolean = false;
+  status2: boolean = false;
+  status3: boolean = false;
 
   listaOcena: number[] = [1,2,3,4,5]
   pageSize: number;
@@ -32,6 +40,7 @@ export class ProduktDetaljnoComponent implements OnInit {
   constructor(
     private produktService:ProduktService,
     private recenzijaService:RecenzijaService,
+    private racunService:RacunService,
     private route:ActivatedRoute,
     private modalService: NgbModal,
     private fBuilder: FormBuilder,
@@ -49,6 +58,57 @@ export class ProduktDetaljnoComponent implements OnInit {
     this.ocenaForm = fBuilder.group({
       ocene: this.fBuilder.array([])
     })
+  }
+
+  dodajUKorpu(){
+    this.status = !this.status;
+    let kolicina = this.kolicinaFormControl.value
+    let artikal = <Artikal>{}
+    if(kolicina!=null)
+      artikal.broj=kolicina
+    artikal.konvertuj(this.produkt);
+    this.racunService.dodajUKorpu(artikal).subscribe(
+      res=>{
+        this.status = !this.status;
+      },
+      error =>{
+        this.status = !this.status;
+      }
+    )
+  }
+
+  dodajUWishlist(){
+    this.status2 = !this.status2;
+    this.produktService.dodajuWishlist(this.serijskiBroj).subscribe(
+      res=>{
+        this.daLiJeUWishlist= true
+        this.status2 = !this.status2;
+      },
+      error =>{
+        this.status2 = !this.status2;
+      }
+    )
+  }
+
+  edit(){
+
+  }
+
+  delete(){
+
+  }
+
+  getRole():string{
+    const item = sessionStorage.getItem('user');
+
+    if(!item){
+      return "";
+    }
+
+    const jwt:JwtHelperService = new JwtHelperService();
+    const decodedItem = JSON.parse(item!);
+    const info = jwt.decodeToken(decodedItem.accessToken);
+    return info['uloga'];
   }
   
   ngOnInit(): void {
@@ -68,6 +128,12 @@ export class ProduktDetaljnoComponent implements OnInit {
     for (let i in this.listaOcena){
       this.addOcena();
     }
+
+    this.produktService.daLiJeUWishlist(this.serijskiBroj).subscribe(
+      res=>{
+        this.daLiJeUWishlist = res;
+      }
+    )
   }
 
   drop(event: CdkDragDrop<Tip[]>) {
@@ -87,6 +153,7 @@ export class ProduktDetaljnoComponent implements OnInit {
   }
 
   filters(){
+    this.status3 = !this.status3;
     this.filter.ocena = []
     for( let i in this.listaOcena ){
       this.filter.ocena.push(new Ocena(this.listaOcena[i],this.ocenaForm.value.ocene.at(i).ocena));
@@ -96,6 +163,10 @@ export class ProduktDetaljnoComponent implements OnInit {
         this.lista = res.body.content as Recenzija[];
         this.totalSize = Number(res.body.totalElements);
         this.ukljucioFilter = true;
+        this.status3 = !this.status3;
+      },
+      error =>{
+        this.status3 = !this.status3;
       }
     )
   }
@@ -140,6 +211,36 @@ export class ProduktDetaljnoComponent implements OnInit {
 
   addOcena(){
     this.ocene.push(this.newOcena());
+  }
+
+  getErrorMessage(temp:any) {
+    if (temp.hasError('notANumber')) {
+      return 'Uneta vrednost nije broj';
+    }
+    else
+      return temp.hasError('viseOdNula') ? 'Količina mora biti više od 0' : '';
+  }
+
+  viseOdNula():ValidatorFn{
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      const value = control.value
+      let nV = value
+      if (typeof value == 'string') {
+        nV = value.replace(',', '.')
+      }
+      return (Number.isNaN(Number(nV)) && !control.pristine && (Number(nV)>0)) ? {viseOdNula: true} : null;
+    };
+  }
+
+  notANumber(): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      const value = control.value
+      let nV = value
+      if (typeof value == 'string') {
+        nV = value.replace(',', '.')
+      }
+      return (Number.isNaN(Number(nV)) && !control.pristine) ? {notANumber: true} : null;
+    };
   }
 
 }

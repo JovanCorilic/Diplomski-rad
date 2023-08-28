@@ -1,6 +1,7 @@
 import { HttpHeaders, HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { Artikal } from "../MODEL/Artikal";
 
 @Injectable({ providedIn: 'root' })
 export class RacunService{
@@ -8,8 +9,10 @@ export class RacunService{
     private headers = new HttpHeaders({'Content-Type': 'application/json'});
     constructor(private http: HttpClient){}
 
-    public dodajUKorpu(serijskiBroj:string){
-        
+    public dodajUKorpu(artikal:Artikal){
+        return this.http.post(this.path+"/dodajArtikal",artikal);
     }
+
+    
     
 }

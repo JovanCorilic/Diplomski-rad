@@ -19,9 +19,29 @@
             <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="600" height="400">
         </td>
         <td>
-            <button type="button" mat-raised-button color="accent">Dodaj u korpu</button> <br> <br>
-            <button type="button" mat-raised-button>Dodaj u Wishlist</button> <br> <br>
-            <button type="button" mat-raised-button color="warn">Edit</button>
+            <form>
+                Količina <br>
+                <mat-form-field appearance="fill"  [style.height.px]=65>
+                    <input matInput class="form-control" [formControl] = "kolicinaFormControl" required>
+                    <mat-error *ngIf="kolicinaFormControl.invalid">{{getErrorMessage(kolicinaFormControl)}}</mat-error>
+                  </mat-form-field> 
+                  <br> <br>
+                <button type="button" mat-raised-button color="accent" *ngIf="getRole()==='ROLE_MUSTERIJA'"  
+                [mtBasicSpinner]="status" [hideText]="status" (click)="dodajUKorpu()"
+                [disabled]="kolicinaFormControl.invalid">Dodaj u korpu</button> 
+                
+            </form>
+
+            <br> <br>
+            <button type="button" mat-raised-button *ngIf="getRole()==='ROLE_MUSTERIJA' && !daLiJeUWishlist"
+            [mtBasicSpinner]="status2" [hideText]="status2" 
+            (click)="dodajUWishlist()" >Dodaj u Wishlist</button> 
+
+            <p *ngIf="daLiJeUWishlist">U wishlist-u vam je</p>
+            <br> <br>
+
+            <button type="button" mat-raised-button color="accent" *ngIf="getRole()==='ROLE_ADMIN' || getRole()==='ROLE_PRODAVAC'">Edit</button> <br>
+            <button type="button" mat-raised-button color="warn" *ngIf="getRole()==='ROLE_ADMIN' || getRole()==='ROLE_PRODAVAC'">Delete</button>
         </td>
     </tr>
 </table>
@@ -39,7 +59,7 @@
 
             <p style="font-size: 25px;">Pretraga</p> <br>
             <div>
-                <button type="button" mat-raised-button color="primary" (click)="open(OcenaProzor)">Filter</button>&nbsp;&nbsp;
+                <button type="button" mat-raised-button color="primary" (click)="open(OcenaProzor)" [mtBasicSpinner]="status3" [hideText]="status3" >Filter</button>&nbsp;&nbsp;
         
                 <button type="button" mat-raised-button color="warn"  style="height: 50px;width: 250px;font-size: 15px;" (click)="resetuj()">Resetuj</button>
             </div>
