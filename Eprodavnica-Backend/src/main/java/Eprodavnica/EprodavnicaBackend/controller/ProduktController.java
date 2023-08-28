@@ -4,6 +4,7 @@ import Eprodavnica.EprodavnicaBackend.dto.Filter.FilterDTO;
 import Eprodavnica.EprodavnicaBackend.dto.ProduktDTO;
 import Eprodavnica.EprodavnicaBackend.dto.ProduktMiniDTO;
 import Eprodavnica.EprodavnicaBackend.mapper.ProduktMapper;
+import Eprodavnica.EprodavnicaBackend.model.Korisnik;
 import Eprodavnica.EprodavnicaBackend.model.Produkt;
 import Eprodavnica.EprodavnicaBackend.service.ProduktService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -31,6 +34,22 @@ public class ProduktController {
         Produkt produkt = produktMapper.toModel(produktDTO);
         produktService.create(produkt);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/dodajuWishlist")
+    public ResponseEntity<?> dodajUWishlist(@RequestBody String serijskiBroj){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Korisnik u=(Korisnik)auth.getPrincipal();
+        produktService.dodajUWishlist(u.getEmail(),serijskiBroj);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/daLiJeUWishlist/{serijskiBroj}")
+    public ResponseEntity<Boolean>daLiJeUWishlist(@PathVariable String serijskiBroj){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Korisnik u=(Korisnik)auth.getPrincipal();
+        Boolean temp=produktService.daLiJeUWishlist(u.getEmail(),serijskiBroj);
+        return new ResponseEntity<>(temp,HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")

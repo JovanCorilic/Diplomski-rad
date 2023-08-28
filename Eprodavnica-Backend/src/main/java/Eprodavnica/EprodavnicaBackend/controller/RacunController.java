@@ -5,12 +5,16 @@ import Eprodavnica.EprodavnicaBackend.dto.RacunDTO;
 
 import Eprodavnica.EprodavnicaBackend.mapper.RacunMapper;
 
+import Eprodavnica.EprodavnicaBackend.model.Artikal;
+import Eprodavnica.EprodavnicaBackend.model.Korisnik;
 import Eprodavnica.EprodavnicaBackend.model.Racun;
 import Eprodavnica.EprodavnicaBackend.service.RacunService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -28,6 +32,14 @@ public class RacunController {
     public ResponseEntity<?> createProdukt(@RequestBody RacunDTO racunDTO){
         Racun racun = racunMapper.toModel(racunDTO);
         racunService.create(racun);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/dodajArtikal")
+    public ResponseEntity<?>dodajArtikal(@RequestBody Artikal artikal){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Korisnik u=(Korisnik)auth.getPrincipal();
+        racunService.dodajArtikal(artikal,u.getEmail());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

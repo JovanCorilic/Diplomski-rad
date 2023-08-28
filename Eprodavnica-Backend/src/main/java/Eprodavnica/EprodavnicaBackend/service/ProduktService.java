@@ -1,9 +1,9 @@
 package Eprodavnica.EprodavnicaBackend.service;
 
-import Eprodavnica.EprodavnicaBackend.dto.Filter.CenaDTO;
 import Eprodavnica.EprodavnicaBackend.dto.Filter.FilterDTO;
 import Eprodavnica.EprodavnicaBackend.dto.Filter.OcenaDTO;
 import Eprodavnica.EprodavnicaBackend.dto.Filter.TipFilterDTO;
+import Eprodavnica.EprodavnicaBackend.model.Korisnik;
 import Eprodavnica.EprodavnicaBackend.model.Produkt;
 import Eprodavnica.EprodavnicaBackend.model.Tip;
 import Eprodavnica.EprodavnicaBackend.repository.KorisnikRepository;
@@ -13,14 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.NumberUtils;
 
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class ProduktService implements ServiceInterface<Produkt>{
@@ -92,6 +90,20 @@ public class ProduktService implements ServiceInterface<Produkt>{
         entity.setProdavac(korisnikRepository.findByEmail(entity.getProdavac().getEmail()));
         entity.setDatumPravljenja(new Date());
         return produktRepository.save(entity);
+    }
+
+    public void dodajUWishlist(String email, String serijskiBroj){
+        Produkt produkt = produktRepository.findBySerijskiBroj(serijskiBroj).orElse(null);
+        if (produkt!=null){
+            Korisnik korisnik = korisnikRepository.findByEmail(email);
+            korisnik.getWishlist().add(produkt);
+            korisnikRepository.save(korisnik);
+        }
+    }
+
+    public Boolean daLiJeUWishlist(String email, String serijskiBroj){
+        Korisnik korisnik = korisnikRepository.findByEmail(email);
+        return korisnik.getWishlist().contains(produktRepository.findBySerijskiBroj(serijskiBroj).orElse(null));
     }
 
     @Override

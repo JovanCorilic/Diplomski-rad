@@ -1,12 +1,18 @@
 package Eprodavnica.EprodavnicaBackend.service;
 
+import Eprodavnica.EprodavnicaBackend.dto.Filter.FilterDTO;
+import Eprodavnica.EprodavnicaBackend.dto.Filter.OcenaDTO;
+import Eprodavnica.EprodavnicaBackend.model.Produkt;
 import Eprodavnica.EprodavnicaBackend.model.Recenzija;
 import Eprodavnica.EprodavnicaBackend.repository.KorisnikRepository;
 import Eprodavnica.EprodavnicaBackend.repository.ProduktRepository;
 import Eprodavnica.EprodavnicaBackend.repository.RecenzijaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +28,22 @@ public class RecenzijaService implements ServiceInterface<Recenzija>{
     @Override
     public List<Recenzija> findAll() {
         return recenzijaRepository.findAll();
+    }
+
+    public Page<Recenzija>findAllPageable(Pageable pageable,String serijskiBroj){
+        Produkt produkt = produktRepository.findBySerijskiBroj(serijskiBroj).orElse(null);
+        return recenzijaRepository.findByProdukt(produkt,pageable);
+    }
+
+    public Page<Recenzija>filterPageable(Pageable pageable, String serijskiBroj, FilterDTO filterDTO){
+        List<Integer>ocene = new ArrayList<>();
+        for (OcenaDTO ocenaDTO : filterDTO.getOcena()){
+            if (ocenaDTO.isKoristiSe())
+                ocene.add(ocenaDTO.getOcena());
+        }
+        Produkt produkt = produktRepository.findBySerijskiBroj(serijskiBroj).orElse(null);
+        return recenzijaRepository.findByOcenaInAndProdukt(ocene,produkt,pageable);
+
     }
 
     public Recenzija findOne(Integer id) {

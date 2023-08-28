@@ -1,6 +1,8 @@
 package Eprodavnica.EprodavnicaBackend.controller;
 
+import Eprodavnica.EprodavnicaBackend.dto.Filter.FilterDTO;
 import Eprodavnica.EprodavnicaBackend.dto.ProduktDTO;
+import Eprodavnica.EprodavnicaBackend.dto.ProduktMiniDTO;
 import Eprodavnica.EprodavnicaBackend.dto.RecenzijaDTO;
 import Eprodavnica.EprodavnicaBackend.mapper.ProduktMapper;
 import Eprodavnica.EprodavnicaBackend.mapper.RecenzijaMapper;
@@ -8,6 +10,9 @@ import Eprodavnica.EprodavnicaBackend.model.Produkt;
 import Eprodavnica.EprodavnicaBackend.model.Recenzija;
 import Eprodavnica.EprodavnicaBackend.service.RecenzijaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -52,6 +57,23 @@ public class RecenzijaController {
             lista.add(recenzijaMapper.toDto(recenzija));
         }
         return new ResponseEntity<>(lista,HttpStatus.OK);
+    }
+
+    @GetMapping("/by-page/{serijskiBroj}")
+    public ResponseEntity<Page<RecenzijaDTO>>getRecenzijaPageable(@PathVariable String serijskiBroj, Pageable pageable){
+        Page<Recenzija>page = recenzijaService.findAllPageable(pageable,serijskiBroj);
+        List<RecenzijaDTO>lista = recenzijaMapper.uListuDTO(page.toList());
+        Page<RecenzijaDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
+    @PostMapping("/filter-by-page/{serijskiBroj}")
+    public ResponseEntity<Page<RecenzijaDTO>>getProduktFilter(@RequestBody FilterDTO filterDTO,
+                                                                @PathVariable String  serijskiBroj,Pageable pageable){
+        Page<Recenzija>page = recenzijaService.filterPageable(pageable,serijskiBroj,filterDTO);
+        List<RecenzijaDTO>lista = recenzijaMapper.uListuDTO(page.toList());
+        Page<RecenzijaDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
     public RecenzijaController() {
