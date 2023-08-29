@@ -24,5 +24,9 @@ export class ProduktService{
     public napraviProdukt(produkt:Produkt){
         return this.http.post(this.path+"/create",produkt);
     }
+
+    public updateProdukt(produkt:Produkt, serijskiBroj:string){
+        return this.http.put(this.path+"/update"+`/${serijskiBroj}`,produkt);
+    }
     
 }

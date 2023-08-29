@@ -49,7 +49,7 @@ export class ProduktDetaljnoComponent implements OnInit {
 		this.currentPage = 1;
 		this.totalSize = 1;
 
-    let temp=this.route.snapshot.paramMap.get('id');
+    let temp=this.route.snapshot.paramMap.get('serijskiBroj');
     if(temp != null)
         this.serijskiBroj = temp;
     else
@@ -58,6 +58,31 @@ export class ProduktDetaljnoComponent implements OnInit {
     this.ocenaForm = fBuilder.group({
       ocene: this.fBuilder.array([])
     })
+  }
+
+  ngOnInit(): void {
+    this.produktService.dajProdukt(this.serijskiBroj).subscribe(
+      res=>{
+        this.produkt = res;
+      }
+    )
+
+    this.recenzijaService.getByPage(this.currentPage - 1,this.pageSize,this.serijskiBroj).subscribe(
+      res =>{
+        this.lista = res.content as Recenzija[];
+        this.totalSize = Number(res.totalElements);
+      }
+    )
+
+    for (let i in this.listaOcena){
+      this.addOcena();
+    }
+
+    this.produktService.daLiJeUWishlist(this.serijskiBroj).subscribe(
+      res=>{
+        this.daLiJeUWishlist = res;
+      }
+    )
   }
 
   dodajUKorpu(){
@@ -109,31 +134,6 @@ export class ProduktDetaljnoComponent implements OnInit {
     const decodedItem = JSON.parse(item!);
     const info = jwt.decodeToken(decodedItem.accessToken);
     return info['uloga'];
-  }
-  
-  ngOnInit(): void {
-    this.produktService.dajProdukt(this.serijskiBroj).subscribe(
-      res=>{
-        this.produkt = res;
-      }
-    )
-
-    this.recenzijaService.getByPage(this.currentPage - 1,this.pageSize,this.serijskiBroj).subscribe(
-      res =>{
-        this.lista = res.content as Recenzija[];
-        this.totalSize = Number(res.totalElements);
-      }
-    )
-
-    for (let i in this.listaOcena){
-      this.addOcena();
-    }
-
-    this.produktService.daLiJeUWishlist(this.serijskiBroj).subscribe(
-      res=>{
-        this.daLiJeUWishlist = res;
-      }
-    )
   }
 
   drop(event: CdkDragDrop<Tip[]>) {

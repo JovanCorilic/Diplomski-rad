@@ -42,7 +42,7 @@
 
     <div><br></div>
 
-    <button type="submit"
+    <button type="submit" [mtBasicSpinner]="status" [hideText]="status"
                 [disabled]="produktForm.invalid">
                 Napravi
             </button>
