@@ -1,1 +1,81 @@
-<p>produkt-create works!</p>
+<form [formGroup]="produktForm" (ngSubmit)="create()" style="text-align: center;">
+
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="600" height="400">
+
+    <mat-form-field appearance="outline">
+        <mat-label>Unesite naziv produkta</mat-label>
+        <input matInput placeholder="Naziv produkta" class="form-control" formControlName = "naziv" required>
+        <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="produktForm.controls.naziv.setValue('')">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-error *ngIf="produktForm.controls.naziv.invalid">{{getErrorMessage(produktForm.controls.naziv)}}</mat-error>
+        <mat-hint>Naziv produkta</mat-hint>
+    </mat-form-field>
+
+    <div><br></div>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Unesite deskripciju produkta</mat-label>
+        <textarea matInput placeholder="Deskripcija produkta" class="form-control" formControlName = "deskripcija" required></textarea>
+        <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="produktForm.controls.deskripcija.setValue('')">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-error *ngIf="produktForm.controls.deskripcija.invalid">{{getErrorMessage(produktForm.controls.deskripcija)}}</mat-error>
+        <mat-hint>Deskripcija produkta</mat-hint>
+    </mat-form-field>
+
+    <div><br></div>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Unesite cenu produkta</mat-label>
+        <input matInput placeholder="1000.50" class="form-control" formControlName = "cena" required>
+        <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="produktForm.controls.cena.setValue(-1)">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-error *ngIf="produktForm.controls.cena.invalid">{{getErrorMessage(produktForm.controls.cena)}}</mat-error>
+        <mat-hint>Cena produkta</mat-hint>
+    </mat-form-field>din.
+
+    <div><br></div>
+
+    <button type="button" mat-raised-button color="accent" (click)="open(tipoviProzor)">Tipovi</button>
+
+    <div><br></div>
+
+    <button type="submit"
+                [disabled]="produktForm.invalid">
+                Napravi
+            </button>
+</form>
+
+<ng-template #tipoviProzor let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" 
+            id="modal-basic-title">
+            Tipovi
+        </h4>
+        <button type="button" class="close"
+                aria-label="Close" (click)=
+                "modal.dismiss('Cross click')">
+  
+            <span aria-hidden="true">
+                ×
+            </span>
+        </button>
+    </div>
+    <form [formGroup]="produktForm">
+        <div class="modal-body">
+                <div class="form-group">
+                    <div class="input-group" formArrayName="tipovi">
+                        <div *ngFor="let tip of tipovi.controls; let i=index">
+                          <div  [formGroupName]="i">
+                            <mat-checkbox formControlName="tip" color="accent">{{listaTipova[i].naziv}}</mat-checkbox>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div [ngClass]="['modal-footer','form-group']">
+        </div>
+    </form>
+  </ng-template>

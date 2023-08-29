@@ -32,6 +32,7 @@ import { RecenzijaCreateComponent } from './RECENZIJA/recenzija-create/recenzija
 import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips';
 import {CdkDrag, CdkDropList} from '@angular/cdk/drag-drop';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import {CdkDrag, CdkDropList} from '@angular/cdk/drag-drop';
     MatCardModule,
     MatChipsModule,
     CdkDropList,
-    CdkDrag
+    CdkDrag,
+    MatIconModule,
   ],
   providers: [
     {

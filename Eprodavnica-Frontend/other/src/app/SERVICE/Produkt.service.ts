@@ -20,5 +20,9 @@ export class ProduktService{
     public daLiJeUWishlist(serijskiBroj:string):Observable<boolean>{
         return this.http.get<boolean>(this.path+"/daLiJeUWishlist"+`/${serijskiBroj}`)
     }
+
+    public napraviProdukt(produkt:Produkt){
+        return this.http.post(this.path+"/create",produkt);
+    }
     
 }

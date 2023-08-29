@@ -48,7 +48,8 @@
 <br>
 <mat-tab-group dynamicHeight>
     <mat-tab label="Deskripcija">
-        <p>Ocena : &nbsp; {{produkt.ocena}}</p>
+        <p *ngIf="produkt.ocena>0">Ocena : &nbsp; {{produkt.ocena}}</p>
+        <p *ngIf="produkt.ocena==-1">Ovaj produkt nema recenzije</p>
         <p>Cena : &nbsp; {{produkt.cena}}</p>
         <h3>Deskripcija</h3>
         <p>
