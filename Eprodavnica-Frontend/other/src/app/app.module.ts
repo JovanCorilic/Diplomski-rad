@@ -33,6 +33,9 @@ import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips';
 import {CdkDrag, CdkDropList} from '@angular/cdk/drag-drop';
 import {MatIconModule} from '@angular/material/icon';
+import { MusterijaComponent } from './MOJ-PROFIL/musterija/musterija.component';
+import { ProdavacComponent } from './MOJ-PROFIL/prodavac/prodavac.component';
+import { AdminComponent } from './MOJ-PROFIL/admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +45,10 @@ import {MatIconModule} from '@angular/material/icon';
     ProduktEditComponent,
     PaginationComponent,
     RecenzijaTableComponent,
-    RecenzijaCreateComponent
+    RecenzijaCreateComponent,
+    MusterijaComponent,
+    ProdavacComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,

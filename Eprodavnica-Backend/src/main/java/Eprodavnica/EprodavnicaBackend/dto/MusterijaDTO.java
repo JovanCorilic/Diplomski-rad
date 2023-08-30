@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Getter
@@ -20,6 +21,7 @@ public class MusterijaDTO {
     private List<RacunDTO>listaRacuna;
     private List<RecenzijaDTO>listaRecenzija;
     private List<ProduktMiniDTO>wishlist;
+    private HashSet<ProduktMiniDTO>istorijaKupljenihProdukata;
 
     public boolean proveraPodataka(){
         if (ime.isEmpty() || prezime.isEmpty() || email.isEmpty() || lozinka.isEmpty())

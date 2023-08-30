@@ -9,6 +9,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -63,6 +64,9 @@ public class Produkt {
 
     @ManyToMany(mappedBy = "wishlist")
     private List<Korisnik>wishlist;
+
+    @ManyToMany(mappedBy = "istorijaKupljenihProdukata")
+    private HashSet<Korisnik>istorijaKupaca;
 
     public Produkt(String naziv, String deskripcija, String serijskiBroj, double cena, double ocena,
                    Date datumPravljenja, int akcija, List<Tip> listaTipova, Korisnik prodavac,

@@ -52,10 +52,10 @@ public class ProduktController {
         return new ResponseEntity<>(temp,HttpStatus.OK);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?>updateProdukt(@RequestBody ProduktDTO produktDTO , @PathVariable String id){
+    @PutMapping("/update/{serijskiBroj}")
+    public ResponseEntity<?>updateProdukt(@RequestBody ProduktDTO produktDTO , @PathVariable String serijskiBroj){
         Produkt produkt = produktMapper.toModel(produktDTO);
-        produktService.update(produkt,id);
+        produktService.update(produkt,serijskiBroj);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

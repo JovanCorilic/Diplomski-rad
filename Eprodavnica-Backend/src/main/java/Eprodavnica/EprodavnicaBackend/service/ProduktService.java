@@ -89,6 +89,7 @@ public class ProduktService implements ServiceInterface<Produkt>{
         }
         entity.setProdavac(korisnikRepository.findByEmail(entity.getProdavac().getEmail()));
         entity.setDatumPravljenja(new Date());
+        entity.setOcena(-1.0);
         return produktRepository.save(entity);
     }
 

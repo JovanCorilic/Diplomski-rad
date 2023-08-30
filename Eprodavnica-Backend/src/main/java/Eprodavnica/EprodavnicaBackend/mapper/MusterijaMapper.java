@@ -4,6 +4,7 @@ import Eprodavnica.EprodavnicaBackend.dto.*;
 import Eprodavnica.EprodavnicaBackend.model.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class MusterijaMapper implements MapperInterface<Korisnik, MusterijaDTO> {
@@ -30,7 +31,14 @@ public class MusterijaMapper implements MapperInterface<Korisnik, MusterijaDTO> 
         for (ProduktMiniDTO produktMiniDTO : dto.getWishlist()){
             produkts.add(produktMapper.toMini(produktMiniDTO));
         }
-        return new Korisnik(dto.getIme(),dto.getPrezime(),dto.getEmail(),tips,racuns,recenzijas,produkts);
+
+        HashSet<Produkt>istorijaKupljenihProdukata = new HashSet<>();
+        for (ProduktMiniDTO produktMiniDTO : dto.getIstorijaKupljenihProdukata()){
+            istorijaKupljenihProdukata.add(produktMapper.toMini(produktMiniDTO));
+        }
+
+        return new Korisnik(dto.getIme(),dto.getPrezime(),dto.getEmail(),tips,racuns,recenzijas,
+                produkts,istorijaKupljenihProdukata);
     }
 
     @Override
@@ -48,8 +56,14 @@ public class MusterijaMapper implements MapperInterface<Korisnik, MusterijaDTO> 
             recenzijaDTOS.add(recenzijaMapper.toDto(recenzija));
         }
         List<ProduktMiniDTO>produktMiniDTOS = produktMapper.toDTOListaMiniProdukt(entity.getWishlist());
+
+        HashSet<ProduktMiniDTO>istorijaKupljenihProdukata = new HashSet<>();
+        for (Produkt produkt : entity.getIstorijaKupljenihProdukata()){
+            istorijaKupljenihProdukata.add(produktMapper.toDTOMini(produkt));
+        }
+
         return new MusterijaDTO(entity.getIme(),entity.getPrezime(),entity.getEmail(),"-1",tipDTOS,racunDTOS,
-                recenzijaDTOS,produktMiniDTOS);
+                recenzijaDTOS,produktMiniDTOS,istorijaKupljenihProdukata);
     }
 
     public MusterijaMapper() {
