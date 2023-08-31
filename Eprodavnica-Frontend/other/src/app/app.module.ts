@@ -40,8 +40,10 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { ListaRacunaPageComponent } from './MOJ-PROFIL/musterija/lista-racuna-page/lista-racuna-page.component';
 import { ListaRecenzijaPageComponent } from './MOJ-PROFIL/musterija/lista-recenzija-page/lista-recenzija-page.component';
 import {MatTableModule} from '@angular/material/table';
-import { TabelaProdukataComponent } from './MOJ-PROFIL/tabele-i-liste/tabela-produkata/tabela-produkata.component';
-import { ListaProduktPageComponent } from './MOJ-PROFIL/tabele-i-liste/lista-produkt-page/lista-produkt-page.component';
+import { TabelaProdukataComponent } from './MOJ-PROFIL/tabele-i-liste/produkt/tabela-produkata/tabela-produkata.component';
+import { ListaProduktPageComponent } from './MOJ-PROFIL/tabele-i-liste/produkt/lista-produkt-page/lista-produkt-page.component';
+import { TabelaRacunaComponent } from './MOJ-PROFIL/tabele-i-liste/racun/tabela-racuna/tabela-racuna.component';
+import { ListaRacunPageComponent } from './MOJ-PROFIL/tabele-i-liste/racun/lista-racun-page/lista-racun-page.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,9 @@ import { ListaProduktPageComponent } from './MOJ-PROFIL/tabele-i-liste/lista-pro
     ListaRacunaPageComponent,
     ListaRecenzijaPageComponent,
     TabelaProdukataComponent,
-    ListaProduktPageComponent
+    ListaProduktPageComponent,
+    TabelaRacunaComponent,
+    ListaRacunPageComponent
   ],
   imports: [
     BrowserModule,

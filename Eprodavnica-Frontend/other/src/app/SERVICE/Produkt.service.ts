@@ -73,4 +73,8 @@ export class ProduktService{
 		});
         return this.http.post(this.path+'/filter-by-pageWishlist',filter, queryParams);
     }
+
+    public izbaciIzWishlista(serijskiBroj:string){
+        return this.http.post(this.path+"/izbaciIzWishlista",serijskiBroj);
+    }
 }

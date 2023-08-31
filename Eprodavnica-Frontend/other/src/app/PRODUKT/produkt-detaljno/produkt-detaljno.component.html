@@ -37,7 +37,10 @@
             [mtBasicSpinner]="status2" [hideText]="status2" 
             (click)="dodajUWishlist()" >Dodaj u Wishlist</button> 
 
-            <p *ngIf="daLiJeUWishlist">U wishlist-u vam je</p>
+            <button type="button" mat-raised-button *ngIf="getRole()==='ROLE_MUSTERIJA' && daLiJeUWishlist"
+            [mtBasicSpinner]="status2" [hideText]="status2" color="warn"
+            (click)="dodajUWishlist()">U wishlist-u vam je</button>
+
             <br> <br>
 
             <button type="button" mat-raised-button color="accent" *ngIf="getRole()==='ROLE_ADMIN' || getRole()==='ROLE_PRODAVAC'">Edit</button> <br>

@@ -115,6 +115,19 @@ export class ProduktDetaljnoComponent implements OnInit {
     )
   }
 
+  izbaciIzWishlista(){
+    this.status2 = !this.status2;
+    this.produktService.izbaciIzWishlista(this.serijskiBroj).subscribe(
+      res=>{
+        this.daLiJeUWishlist= true
+        this.status2 = !this.status2;
+      },
+      error =>{
+        this.status2 = !this.status2;
+      }
+    )
+  }
+
   edit(){
 
   }
