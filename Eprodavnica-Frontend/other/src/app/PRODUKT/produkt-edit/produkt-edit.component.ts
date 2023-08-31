@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TipFilter } from 'src/app/MODEL/Filter/TipFilter';
 import { Produkt } from 'src/app/MODEL/Produkt';
 import { Tip } from 'src/app/MODEL/Tip';
 import { ProduktService } from 'src/app/SERVICE/Produkt.service';
@@ -49,7 +50,7 @@ export class ProduktEditComponent implements OnInit{
         this.produktForm.controls.deskripcija.setValue(this.produkt.deskripcija);
         this.produktForm.controls.cena.setValue(this.produkt.cena);
 
-        this.tipService.getAllTip().subscribe(
+        this.tipService.getAllTipNormalno().subscribe(
           res=>{
             this.listaTipova = res;
             for( let tip of this.listaTipova ){

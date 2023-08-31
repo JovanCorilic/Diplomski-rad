@@ -1,0 +1,122 @@
+<mat-drawer-container  style="height: 120vh;" autosize>
+    <mat-drawer #drawer class="example-sidenav" mode="side" opened>
+      <p style="font-size: 25px;">Pretraga</p>
+
+      <mat-divider></mat-divider> <br>
+
+      <form [formGroup]="filterForm" (ngSubmit)="filters()">
+        Naziv produkta <br>
+        <mat-form-field appearance="fill"  [style.height.px]=65>
+          <input matInput class="form-control" formControlName = "naziv" required>
+        </mat-form-field> 
+
+        <br> <br><mat-divider></mat-divider> <br>
+
+        Cena <br>Od
+        <mat-form-field appearance="fill"  [style.height.px]=65>
+          <input matInput class="form-control" formControlName = "od" required>
+          <mat-error *ngIf="filterForm.controls.od.invalid">{{getErrorMessageFilter(filterForm.controls.od)}}</mat-error>
+        </mat-form-field> 
+        <br>Do 
+        <mat-form-field appearance="fill"  [style.height.px]=65>
+          <input matInput class="form-control" formControlName = "do" required>
+          <mat-error *ngIf="filterForm.controls.do.invalid">{{getErrorMessageFilter(filterForm.controls.do)}}</mat-error>
+        </mat-form-field>
+
+        <br> <br><mat-divider></mat-divider> <br>
+
+        <button type="button" mat-raised-button color="accent"  style="height: 28px;width: 250px;font-size: 15px;" (click)="open(tipoviProzor)">Tipovi</button>
+
+        <br> <br><mat-divider></mat-divider> <br>
+
+        <button type="button" mat-raised-button color="accent"  style="height: 28px;width: 250px;font-size: 15px;" (click)="open(OcenaProzor)">Ocene</button>
+
+        <br> <br><mat-divider></mat-divider> <br>
+
+        <button type="submit" mat-raised-button color="primary"  style="height: 50px;width: 250px;font-size: 15px;" 
+        [mtBasicSpinner]="status" [hideText]="status">Pretraži</button>
+
+        <br> <br><mat-divider></mat-divider> <br>
+
+        <button type="button" mat-raised-button color="warn"  style="height: 50px;width: 250px;font-size: 15px;" (click)="resetuj()" 
+        [mtBasicSpinner]="status2" [hideText]="status2">Resetuj</button>
+      </form>
+
+    </mat-drawer>
+  
+    <div class="example-sidenav-content">
+      <div>
+        <app-tabela-produkata [listaProdukata]="lista"></app-tabela-produkata>
+      </div>
+      <br>
+      <div style="text-align: center;">
+        <app-pagination [totalItems]="totalSize" [pageSize]="pageSize" (pageSelected)="changePage($event)">
+          
+        </app-pagination>
+      </div>  
+    </div>
+</mat-drawer-container>
+
+<ng-template #tipoviProzor let-modal>
+  <div class="modal-header">
+      <h4 class="modal-title" 
+          id="modal-basic-title">
+          Tipovi
+      </h4>
+      <button type="button" class="close"
+              aria-label="Close" (click)=
+              "modal.dismiss('Cross click')">
+
+          <span aria-hidden="true">
+              ×
+          </span>
+      </button>
+  </div>
+  <form [formGroup]="filterForm">
+      <div class="modal-body">
+              <div class="form-group">
+                  <div class="input-group" formArrayName="tipovi">
+                      <div *ngFor="let tip of tipovi.controls; let i=index">
+                        <div  [formGroupName]="i">
+                          <mat-checkbox formControlName="tip" color="accent">{{listaTipova[i].naziv}}</mat-checkbox>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+      </div>
+      <div [ngClass]="['modal-footer','form-group']">
+      </div>
+  </form>
+</ng-template>
+
+<ng-template #OcenaProzor let-modal>
+  <div class="modal-header">
+      <h4 class="modal-title" 
+          id="modal-basic-title">
+          Ocene
+      </h4>
+      <button type="button" class="close"
+              aria-label="Close" (click)=
+              "modal.dismiss('Cross click')">
+
+          <span aria-hidden="true">
+              ×
+          </span>
+      </button>
+  </div>
+  <form [formGroup]="filterForm">
+      <div class="modal-body">
+              <div class="form-group">
+                  <div class="input-group" formArrayName="ocene">
+                      <div *ngFor="let ocena of ocene.controls; let i=index">
+                        <div  [formGroupName]="i">
+                          <mat-checkbox formControlName="ocena" color="accent">{{listaOcena[i]}}</mat-checkbox>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+      </div>
+      <div [ngClass]="['modal-footer','form-group']">
+      </div>
+  </form>
+</ng-template>

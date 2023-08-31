@@ -7,7 +7,7 @@ import { ProduktCreateComponent } from './PRODUKT/produkt-create/produkt-create.
 import { RoleGuard } from './SECURITY/RoleGuard';
 import { ProduktEditComponent } from './PRODUKT/produkt-edit/produkt-edit.component';
 import { AdminComponent } from './MOJ-PROFIL/admin/admin.component';
-import { MusterijaComponent } from './MOJ-PROFIL/musterija/musterija.component';
+import { MusterijaComponent } from './MOJ-PROFIL/musterija/musterija/musterija.component';
 import { ProdavacComponent } from './MOJ-PROFIL/prodavac/prodavac.component';
 
 const routes: Routes = [

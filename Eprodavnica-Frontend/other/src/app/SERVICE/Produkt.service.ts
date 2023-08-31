@@ -1,7 +1,8 @@
-import { HttpHeaders, HttpClient } from "@angular/common/http";
+import { HttpHeaders, HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Produkt } from "../MODEL/Produkt";
 import { Observable } from "rxjs";
+import { Filter } from "../MODEL/Filter/Filter";
 
 @Injectable({ providedIn: 'root' })
 export class ProduktService{
@@ -29,4 +30,47 @@ export class ProduktService{
         return this.http.put(this.path+"/update"+`/${serijskiBroj}`,produkt);
     }
     
+    public getByPageIstorijaProdukata(page:number,size:number): Observable<any>{
+        return this.http.get(this.path+"/by-pageIstorijaProdukata?page="+page+"&size="+size, {headers:this.headers})
+	}
+
+    public filterByPageIstorijaProdukata(filter:Filter, page:number,size:number):Observable<any>{
+        let queryParams = {};
+
+		queryParams = {
+			headers:new HttpHeaders({
+				'Content-Type': 'application/json'
+			}),
+			observe: 'response',
+			params: new HttpParams()
+				.set('page', String(page))
+				.append('size', String(size)),
+		};
+		const headeri=new HttpHeaders({
+			'Content-Type': 'application/json'
+		});
+        return this.http.post(this.path+'/filter-by-pageIstorijaProdukata',filter, queryParams);
+    }
+
+    public getByPageWishlist(page:number,size:number): Observable<any>{
+        return this.http.get(this.path+"/by-pageWishlist?page="+page+"&size="+size, {headers:this.headers})
+	}
+
+    public filterByPageWishlist(filter:Filter, page:number,size:number):Observable<any>{
+        let queryParams = {};
+
+		queryParams = {
+			headers:new HttpHeaders({
+				'Content-Type': 'application/json'
+			}),
+			observe: 'response',
+			params: new HttpParams()
+				.set('page', String(page))
+				.append('size', String(size)),
+		};
+		const headeri=new HttpHeaders({
+			'Content-Type': 'application/json'
+		});
+        return this.http.post(this.path+'/filter-by-pageWishlist',filter, queryParams);
+    }
 }

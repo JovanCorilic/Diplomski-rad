@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TipFilter } from 'src/app/MODEL/Filter/TipFilter';
 import { Produkt } from 'src/app/MODEL/Produkt';
 import { Tip } from 'src/app/MODEL/Tip';
 import { ProduktService } from 'src/app/SERVICE/Produkt.service';
@@ -15,7 +16,7 @@ import { TipService } from 'src/app/SERVICE/Tip.service';
 export class ProduktCreateComponent implements OnInit{
   produktForm: FormGroup
   produkt = <Produkt>{}
-  listaTipova: Tip[] = [];
+  listaTipova: TipFilter[] = [];
   status:boolean= false
 
   constructor(

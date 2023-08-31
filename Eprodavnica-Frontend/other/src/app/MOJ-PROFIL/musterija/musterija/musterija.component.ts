@@ -1,0 +1,101 @@
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatSnackBar } from '@angular/material/snack-bar';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Cena } from 'src/app/MODEL/Filter/Cena';
+import { Filter } from 'src/app/MODEL/Filter/Filter';
+import { Ocena } from 'src/app/MODEL/Filter/Ocena';
+import { TipFilter } from 'src/app/MODEL/Filter/TipFilter';
+import { Musterija } from 'src/app/MODEL/Musterija';
+import { ProduktMini } from 'src/app/MODEL/ProduktMini';
+import { Tip } from 'src/app/MODEL/Tip';
+import { KorisnikService } from 'src/app/SERVICE/Korisnik.service';
+import { ProduktService } from 'src/app/SERVICE/Produkt.service';
+import { RacunService } from 'src/app/SERVICE/Racun.service';
+import { TipService } from 'src/app/SERVICE/Tip.service';
+
+@Component({
+  selector: 'app-musterija',
+  templateUrl: './musterija.component.html',
+  styleUrls: ['./musterija.component.css']
+})
+export class MusterijaComponent implements OnInit{
+  musterija = <Musterija>{}
+
+  korisnikForm : FormGroup
+
+
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+
+  constructor(
+    private korisnikService:KorisnikService,
+    private _snackBar: MatSnackBar,
+    private modalService: NgbModal,
+    private fBuilder: FormBuilder,
+    private tipService:TipService,
+    private produktService:ProduktService,
+    private racunService:RacunService
+  ){
+
+    this.korisnikForm = fBuilder.group({
+      ime: ["",[Validators.required]],
+      prezime: ["",[Validators.required]],
+    })
+
+  }
+
+  ngOnInit(): void {
+    this.korisnikService.dajMusteriju().subscribe(
+      res=>{
+        this.musterija = res;
+        this.korisnikForm.controls.ime.setValue(this.musterija.ime);
+        this.korisnikForm.controls.prezime.setValue(this.musterija.prezime);
+      }
+    )
+  }
+
+  update(){
+    
+  }
+
+  open(content:any) {
+    this.modalService.open(content,
+   {ariaLabelledBy: 'modal-basic-title'}).result.then( 
+    result =>  { 
+      
+    }, (reason) => {
+      
+    });
+  }
+
+  getErrorMessage(temp:any) {
+    if (temp.hasError('required')) {
+      return 'Morate uneti vrednost';
+    }
+    else if (temp.hasError('notANumber')) {
+      return 'Morate uneti broj';
+    }
+    else if (temp.hasError('daLiImaSpecijalanKarakter')) {
+      return 'Morate uneti specijalni karakter';
+    }
+    else
+    return temp.hasError('email') ? 'To nije validan email' : '';
+  }
+
+  getErrorMessageFilter(temp:any) {
+    return temp.hasError('notANumber') ? 'Morate uneti broj' : '';
+  }
+
+  notANumber(): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      const value = control.value
+      let nV = value
+      if (typeof value == 'string') {
+        nV = value.replace(',', '.')
+      }
+      return (Number.isNaN(Number(nV)) && !control.pristine) ? {notANumber: true} : null;
+    };
+  }
+
+}

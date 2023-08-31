@@ -33,9 +33,15 @@ import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips';
 import {CdkDrag, CdkDropList} from '@angular/cdk/drag-drop';
 import {MatIconModule} from '@angular/material/icon';
-import { MusterijaComponent } from './MOJ-PROFIL/musterija/musterija.component';
+import { MusterijaComponent } from './MOJ-PROFIL/musterija/musterija/musterija.component';
 import { ProdavacComponent } from './MOJ-PROFIL/prodavac/prodavac.component';
 import { AdminComponent } from './MOJ-PROFIL/admin/admin.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { ListaRacunaPageComponent } from './MOJ-PROFIL/musterija/lista-racuna-page/lista-racuna-page.component';
+import { ListaRecenzijaPageComponent } from './MOJ-PROFIL/musterija/lista-recenzija-page/lista-recenzija-page.component';
+import {MatTableModule} from '@angular/material/table';
+import { TabelaProdukataComponent } from './MOJ-PROFIL/tabele-i-liste/tabela-produkata/tabela-produkata.component';
+import { ListaProduktPageComponent } from './MOJ-PROFIL/tabele-i-liste/lista-produkt-page/lista-produkt-page.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +54,11 @@ import { AdminComponent } from './MOJ-PROFIL/admin/admin.component';
     RecenzijaCreateComponent,
     MusterijaComponent,
     ProdavacComponent,
-    AdminComponent
+    AdminComponent,
+    ListaRacunaPageComponent,
+    ListaRecenzijaPageComponent,
+    TabelaProdukataComponent,
+    ListaProduktPageComponent
   ],
   imports: [
     BrowserModule,
@@ -74,6 +84,8 @@ import { AdminComponent } from './MOJ-PROFIL/admin/admin.component';
     CdkDropList,
     CdkDrag,
     MatIconModule,
+    MatSnackBarModule,
+    MatTableModule
   ],
   providers: [
     {
