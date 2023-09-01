@@ -58,6 +58,7 @@ export class ProduktCreateComponent implements OnInit{
     this.produktService.napraviProdukt(this.produkt).subscribe(
       res=>{
         this.status = !this.status
+        this.router.navigate([''])
       },
       error=>{
         this.status = !this.status

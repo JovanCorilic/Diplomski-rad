@@ -32,4 +32,8 @@ export class TabelaProdukataComponent {
       return false;
     };
   }
+
+  idiNaProdukt(serijskiBroj:string){
+    this.router.navigate(['/other/produktDetaljno/'+serijskiBroj])
+  }
 }

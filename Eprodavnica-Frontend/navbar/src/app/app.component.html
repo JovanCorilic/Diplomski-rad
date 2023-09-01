@@ -7,13 +7,24 @@
     </button>&nbsp;&nbsp;
     <span>E-Prodavnica</span>&nbsp;&nbsp;
 
-    <button mat-raised-button color="accent"
-    *ngIf="getRole()==='ROLE_MUSTERIJA' || getRole()==='ROLE_PRODAVAC'"
-    >Moj profil</button>&nbsp;&nbsp;
+    <span *ngIf="getRole()==='ROLE_MUSTERIJA' || getRole()==='ROLE_PRODAVAC'">
+      <button mat-raised-button color="accent" (click)="idiNaProfil(getRole())">Moj profil</button>
+      &nbsp;&nbsp;
+    </span>
 
-    <button mat-raised-button color="accent"
-    *ngIf="getRole()==='ROLE_SUPERADMIN'"
-    >Odobrenje admin akaunta</button>&nbsp;&nbsp;
+    <span *ngIf="getRole()==='ROLE_PRODAVAC'">
+      <button mat-raised-button color="accent" (click)="pravljenjeProdukta()">Pravljenje produkta</button>
+      &nbsp;&nbsp;
+    </span>
+
+    <span *ngIf="getRole()==='ROLE_ADMIN'">
+      <button mat-raised-button color="accent" (click)="pregledSajta()">Pregled sajta</button>
+      &nbsp;&nbsp;
+    </span>
+
+    <span *ngIf="getRole()==='ROLE_SUPERADMIN'">
+      <button mat-raised-button color="accent">Odobrenje admin akaunta</button>&nbsp;&nbsp;
+    </span>
 
     <span class="example-spacer"></span>
     <button mat-raised-button color="accent" [mtBasicSpinner]="status" [hideText]="status" (click)="open(login)"

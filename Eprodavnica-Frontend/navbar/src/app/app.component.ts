@@ -50,14 +50,22 @@ export class AppComponent {
 
   idiNaProfil(uloga:string){
     if (uloga === "ROLE_MUSTERIJA"){
-      this.router.navigate(['/other/mojProfilMusterija']);
+      this.router.navigate(['/other/musterija']);
     }else if(uloga === "ROLE_PRODAVAC"){
-      this.router.navigate(['/other/mojProfilProdavac']);
+      this.router.navigate(['/other/prodavac']);
     }
   }
 
   idiNaOdobrenjeAdminAkaunt(){
     this.router.navigate(['/other/odobrenjeAdminAkaunta']);
+  }
+
+  pravljenjeProdukta(){
+    this.router.navigate(['/other/pravljenjeProdukta']);
+  }
+
+  pregledSajta(){
+    this.router.navigate(['/other/admin']);
   }
 
   openSnackBar(poruka:string) {

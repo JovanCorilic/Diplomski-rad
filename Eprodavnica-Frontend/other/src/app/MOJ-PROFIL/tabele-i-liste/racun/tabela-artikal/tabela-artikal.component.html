@@ -28,7 +28,9 @@
             <span *ngIf="element.produkt.akcija>0; else elseBlock">  
                 Akcija : {{element.produkt.akcija}}%
             </span>
-            <ng-template #elseBlock>Nema akcije</ng-template><br>
+            <ng-template #elseBlock>Nema akcije</ng-template>
+            &nbsp;&nbsp; <button mat-raised-button color="warn" (click)="idiNaProdukt(element.produkt.serijskiBroj)">Idi na račun</button>
+            <br>
             {{element.produkt.deskripcija}}
         </div>
       </div>

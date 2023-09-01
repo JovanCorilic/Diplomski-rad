@@ -32,4 +32,8 @@ export class TabelaRacunaComponent {
       return false;
     };
   }
+
+  idiNaIndividualniRacun(brojRacuna:string){
+    this.router.navigate(['/other/racun/'+brojRacuna])
+  }
 }

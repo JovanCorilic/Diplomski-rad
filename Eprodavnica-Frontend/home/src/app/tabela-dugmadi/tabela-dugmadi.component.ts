@@ -18,4 +18,8 @@ export class TabelaDugmadiComponent {
     };
   }
 
+  idiNaProdukt(serijskiBroj:string){
+    this.router.navigate(['/other/produktDetaljno/'+serijskiBroj]);
+  }
+
 }

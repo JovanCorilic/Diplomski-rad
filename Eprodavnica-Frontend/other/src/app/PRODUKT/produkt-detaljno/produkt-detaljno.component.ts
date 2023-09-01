@@ -1,7 +1,7 @@
 import { Produkt } from './../../MODEL/Produkt';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, AbstractControl, ValidatorFn, FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Filter } from 'src/app/MODEL/Filter/Filter';
 import { Ocena } from 'src/app/MODEL/Filter/Ocena';
@@ -44,6 +44,7 @@ export class ProduktDetaljnoComponent implements OnInit {
     private route:ActivatedRoute,
     private modalService: NgbModal,
     private fBuilder: FormBuilder,
+    private router:Router
   ){
     this.pageSize = 2;
 		this.currentPage = 1;
@@ -129,7 +130,7 @@ export class ProduktDetaljnoComponent implements OnInit {
   }
 
   edit(){
-
+    this.router.navigate(['/other/editProdukta/'+this.serijskiBroj])
   }
 
   delete(){
