@@ -58,5 +58,31 @@ export class RacunService{
 		});
         return this.http.post(this.path+'/filter-by-pageAdmin',filter, queryParams);
     }
+
+	public getByPageArtikal(page:number,size:number,brojRacuna:string): Observable<any>{
+		return this.http.get(this.path+"/by-pageArtikal"+`/${brojRacuna}`+"?page="+page+"&size="+size, {headers:this.headers})
+	}
+
+	public filterByPageArtikal(filter:Filter, page:number,size:number,brojRacuna:string):Observable<any>{
+        let queryParams = {};
+
+		queryParams = {
+			headers:new HttpHeaders({
+				'Content-Type': 'application/json'
+			}),
+			observe: 'response',
+			params: new HttpParams()
+				.set('page', String(page))
+				.append('size', String(size)),
+		};
+		const headeri=new HttpHeaders({
+			'Content-Type': 'application/json'
+		});
+        return this.http.post(this.path+'/filter-by-pageArtikal'+`/${brojRacuna}`,filter, queryParams);
+    }
+
+	dajRacun(brojRacuna:String):Observable<Racun>{
+		return this.http.get<Racun>(this.path+"/get"+`/${brojRacuna}`);
+	}
     
 }

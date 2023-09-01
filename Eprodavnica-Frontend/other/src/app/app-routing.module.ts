@@ -9,6 +9,7 @@ import { ProduktEditComponent } from './PRODUKT/produkt-edit/produkt-edit.compon
 import { AdminComponent } from './MOJ-PROFIL/admin/admin.component';
 import { MusterijaComponent } from './MOJ-PROFIL/musterija/musterija/musterija.component';
 import { ProdavacComponent } from './MOJ-PROFIL/prodavac/prodavac.component';
+import { IndividualniRacunComponent } from './MOJ-PROFIL/tabele-i-liste/racun/individualni-racun/individualni-racun.component';
 
 const routes: Routes = [
   { path: '**', component: EmptyRouteComponent},
@@ -45,6 +46,12 @@ const routes: Routes = [
     component:ProdavacComponent,
     canActivate: [RoleGuard],
     data: {expectedRoles: 'ROLE_PRODAVAC'}
+  },
+  {
+    path:'**/racun/:brojRacuna',
+    component:IndividualniRacunComponent,
+    canActivate: [RoleGuard],
+    data: {expectedRoles: 'ROLE_MUSTERIJA|ROLE_ADMIN'}
   }
   
 ];

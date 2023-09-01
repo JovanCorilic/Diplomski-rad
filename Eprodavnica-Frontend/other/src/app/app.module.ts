@@ -37,13 +37,16 @@ import { MusterijaComponent } from './MOJ-PROFIL/musterija/musterija/musterija.c
 import { ProdavacComponent } from './MOJ-PROFIL/prodavac/prodavac.component';
 import { AdminComponent } from './MOJ-PROFIL/admin/admin.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import { ListaRacunaPageComponent } from './MOJ-PROFIL/musterija/lista-racuna-page/lista-racuna-page.component';
 import { ListaRecenzijaPageComponent } from './MOJ-PROFIL/musterija/lista-recenzija-page/lista-recenzija-page.component';
 import {MatTableModule} from '@angular/material/table';
 import { TabelaProdukataComponent } from './MOJ-PROFIL/tabele-i-liste/produkt/tabela-produkata/tabela-produkata.component';
 import { ListaProduktPageComponent } from './MOJ-PROFIL/tabele-i-liste/produkt/lista-produkt-page/lista-produkt-page.component';
 import { TabelaRacunaComponent } from './MOJ-PROFIL/tabele-i-liste/racun/tabela-racuna/tabela-racuna.component';
 import { ListaRacunPageComponent } from './MOJ-PROFIL/tabele-i-liste/racun/lista-racun-page/lista-racun-page.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import { IndividualniRacunComponent } from './MOJ-PROFIL/tabele-i-liste/racun/individualni-racun/individualni-racun.component';
+import { TabelaArtikalComponent } from './MOJ-PROFIL/tabele-i-liste/racun/tabela-artikal/tabela-artikal.component';
 
 @NgModule({
   declarations: [
@@ -57,12 +60,13 @@ import { ListaRacunPageComponent } from './MOJ-PROFIL/tabele-i-liste/racun/lista
     MusterijaComponent,
     ProdavacComponent,
     AdminComponent,
-    ListaRacunaPageComponent,
     ListaRecenzijaPageComponent,
     TabelaProdukataComponent,
     ListaProduktPageComponent,
     TabelaRacunaComponent,
-    ListaRacunPageComponent
+    ListaRacunPageComponent,
+    IndividualniRacunComponent,
+    TabelaArtikalComponent
   ],
   imports: [
     BrowserModule,
@@ -89,7 +93,9 @@ import { ListaRacunPageComponent } from './MOJ-PROFIL/tabele-i-liste/racun/lista
     CdkDrag,
     MatIconModule,
     MatSnackBarModule,
-    MatTableModule
+    MatTableModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
     {

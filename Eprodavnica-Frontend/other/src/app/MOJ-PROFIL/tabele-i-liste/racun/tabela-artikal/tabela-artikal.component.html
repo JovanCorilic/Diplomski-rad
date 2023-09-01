@@ -24,12 +24,12 @@
             <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="600" height="400">
         </div>
         <div class="example-element-description">
-            {{element.naziv}} &nbsp; Cena : {{element.cena - (element.cena*element.akcija/100)}} &nbsp;
-            <span *ngIf="element.akcija>0; else elseBlock">  
-                Akcija : {{element.akcija}}%
+            {{element.produkt.naziv}} &nbsp; Cena : {{element.produkt.cena}} &nbsp;
+            <span *ngIf="element.produkt.akcija>0; else elseBlock">  
+                Akcija : {{element.produkt.akcija}}%
             </span>
             <ng-template #elseBlock>Nema akcije</ng-template><br>
-            {{element.deskripcija}}
+            {{element.produkt.deskripcija}}
         </div>
       </div>
     </td>
