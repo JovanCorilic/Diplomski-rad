@@ -1,5 +1,6 @@
 package Eprodavnica.EprodavnicaBackend.repository;
 
+import Eprodavnica.EprodavnicaBackend.model.Korisnik;
 import Eprodavnica.EprodavnicaBackend.model.Produkt;
 import Eprodavnica.EprodavnicaBackend.model.Tip;
 import org.springframework.data.domain.Page;
@@ -24,6 +25,33 @@ public interface ProduktRepository extends JpaRepository<Produkt,Integer> {
     Page<Produkt>findByCustomCriteria(
             @Param("naziv") String naziv,@Param("od") double od,@Param("do1") double do1,@Param("lista") List<Tip>lista,@Param("ocene") List<Integer>ocene, Pageable pageable
     );
+
+    Page<Produkt>findByIstorijaKupacaContains(Korisnik korisnik,Pageable pageable);
+
+    @Query("SELECT p FROM Produkt p " +
+            "WHERE ( :korisnik member of p.istorijaKupaca )" +
+            "AND ( :od = -1.0 or :do1 = -1.0 or p.cena BETWEEN :od AND :do1 )" +
+            "AND ( COALESCE( :lista , null ) is null or :lista member of p.listaTipova )" +
+            "AND ( COALESCE( :ocene , null ) is null or p.ocenaPunBroj IN :ocene )" +
+            "AND ( :naziv is null or LOWER(p.naziv) LIKE LOWER(CONCAT('%', :naziv, '%')) )")
+    Page<Produkt>findByCustomCriteriaIstorijaProdukata(
+            @Param("naziv") String naziv,@Param("od") double od,@Param("do1") double do1,@Param("lista") List<Tip>lista,
+            @Param("ocene") List<Integer>ocene, @Param("korisnik") Korisnik korisnik, Pageable pageable
+    );
+
+    Page<Produkt>findByWishlistContains(Korisnik korisnik, Pageable pageable);
+
+    @Query("SELECT p FROM Produkt p " +
+            "WHERE ( :korisnik member of p.wishlist )" +
+            "AND ( :od = -1.0 or :do1 = -1.0 or p.cena BETWEEN :od AND :do1 )" +
+            "AND ( COALESCE( :lista , null ) is null or :lista member of p.listaTipova )" +
+            "AND ( COALESCE( :ocene , null ) is null or p.ocenaPunBroj IN :ocene )" +
+            "AND ( :naziv is null or LOWER(p.naziv) LIKE LOWER(CONCAT('%', :naziv, '%')) )")
+    Page<Produkt>findByCustomCriteriaWishlist(
+            @Param("naziv") String naziv,@Param("od") double od,@Param("do1") double do1,@Param("lista") List<Tip>lista,
+            @Param("ocene") List<Integer>ocene, @Param("korisnik") Korisnik korisnik, Pageable pageable
+    );
+
     /*
     Page<Produkt>findByNazivContainingIgnoreCaseOrderByDatumPravljenja(String naziv,Pageable pageable);
 

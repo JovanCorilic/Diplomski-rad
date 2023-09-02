@@ -12,27 +12,23 @@ import java.util.List;
 import java.util.Set;
 
 public class RacunMapper implements MapperInterface<Racun, RacunDTO> {
-    private final ArtikalMapper artikalMapper;
 
     @Override
     public Racun toModel(RacunDTO dto) {
-        Set<Artikal> artikals = new HashSet<>();
-        for (ArtikalDTO artikal : dto.getArtikals()){
-            artikals.add(artikalMapper.toModel(artikal));
-        }
-        return new Racun(dto.getKonacnaCena(),dto.getBrojRacuna(),artikals,new Korisnik(dto.getEmailMusterija()));
+        return new Racun(dto.getKonacnaCena(),dto.getBrojRacuna(),dto.getDatumKreiranja(),new Korisnik(dto.getEmailMusterija()));
     }
 
     @Override
     public RacunDTO toDto(Racun entity) {
-        List<ArtikalDTO>artikalDTOS = new ArrayList<>();
-        for (Artikal artikal : entity.getArtikals()){
-            artikalDTOS.add(artikalMapper.toDto(artikal));
-        }
-        return new RacunDTO(entity.getKonacnaCena(),entity.getBrojRacuna(),artikalDTOS,entity.getMusterija().getEmail());
+        return new RacunDTO(entity.getKonacnaCena(),entity.getBrojRacuna(),entity.getMusterija().getEmail(),entity.getDatumKreiranja());
     }
 
-    public RacunMapper() {
-        this.artikalMapper = new ArtikalMapper();
+    public List<RacunDTO> toDtoLista(List<Racun>lista){
+        List<RacunDTO>temp = new ArrayList<>();
+        for (Racun racun : lista){
+            temp.add(toDto(racun));
+        }
+        return temp;
     }
+
 }

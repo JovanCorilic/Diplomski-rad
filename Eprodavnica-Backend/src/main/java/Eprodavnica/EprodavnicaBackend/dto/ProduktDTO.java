@@ -22,6 +22,5 @@ public class ProduktDTO {
     private int akcija;
     private List<TipDTO>listaTipova;
     private String emailProdavac;
-    private List<RecenzijaDTO>listaRecenzija;
     //private KorisnikDTO prodavac;
 }

@@ -14,7 +14,6 @@ import java.util.List;
 
 public class ProduktMapper implements MapperInterface<Produkt, ProduktDTO> {
     private final TipMapper tipMapper;
-    private final RecenzijaMapper recenzijaMapper;
 
     @Override
     public Produkt toModel(ProduktDTO dto) {
@@ -22,12 +21,8 @@ public class ProduktMapper implements MapperInterface<Produkt, ProduktDTO> {
         for (TipDTO tipDTO : dto.getListaTipova()){
             tips.add(tipMapper.toModel(tipDTO));
         }
-        List<Recenzija>recenzijas = new ArrayList<>();
-        for (RecenzijaDTO recenzijaDTO : dto.getListaRecenzija()){
-            recenzijas.add(recenzijaMapper.toModel(recenzijaDTO));
-        }
         return new Produkt(dto.getNaziv(),dto.getDeskripcija(),dto.getSerijskiBroj(),dto.getCena(),dto.getOcena(),
-                dto.getDatumPravljenja(),dto.getAkcija(),tips,new Korisnik(dto.getEmailProdavac()),recenzijas);
+                dto.getDatumPravljenja(),dto.getAkcija(),tips,new Korisnik(dto.getEmailProdavac()));
     }
 
     @Override
@@ -36,12 +31,8 @@ public class ProduktMapper implements MapperInterface<Produkt, ProduktDTO> {
         for (Tip tip : entity.getListaTipova()){
             tipDTOS.add(tipMapper.toDto(tip));
         }
-        List<RecenzijaDTO>recenzijaDTOS = new ArrayList<>();
-        for (Recenzija recenzija : entity.getListaRecenzija()){
-            recenzijaDTOS.add(recenzijaMapper.toDto(recenzija));
-        }
         return new ProduktDTO(entity.getNaziv(),entity.getDeskripcija(),entity.getSerijskiBroj(),entity.getCena(),
-                entity.getOcena(),entity.getDatumPravljenja(),entity.getAkcija(),tipDTOS,entity.getProdavac().getEmail(),recenzijaDTOS);
+                entity.getOcena(),entity.getDatumPravljenja(),entity.getAkcija(),tipDTOS,entity.getProdavac().getEmail());
     }
 
     public ProduktMiniDTO toDTOMini(Produkt entity){
@@ -63,6 +54,5 @@ public class ProduktMapper implements MapperInterface<Produkt, ProduktDTO> {
 
     public ProduktMapper() {
         this.tipMapper = new TipMapper();
-        this.recenzijaMapper = new RecenzijaMapper();
     }
 }

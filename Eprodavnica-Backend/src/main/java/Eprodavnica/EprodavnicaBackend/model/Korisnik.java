@@ -65,7 +65,7 @@ public class Korisnik implements UserDetails {
 
     @ManyToMany()
     @LazyCollection(LazyCollectionOption.FALSE)
-    private HashSet<Produkt>istorijaKupljenihProdukata;
+    private List<Produkt>istorijaKupljenihProdukata;
 
     public Korisnik(Integer id, String ime, String prezime, String email, String lozinka) {
         this.id = id;
@@ -85,23 +85,17 @@ public class Korisnik implements UserDetails {
         this.uloge = uloge;
     }
 
-    public Korisnik(String ime, String prezime, String email, List<Tip> listaTipova, List<Racun> listaRacuna,
-                    List<Recenzija>listaRecenzija,List<Produkt>wishlist,HashSet<Produkt>istorijaKupljenihProdukata) {
+    public Korisnik(String ime, String prezime, String email, String lozinka) {
         this.ime = ime;
         this.prezime = prezime;
         this.email = email;
-        this.listaTipova = listaTipova;
-        this.listaRacuna = listaRacuna;
-        this.listaRecenzija = listaRecenzija;
-        this.wishlist=wishlist;
-        this.istorijaKupljenihProdukata = istorijaKupljenihProdukata;
+        this.lozinka = lozinka;
     }
 
-    public Korisnik(String ime, String prezime, String email, List<Produkt> listaProdukata) {
+    public Korisnik(String ime, String prezime, String email) {
         this.ime = ime;
         this.prezime = prezime;
         this.email = email;
-        this.listaProdukata = listaProdukata;
     }
 
     public Korisnik(String email) {

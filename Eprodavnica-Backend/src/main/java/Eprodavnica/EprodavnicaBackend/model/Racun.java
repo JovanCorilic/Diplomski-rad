@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 @Getter
@@ -24,6 +25,9 @@ public class Racun {
     @Column
     private String brojRacuna;
 
+    @Column
+    private Date datumKreiranja;
+
     @OneToMany(mappedBy = "racun", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Artikal>artikals;
 
@@ -31,10 +35,10 @@ public class Racun {
     @JoinColumn
     private Korisnik musterija;
 
-    public Racun(double konacnaCena, String brojRacuna, Set<Artikal> artikals, Korisnik musterija) {
+    public Racun(double konacnaCena, String brojRacuna, Date datumKreiranja, Korisnik musterija) {
         this.konacnaCena = konacnaCena;
         this.brojRacuna = brojRacuna;
-        this.artikals = artikals;
+        this.datumKreiranja = datumKreiranja;
         this.musterija = musterija;
     }
 }

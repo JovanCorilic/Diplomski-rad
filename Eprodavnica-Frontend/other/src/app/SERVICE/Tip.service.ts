@@ -15,6 +15,6 @@ export class TipService{
     }
 
     public getAllTipNormalno():Observable<Tip[]>{
-        return this.http.get<Tip[]>(this.path+"/getAllNormalno");
+        return this.http.get<Tip[]>(this.path+"/getAll");
     }
 }

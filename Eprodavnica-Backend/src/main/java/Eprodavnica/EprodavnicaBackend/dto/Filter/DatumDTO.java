@@ -5,16 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.Date;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FilterDTO {
-    private String naziv;
-    private CenaDTO cena;
-    private List<TipFilterDTO>tip;
-    private List<OcenaDTO>ocena;
-    private DatumDTO datum;
+public class DatumDTO {
+    private Date odDatum;
+    private Date doDatum;
 }

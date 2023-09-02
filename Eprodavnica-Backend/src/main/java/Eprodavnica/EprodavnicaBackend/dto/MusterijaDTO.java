@@ -17,11 +17,6 @@ public class MusterijaDTO {
     private String prezime;
     private String email;
     private String lozinka;
-    private List<TipDTO>listaTipova;
-    private List<RacunDTO>listaRacuna;
-    private List<RecenzijaDTO>listaRecenzija;
-    private List<ProduktMiniDTO>wishlist;
-    private HashSet<ProduktMiniDTO>istorijaKupljenihProdukata;
 
     public boolean proveraPodataka(){
         if (ime.isEmpty() || prezime.isEmpty() || email.isEmpty() || lozinka.isEmpty())
@@ -32,10 +27,9 @@ public class MusterijaDTO {
         return false;
     }
 
-    public MusterijaDTO(String ime, String prezime, String email, String lozinka) {
+    public MusterijaDTO(String ime, String prezime, String email) {
         this.ime = ime;
         this.prezime = prezime;
         this.email = email;
-        this.lozinka = lozinka;
     }
 }

@@ -19,6 +19,7 @@ import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class ProduktService implements ServiceInterface<Produkt>{
@@ -36,6 +37,16 @@ public class ProduktService implements ServiceInterface<Produkt>{
 
     public Page<Produkt>findAllPageable(Pageable pageable){
         return produktRepository.findAll(pageable);
+    }
+
+    public Page<Produkt>findByIstorijaProdukataPageable(Pageable pageable,String email){
+        Korisnik korisnik = korisnikRepository.findByEmail(email);
+        return produktRepository.findByIstorijaKupacaContains(korisnik,pageable);
+    }
+
+    public  Page<Produkt>findByWishlist(Pageable pageable,String email){
+        Korisnik korisnik = korisnikRepository.findByEmail(email);
+        return produktRepository.findByWishlistContains(korisnik,pageable);
     }
 
     public Page<Produkt>filterPageable(FilterDTO filterDTO, Pageable pageable){
@@ -66,7 +77,68 @@ public class ProduktService implements ServiceInterface<Produkt>{
                 }
             }
         return produktRepository.findByCustomCriteria(filterDTO.getNaziv(), od,do1,listaTipova,ocene,pageable);
-        //return produktRepository.findByNazivContainingIgnoreCaseOrCenaIsBetweenOrListaTipovaInOrOcenaPunBrojInOrderByDatumPravljenja(pageable,filterDTO.getNaziv(),od,do1, listaTipova,ocene);
+    }
+
+    public Page<Produkt>filterPageableIstorijaProdukata(FilterDTO filterDTO, Pageable pageable,String email){
+        List<Integer>ocene = new ArrayList<>();
+        for (OcenaDTO ocenaDTO : filterDTO.getOcena()){
+            if (ocenaDTO.isKoristiSe())
+                ocene.add(ocenaDTO.getOcena());
+        }
+        List<String>tipovi = new ArrayList<>();
+        for (TipFilterDTO tipFilterDTO : filterDTO.getTip()){
+            if (tipFilterDTO.isKoristiSe())
+                tipovi.add(tipFilterDTO.getNaziv());
+        }
+        List<Tip> listaTipova;
+        if (tipovi.isEmpty()) {
+            listaTipova = new ArrayList<>();
+        }
+        else {
+            listaTipova = tipRepository.findByNazivIgnoreCaseIn(tipovi);
+        }
+        double od = -1;
+        double do1 = -1;
+        if (filterDTO.getCena()!=null)
+            if (filterDTO.getCena().getDoCena()!=null && filterDTO.getCena().getOdCena()!=null){
+                if (isNumeric(filterDTO.getCena().getDoCena()) && isNumeric(filterDTO.getCena().getOdCena())){
+                    od = Double.parseDouble(filterDTO.getCena().getOdCena());
+                    do1 = Double.parseDouble(filterDTO.getCena().getDoCena());
+                }
+            }
+        Korisnik korisnik = korisnikRepository.findByEmail(email);
+        return produktRepository.findByCustomCriteriaIstorijaProdukata(filterDTO.getNaziv(), od,do1,listaTipova,ocene,korisnik,pageable);
+    }
+
+    public Page<Produkt>filterPageableWishlist(FilterDTO filterDTO, Pageable pageable,String email){
+        List<Integer>ocene = new ArrayList<>();
+        for (OcenaDTO ocenaDTO : filterDTO.getOcena()){
+            if (ocenaDTO.isKoristiSe())
+                ocene.add(ocenaDTO.getOcena());
+        }
+        List<String>tipovi = new ArrayList<>();
+        for (TipFilterDTO tipFilterDTO : filterDTO.getTip()){
+            if (tipFilterDTO.isKoristiSe())
+                tipovi.add(tipFilterDTO.getNaziv());
+        }
+        List<Tip> listaTipova;
+        if (tipovi.isEmpty()) {
+            listaTipova = new ArrayList<>();
+        }
+        else {
+            listaTipova = tipRepository.findByNazivIgnoreCaseIn(tipovi);
+        }
+        double od = -1;
+        double do1 = -1;
+        if (filterDTO.getCena()!=null)
+            if (filterDTO.getCena().getDoCena()!=null && filterDTO.getCena().getOdCena()!=null){
+                if (isNumeric(filterDTO.getCena().getDoCena()) && isNumeric(filterDTO.getCena().getOdCena())){
+                    od = Double.parseDouble(filterDTO.getCena().getOdCena());
+                    do1 = Double.parseDouble(filterDTO.getCena().getDoCena());
+                }
+            }
+        Korisnik korisnik = korisnikRepository.findByEmail(email);
+        return produktRepository.findByCustomCriteriaWishlist(filterDTO.getNaziv(), od,do1,listaTipova,ocene,korisnik,pageable);
     }
 
     public static boolean isNumeric(String str) {
@@ -90,7 +162,21 @@ public class ProduktService implements ServiceInterface<Produkt>{
         entity.setProdavac(korisnikRepository.findByEmail(entity.getProdavac().getEmail()));
         entity.setDatumPravljenja(new Date());
         entity.setOcena(-1.0);
+
+        entity.setSerijskiBroj(generisiRandomSerijskiBroj());
+        while (produktRepository.existsProduktBySerijskiBroj(entity.getSerijskiBroj())){
+            entity.setSerijskiBroj(generisiRandomSerijskiBroj());
+        }
+
         return produktRepository.save(entity);
+    }
+
+    public String generisiRandomSerijskiBroj() {
+        byte[] array = new byte[64];
+        Random random = new Random();
+        random.nextBytes(array);
+
+        return new String(array);
     }
 
     public void dodajUWishlist(String email, String serijskiBroj){

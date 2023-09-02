@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static Eprodavnica.EprodavnicaBackend.controller.KorisnikController.TrenutnoUlogovanKorisnik;
+
 @RestController
 @RequestMapping(value = "/produkt", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProduktController {
@@ -38,17 +40,13 @@ public class ProduktController {
 
     @PostMapping("/dodajuWishlist")
     public ResponseEntity<?> dodajUWishlist(@RequestBody String serijskiBroj){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Korisnik u=(Korisnik)auth.getPrincipal();
-        produktService.dodajUWishlist(u.getEmail(),serijskiBroj);
+        produktService.dodajUWishlist(TrenutnoUlogovanKorisnik(),serijskiBroj);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/daLiJeUWishlist/{serijskiBroj}")
     public ResponseEntity<Boolean>daLiJeUWishlist(@PathVariable String serijskiBroj){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Korisnik u=(Korisnik)auth.getPrincipal();
-        Boolean temp=produktService.daLiJeUWishlist(u.getEmail(),serijskiBroj);
+        Boolean temp=produktService.daLiJeUWishlist(TrenutnoUlogovanKorisnik(),serijskiBroj);
         return new ResponseEntity<>(temp,HttpStatus.OK);
     }
 
@@ -73,9 +71,41 @@ public class ProduktController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @GetMapping("/by-pageIstorijaProdukata")
+    public ResponseEntity<Page<ProduktMiniDTO>>getIstorijaProdukataPageable(Pageable pageable){
+        Page<Produkt>page = produktService.findByIstorijaProdukataPageable(pageable,TrenutnoUlogovanKorisnik());
+        List<ProduktMiniDTO>lista = produktMapper.toDTOListaMiniProdukt(page.toList());
+        Page<ProduktMiniDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
+    @GetMapping("/by-pageWishlist")
+    public ResponseEntity<Page<ProduktMiniDTO>>getWishlistPageable(Pageable pageable){
+        Page<Produkt>page = produktService.findByWishlist(pageable,TrenutnoUlogovanKorisnik());
+        List<ProduktMiniDTO>lista = produktMapper.toDTOListaMiniProdukt(page.toList());
+        Page<ProduktMiniDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
     @PostMapping("/filter-by-page")
     public ResponseEntity<Page<ProduktMiniDTO>>getProduktFilter(@RequestBody FilterDTO filterDTO, Pageable pageable){
         Page<Produkt>page = produktService.filterPageable(filterDTO,pageable);
+        List<ProduktMiniDTO>lista = produktMapper.toDTOListaMiniProdukt(page.toList());
+        Page<ProduktMiniDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
+    @PostMapping("/filter-by-pageIstorijaProdukata")
+    public ResponseEntity<Page<ProduktMiniDTO>>getProduktFilterPageIstorijaProdukata(@RequestBody FilterDTO filterDTO, Pageable pageable){
+        Page<Produkt>page = produktService.filterPageableIstorijaProdukata(filterDTO,pageable,TrenutnoUlogovanKorisnik());
+        List<ProduktMiniDTO>lista = produktMapper.toDTOListaMiniProdukt(page.toList());
+        Page<ProduktMiniDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
+    @GetMapping("/filter-by-pageWishlist")
+    public ResponseEntity<Page<ProduktMiniDTO>>getProduktFilterPageWishlist(@RequestBody FilterDTO filterDTO, Pageable pageable){
+        Page<Produkt>page = produktService.filterPageableWishlist(filterDTO,pageable,TrenutnoUlogovanKorisnik());
         List<ProduktMiniDTO>lista = produktMapper.toDTOListaMiniProdukt(page.toList());
         Page<ProduktMiniDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
         return new ResponseEntity<>(dtos,HttpStatus.OK);

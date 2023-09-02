@@ -66,11 +66,9 @@ public class Produkt {
     private List<Korisnik>wishlist;
 
     @ManyToMany(mappedBy = "istorijaKupljenihProdukata")
-    private HashSet<Korisnik>istorijaKupaca;
+    private List<Korisnik>istorijaKupaca;
 
-    public Produkt(String naziv, String deskripcija, String serijskiBroj, double cena, double ocena,
-                   Date datumPravljenja, int akcija, List<Tip> listaTipova, Korisnik prodavac,
-                   List<Recenzija> listaRecenzija) {
+    public Produkt(String naziv, String deskripcija, String serijskiBroj, double cena, double ocena, Date datumPravljenja, int akcija, List<Tip> listaTipova, Korisnik prodavac) {
         this.naziv = naziv;
         this.deskripcija = deskripcija;
         this.serijskiBroj = serijskiBroj;
@@ -80,7 +78,6 @@ public class Produkt {
         this.akcija = akcija;
         this.listaTipova = listaTipova;
         this.prodavac = prodavac;
-        this.listaRecenzija = listaRecenzija;
     }
 
     public Produkt(String naziv, String serijskiBroj, double cena, double ocena, int akcija) {
@@ -106,4 +103,6 @@ public class Produkt {
     public void PretvoriUPunBroj(){
         ocenaPunBroj = (int)ocena;
     }
+
+
 }

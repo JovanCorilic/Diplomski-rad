@@ -1,15 +1,23 @@
 package Eprodavnica.EprodavnicaBackend.controller;
 
 
+import Eprodavnica.EprodavnicaBackend.dto.ArtikalDTO;
+import Eprodavnica.EprodavnicaBackend.dto.Filter.FilterDTO;
+import Eprodavnica.EprodavnicaBackend.dto.ProduktMiniDTO;
 import Eprodavnica.EprodavnicaBackend.dto.RacunDTO;
 
+import Eprodavnica.EprodavnicaBackend.mapper.ArtikalMapper;
 import Eprodavnica.EprodavnicaBackend.mapper.RacunMapper;
 
 import Eprodavnica.EprodavnicaBackend.model.Artikal;
 import Eprodavnica.EprodavnicaBackend.model.Korisnik;
+import Eprodavnica.EprodavnicaBackend.model.Produkt;
 import Eprodavnica.EprodavnicaBackend.model.Racun;
 import Eprodavnica.EprodavnicaBackend.service.RacunService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +28,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static Eprodavnica.EprodavnicaBackend.controller.KorisnikController.TrenutnoUlogovanKorisnik;
+
 @RestController
 @RequestMapping(value = "/racun", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RacunController {
@@ -27,6 +37,7 @@ public class RacunController {
     private RacunService racunService;
 
     private final RacunMapper racunMapper;
+    private final ArtikalMapper artikalMapper;
 
     @PostMapping("/create")
     public ResponseEntity<?> createProdukt(@RequestBody RacunDTO racunDTO){
@@ -37,9 +48,8 @@ public class RacunController {
 
     @PostMapping("/dodajArtikal")
     public ResponseEntity<?>dodajArtikal(@RequestBody Artikal artikal){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Korisnik u=(Korisnik)auth.getPrincipal();
-        racunService.dodajArtikal(artikal,u.getEmail());
+
+        racunService.dodajArtikal(artikal,TrenutnoUlogovanKorisnik());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -50,9 +60,9 @@ public class RacunController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity<?>get(@PathVariable String id){
-        RacunDTO racunDTO = racunMapper.toDto(racunService.findOne(id));
+    @GetMapping("/get/{brojRacuna}")
+    public ResponseEntity<?>get(@PathVariable String brojRacuna){
+        RacunDTO racunDTO = racunMapper.toDto(racunService.findOne(brojRacuna));
         return new ResponseEntity<>(racunDTO, HttpStatus.OK);
     }
 
@@ -66,7 +76,48 @@ public class RacunController {
         return new ResponseEntity<>(lista,HttpStatus.OK);
     }
 
+    @GetMapping("/by-pageMusterija")
+    public ResponseEntity<Page<RacunDTO>>getPageableMusterija(Pageable pageable){
+        Page<Racun>page = racunService.getAllMusterija(pageable,TrenutnoUlogovanKorisnik());
+        List<RacunDTO>lista = racunMapper.toDtoLista(page.toList());
+        Page<RacunDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
+    @GetMapping("/by-pageAdmin")
+    public ResponseEntity<Page<RacunDTO>>getPageableAdmin(Pageable pageable){
+        Page<Racun>page = racunService.getAllAdmin(pageable);
+        List<RacunDTO>lista = racunMapper.toDtoLista(page.toList());
+        Page<RacunDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
+    @PostMapping("/filter-by-pageMusterija")
+    public ResponseEntity<Page<RacunDTO>>getFilterMusterijaPageable(@RequestBody FilterDTO filterDTO, Pageable pageable){
+        Page<Racun>page = racunService.filterMusterija(filterDTO,pageable,TrenutnoUlogovanKorisnik());
+        List<RacunDTO>lista = racunMapper.toDtoLista(page.toList());
+        Page<RacunDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
+    @PostMapping("/filter-by-pageAdmin")
+    public ResponseEntity<Page<RacunDTO>>getFilterAdminPageable(@RequestBody FilterDTO filterDTO, Pageable pageable){
+        Page<Racun>page = racunService.filterAdmin(filterDTO,pageable);
+        List<RacunDTO>lista = racunMapper.toDtoLista(page.toList());
+        Page<RacunDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
+    @GetMapping("/by-pageArtikal/{brojRacuna}")
+    public ResponseEntity<Page<ArtikalDTO>>getPageableAdmin(Pageable pageable,@PathVariable String brojRacuna){
+        Page<Artikal>page = racunService.getAllArtikalPageable(brojRacuna,pageable);
+        List<ArtikalDTO>lista = artikalMapper.toDtoArtikal(page.toList());
+        Page<ArtikalDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
     public RacunController() {
         this.racunMapper = new RacunMapper();
+        this.artikalMapper = new ArtikalMapper();
     }
 }

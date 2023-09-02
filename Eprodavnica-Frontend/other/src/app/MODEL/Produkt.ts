@@ -11,7 +11,7 @@ export class Produkt {
     akcija: number
     listaTipova: Tip[]
     emailProdavac: string
-    listaRecenzija: Recenzija[]
+
     constructor(
         naziv: string,
         deskripcija: string,
@@ -21,8 +21,7 @@ export class Produkt {
         datumPravljenja: Date,
         akcija: number,
         listaTipova: Tip[],
-        emailProdavac: string,
-        listaRecenzija: Recenzija[]
+        emailProdavac: string
     ) {
         this.naziv = naziv
         this.deskripcija = deskripcija
@@ -33,6 +32,5 @@ export class Produkt {
         this.akcija = akcija
         this.listaTipova = listaTipova
         this.emailProdavac = emailProdavac
-        this.listaRecenzija = listaRecenzija
     }
 }

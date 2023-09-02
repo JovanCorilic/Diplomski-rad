@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -14,6 +15,6 @@ import java.util.List;
 public class RacunDTO {
     private double konacnaCena;
     private String brojRacuna;
-    private List<ArtikalDTO>artikals;
     private String emailMusterija;
+    private Date datumKreiranja;
 }

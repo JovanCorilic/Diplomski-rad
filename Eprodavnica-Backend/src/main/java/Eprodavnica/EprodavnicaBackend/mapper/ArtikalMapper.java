@@ -3,6 +3,9 @@ package Eprodavnica.EprodavnicaBackend.mapper;
 import Eprodavnica.EprodavnicaBackend.dto.ArtikalDTO;
 import Eprodavnica.EprodavnicaBackend.model.Artikal;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ArtikalMapper implements MapperInterface<Artikal, ArtikalDTO> {
     private final ProduktMapper produktMapper;
 
@@ -14,6 +17,14 @@ public class ArtikalMapper implements MapperInterface<Artikal, ArtikalDTO> {
     @Override
     public ArtikalDTO toDto(Artikal entity) {
         return new ArtikalDTO(entity.getBroj(),produktMapper.toDTOMini(entity.getProdukt()));
+    }
+
+    public List<ArtikalDTO>toDtoArtikal(List<Artikal>lista){
+        List<ArtikalDTO>temp = new ArrayList<>();
+        for (Artikal artikal : lista){
+            temp.add(toDto(artikal));
+        }
+        return temp;
     }
 
     public ArtikalMapper() {
