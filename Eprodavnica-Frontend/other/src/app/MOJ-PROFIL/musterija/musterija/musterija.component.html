@@ -1,5 +1,7 @@
 <mat-tab-group>
-    <mat-tab label="Lične informacije" style="text-align: center;">
+    <mat-tab label="Lične informacije">
+      <br>
+      <div style="text-align: center;">
         <form [formGroup]="korisnikForm" (ngSubmit)="update()">
             <p>Email : {{musterija.email}}</p>
             <div>
@@ -14,19 +16,18 @@
                   </mat-form-field>
             </div>
             <div>
-                <div class="input-group">
-                    <mat-form-field appearance="outline">
-                      <mat-label>Unesite vaše prezime</mat-label>
-                      <input matInput class="form-control" formControlName = "prezime" required>
-                      <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="korisnikForm.controls.prezime.setValue('')">
-                        <mat-icon>close</mat-icon>
-                      </button>
-                      <mat-error *ngIf="korisnikForm.controls.prezime.invalid">{{getErrorMessage(korisnikForm.controls.prezime)}}</mat-error>
-                      <mat-hint>Prezime</mat-hint>
-                    </mat-form-field>
-                  </div>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Unesite vaše prezime</mat-label>
+                    <input matInput class="form-control" formControlName = "prezime" required>
+                    <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="korisnikForm.controls.prezime.setValue('')">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                    <mat-error *ngIf="korisnikForm.controls.prezime.invalid">{{getErrorMessage(korisnikForm.controls.prezime)}}</mat-error>
+                    <mat-hint>Prezime</mat-hint>
+                  </mat-form-field>
             </div>
         </form>
+      </div>
     </mat-tab>
     <mat-tab label="Istorija kupovine">
         <app-lista-produkt-page [svrha]="'IstorijaProdukata'">

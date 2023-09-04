@@ -12,7 +12,7 @@ export class AuthenticationService {
         'Content-Type': 'application/json'
     });
 
-    private path = "https://localhost:8080/auth";
+    private path = "http://localhost:8080/auth";
     constructor(
         private http: HttpClient
     ) { }

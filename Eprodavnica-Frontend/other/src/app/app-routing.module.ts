@@ -12,53 +12,53 @@ import { ProdavacComponent } from './MOJ-PROFIL/prodavac/prodavac.component';
 import { IndividualniRacunComponent } from './MOJ-PROFIL/tabele-i-liste/racun/individualni-racun/individualni-racun.component';
 
 const routes: Routes = [
-  { path: '**', component: EmptyRouteComponent},
   {
-    path: '**/produktDetaljno/:serijskiBroj',
+    path: 'produktDetaljno/:serijskiBroj',
     component: ProduktDetaljnoComponent
   },
   {
-    path: '**/pravljenjeProdukta',
+    path: 'pravljenjeProdukta',
     component:ProduktCreateComponent,
     canActivate: [RoleGuard],
     data: {expectedRoles: 'ROLE_PRODAVAC'}
   },
   {
-    path: '**/editProdukta/:serijskiBroj',
+    path: 'editProdukta/:serijskiBroj',
     component:ProduktEditComponent,
     canActivate: [RoleGuard],
     data: {expectedRoles: 'ROLE_PRODAVAC|ROLE_ADMIN'}
   },
   {
-    path: '**/admin',
+    path: 'admin',
     component:AdminComponent,
     canActivate: [RoleGuard],
     data: {expectedRoles: 'ROLE_ADMIN'}
   },
   {
-    path: '**/musterija',
+    path: 'musterija',
     component:MusterijaComponent,
     canActivate: [RoleGuard],
     data: {expectedRoles: 'ROLE_MUSTERIJA'}
   },
   {
-    path:'**/prodavac',
+    path:'prodavac',
     component:ProdavacComponent,
     canActivate: [RoleGuard],
     data: {expectedRoles: 'ROLE_PRODAVAC'}
   },
   {
-    path:'**/racun/:brojRacuna',
+    path:'racun/:brojRacuna',
     component:IndividualniRacunComponent,
     canActivate: [RoleGuard],
     data: {expectedRoles: 'ROLE_MUSTERIJA|ROLE_ADMIN'}
-  }
+  },
+  { path: '**', component: EmptyRouteComponent},
   
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes,{useHash : true})],
-  providers: [{provide: APP_BASE_HREF, useValue:'/'}],
+  providers: [{provide: APP_BASE_HREF, useValue:'/other'}],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -79,11 +79,12 @@ export class ProduktDetaljnoComponent implements OnInit {
       this.addOcena();
     }
 
-    this.produktService.daLiJeUWishlist(this.serijskiBroj).subscribe(
-      res=>{
-        this.daLiJeUWishlist = res;
-      }
-    )
+    if (this.getRole()!=="")
+      this.produktService.daLiJeUWishlist(this.serijskiBroj).subscribe(
+        res=>{
+          this.daLiJeUWishlist = res;
+        }
+      )
   }
 
   dodajUKorpu(){

@@ -13,7 +13,7 @@ public class PasswordEncoderConfiguration {
 
     public static void main(String[] args){
         CustomPasswordEncoder bCryptPasswordEncoder = new CustomPasswordEncoder();
-        System.out.println(bCryptPasswordEncoder.encode("sertifikat"));
+        System.out.println(bCryptPasswordEncoder.encode("1"));
     }
 }
 

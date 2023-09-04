@@ -1,19 +1,10 @@
 <br>
-<h2>{{produkt.naziv}}</h2>
-<mat-chip-set
-  class="example-chip"
-  cdkDropList 
-  cdkDropListOrientation="horizontal"
-  (cdkDropListDropped)="drop($event)">
-  <mat-chip
-    class="example-box"
-    cdkDrag
-    *ngFor="let tip of produkt.listaTipova" color="accent">
-    {{tip.naziv}}
-  </mat-chip><br>
-
-</mat-chip-set>
-<table style="text-align: center;">
+<h2>&nbsp;&nbsp;&nbsp;&nbsp;{{produkt.naziv}}</h2>
+<mat-chip-listbox aria-label="Fish selection">
+    <mat-chip *ngFor="let tip of produkt.listaTipova" color="accent">{{tip.naziv}}</mat-chip>
+</mat-chip-listbox>
+ 
+<table style="text-align: center;width: 100%;">
     <tr>
         <td>
             <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="600" height="400">
@@ -51,21 +42,23 @@
 <br>
 <mat-tab-group dynamicHeight>
     <mat-tab label="Deskripcija">
-        <p *ngIf="produkt.ocena>0">Ocena : &nbsp; {{produkt.ocena}}</p>
-        <p *ngIf="produkt.ocena==-1">Ovaj produkt nema recenzije</p>
-        <p>Cena : &nbsp; {{produkt.cena}}</p>
-        <h3>Deskripcija</h3>
-        <p>
-            {{produkt.deskripcija}}
-        </p>
+        <div style="text-align: center;">
+            <p *ngIf="produkt.ocena>0">Ocena : &nbsp; {{produkt.ocena}}</p>
+            <p *ngIf="produkt.ocena==-1">Ovaj produkt nema recenzije</p>
+            <p>Cena : &nbsp; {{produkt.cena}}</p>
+            <h3>Deskripcija</h3>
+            <p>
+                {{produkt.deskripcija}}
+            </p>
+        </div>
     </mat-tab>
     <mat-tab label="Recenzije">
 
-            <p style="font-size: 25px;">Pretraga</p> <br>
-            <div>
+            <p style="font-size: 25px;text-align: center;">Pretraga</p>
+            <div style="text-align: center;">
                 <button type="button" mat-raised-button color="primary" (click)="open(OcenaProzor)" [mtBasicSpinner]="status3" [hideText]="status3" >Filter</button>&nbsp;&nbsp;
         
-                <button type="button" mat-raised-button color="warn"  style="height: 50px;width: 250px;font-size: 15px;" (click)="resetuj()">Resetuj</button>
+                <button type="button" mat-raised-button color="warn" (click)="resetuj()">Resetuj</button>
             </div>
             <div>
             <app-recenzija-table [listaRecenzija]="lista"></app-recenzija-table>
