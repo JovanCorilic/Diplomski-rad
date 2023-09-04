@@ -202,6 +202,8 @@ public class ProduktService implements ServiceInterface<Produkt>{
         produkt.setNaziv(entity.getNaziv());
         produkt.setDeskripcija(entity.getDeskripcija());
 
+        entity.getListaTipova().replaceAll(tip -> tipRepository.findByNaziv(tip.getNaziv()).orElse(null));
+
         for (Tip tip : entity.getListaTipova()){
             if (!produkt.getListaTipova().contains(tip))
                 produkt.getListaTipova().add(tip);

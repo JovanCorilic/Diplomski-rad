@@ -20,11 +20,20 @@
     <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
       <div class="example-element-detail"
            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-        <div class="example-element-description">
-            Konačna cena &nbsp;{{element.konacnaCena}}din. <br>
-            Datum &nbsp;{{element.datumKreiranja | date:'dd.MM.yyyy HH:mm'}} <br>
-            <button mat-raised-button color="warn" (click)="idiNaIndividualniRacun(element.brojRacuna)">Idi na račun</button>
-        </div>
+        <table style="width: 100%;">
+          <tr>
+            <td>
+              Konačna cena &nbsp;{{element.konacnaCena}}din.
+            </td>
+            <td>
+              Datum &nbsp;{{element.datumKreiranja | date:'dd.MM.yyyy HH:mm'}}
+            </td>
+            <td>
+              <button mat-raised-button color="warn" (click)="idiNaIndividualniRacun(element.brojRacuna)">Idi na račun</button>
+            </td>
+          </tr>
+        </table>
+        <br><br><br><br>
       </div>
     </td>
   </ng-container>

@@ -69,7 +69,6 @@ export class ListaProduktPageComponent {
         }
       )
     }
-    
 
     this.tipService.getAllTip().subscribe(
       res=>{

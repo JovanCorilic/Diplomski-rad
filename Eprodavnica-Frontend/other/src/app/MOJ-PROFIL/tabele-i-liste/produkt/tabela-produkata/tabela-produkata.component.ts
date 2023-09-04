@@ -1,5 +1,5 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { Produkt } from 'src/app/MODEL/Produkt';
 
@@ -15,7 +15,7 @@ import { Produkt } from 'src/app/MODEL/Produkt';
     ]),
   ],
 })
-export class TabelaProdukataComponent {
+export class TabelaProdukataComponent implements OnInit, OnChanges{
   @Input() listaProdukata:Produkt[]|undefined;
 
   dataSource:Produkt[] = []
@@ -26,14 +26,22 @@ export class TabelaProdukataComponent {
   constructor(
     private router:Router,
   ){
-    if (this.listaProdukata !== undefined)
-      this.dataSource = this.listaProdukata
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
     };
   }
+  ngOnInit(): void {
+    this.dataSource = []
+    if (this.listaProdukata !== undefined)
+      this.dataSource = this.listaProdukata
+  }
+  ngOnChanges(changes: any): void {
+    this.dataSource = []
+    if (changes.listaProdukata.currentValue !== undefined)
+      this.dataSource = changes.listaProdukata.currentValue
+  }
 
   idiNaProdukt(serijskiBroj:string){
-    this.router.navigate(['/other/produktDetaljno/'+serijskiBroj])
+    this.router.navigate(['produktDetaljno/'+serijskiBroj])
   }
 }

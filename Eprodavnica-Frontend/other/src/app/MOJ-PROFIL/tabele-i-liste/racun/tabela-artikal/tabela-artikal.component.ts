@@ -1,5 +1,5 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { Artikal } from 'src/app/MODEL/Artikal';
 
@@ -15,7 +15,7 @@ import { Artikal } from 'src/app/MODEL/Artikal';
     ]),
   ],
 })
-export class TabelaArtikalComponent {
+export class TabelaArtikalComponent implements OnInit, OnChanges{
   @Input() listaArtikala:Artikal[]|undefined;
 
   dataSource:Artikal[] = []
@@ -32,8 +32,18 @@ export class TabelaArtikalComponent {
       return false;
     };
   }
+  ngOnInit(): void {
+    this.dataSource = []
+    if (this.listaArtikala !== undefined)
+      this.dataSource = this.listaArtikala
+  }
+  ngOnChanges(changes: any): void {
+    this.dataSource = []
+    if (changes.listaArtikala.currentValue !==undefined)
+      this.dataSource = changes.listaArtikala.currentValue
+  }
 
   idiNaProdukt(serijskiBroj:string){
-    this.router.navigate(['/other/produktDetaljno/'+serijskiBroj])
+    this.router.navigate(['produktDetaljno/'+serijskiBroj])
   }
 }

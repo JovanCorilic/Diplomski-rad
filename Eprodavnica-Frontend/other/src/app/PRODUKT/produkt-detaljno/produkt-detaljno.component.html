@@ -34,7 +34,7 @@
 
             <br> <br>
 
-            <button type="button" mat-raised-button color="accent" *ngIf="getRole()==='ROLE_ADMIN' || getRole()==='ROLE_PRODAVAC'">Edit</button> <br>
+            <button type="button" mat-raised-button color="accent" *ngIf="getRole()==='ROLE_ADMIN' || getRole()==='ROLE_PRODAVAC'" (click)="edit()">Edit</button> <br><br>
             <button type="button" mat-raised-button color="warn" *ngIf="getRole()==='ROLE_ADMIN' || getRole()==='ROLE_PRODAVAC'">Delete</button>
         </td>
     </tr>

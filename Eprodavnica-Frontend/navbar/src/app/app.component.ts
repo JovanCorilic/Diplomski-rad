@@ -24,6 +24,7 @@ export class AppComponent {
   musterija = <Musterija>{};
   status: boolean = false;
   status2: boolean = false;
+  status3:boolean = false;
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -66,6 +67,26 @@ export class AppComponent {
 
   pregledSajta(){
     this.router.navigate(['/other/admin']);
+  }
+
+  logOut() {
+    this.status3 = !this.status3
+    this.authenticationService.logout().subscribe(
+			result => {
+        this.status3 = !this.status3
+        sessionStorage.removeItem('user');
+        sessionStorage.removeItem('accessToken');
+        sessionStorage.removeItem('uloga');
+        this.router.navigate(['']);
+			},
+      error =>{
+        this.status3 = !this.status3
+        sessionStorage.removeItem('user');
+        sessionStorage.removeItem('accessToken');
+        sessionStorage.removeItem('uloga');
+        this.router.navigate(['']);
+      }
+		);
   }
 
   openSnackBar(poruka:string) {

@@ -27,13 +27,19 @@
     </span>
 
     <span class="example-spacer"></span>
-    <button mat-raised-button color="accent" [mtBasicSpinner]="status" [hideText]="status" (click)="open(login)"
-    *ngIf="getRole()!=='ROLE_ADMIN' && getRole()!=='ROLE_SUPERADMIN' && getRole()!=='ROLE_MUSTERIJA' && getRole()!=='ROLE_PRODAVAC'"
-    >Login</button>&nbsp;&nbsp;
 
-    <button mat-raised-button color="accent" [mtBasicSpinner]="status2" [hideText]="status2" (click)="open(registerProzor)"
-    *ngIf="getRole()!=='ROLE_ADMIN' && getRole()!=='ROLE_SUPERADMIN' && getRole()!=='ROLE_MUSTERIJA' && getRole()!=='ROLE_PRODAVAC'"
-    >Registracija</button>
+    <span *ngIf="getRole()!=='ROLE_ADMIN' && getRole()!=='ROLE_SUPERADMIN' && getRole()!=='ROLE_MUSTERIJA' && getRole()!=='ROLE_PRODAVAC'">
+      <button mat-raised-button color="accent" [mtBasicSpinner]="status" [hideText]="status" (click)="open(login)">Login</button>&nbsp;&nbsp;
+    </span>
+
+    <span *ngIf="getRole()!=='ROLE_ADMIN' && getRole()!=='ROLE_SUPERADMIN' && getRole()!=='ROLE_MUSTERIJA' && getRole()!=='ROLE_PRODAVAC'">
+      <button mat-raised-button color="accent" [mtBasicSpinner]="status2" [hideText]="status2" (click)="open(registerProzor)">Registracija</button>
+    </span>
+
+    <span *ngIf="getRole()==='ROLE_ADMIN' || getRole()==='ROLE_SUPERADMIN' || getRole()==='ROLE_MUSTERIJA' || getRole()==='ROLE_PRODAVAC'">
+      <button mat-raised-button color="warn" [mtBasicSpinner]="status3" [hideText]="status3" (click)="logOut()">Logout</button>
+    </span>
+    
   </mat-toolbar>
 
   <ng-template #login let-modal>

@@ -22,7 +22,7 @@ public interface RacunRepository extends JpaRepository<Racun,Integer> {
 
     @Query("SELECT r FROM Racun r " +
             "WHERE ( :od = -1.0 or :do1 = -1.0 or r.konacnaCena BETWEEN :od AND :do1 )" +
-            "AND ( :odDatum is null or :doDatum is null or r.datumKreiranja BETWEEN :odDatum AND :doDatum)" +
+            "AND ( CAST( :odDatum AS date ) is null or CAST( :doDatum AS date ) is null or r.datumKreiranja BETWEEN :odDatum AND :doDatum)" +
             "AND ( :korisnik = r.musterija )")
     Page<Racun>findByCustomCriteriaMusterija(
             @Param("od") double od, @Param("do1") double do1, @Param("odDatum")Date odDatum,@Param("doDatum")Date doDatum,
@@ -31,7 +31,7 @@ public interface RacunRepository extends JpaRepository<Racun,Integer> {
 
     @Query("SELECT r FROM Racun r " +
             "WHERE ( :od = -1.0 or :do1 = -1.0 or r.konacnaCena BETWEEN :od AND :do1 )" +
-            "AND ( :odDatum is null or :doDatum is null or r.datumKreiranja BETWEEN :odDatum AND :doDatum)")
+            "AND ( CAST( :odDatum AS date ) is null or CAST( :doDatum AS date ) is null or r.datumKreiranja BETWEEN :odDatum AND :doDatum)")
     Page<Racun>findByCustomCriteriaAdmin(
             @Param("od") double od, @Param("do1") double do1, @Param("odDatum")Date odDatum,@Param("doDatum")Date doDatum,
             Pageable pageable

@@ -131,7 +131,7 @@ export class ProduktDetaljnoComponent implements OnInit {
   }
 
   edit(){
-    this.router.navigate(['/other/editProdukta/'+this.serijskiBroj])
+    this.router.navigate(['editProdukta/'+this.serijskiBroj])
   }
 
   delete(){

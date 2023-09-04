@@ -59,10 +59,11 @@ export class ProduktEditComponent implements OnInit{
           res=>{
             this.listaTipova = res;
             for( let tip of this.listaTipova ){
-              if(this.produkt.listaTipova.includes(tip)){
+              if(this.includes(this.produkt.listaTipova,tip)){
                 this.addTip(true);
-              }else
+              }else{
                 this.addTip(false);
+              }
             }
           }
         )
@@ -70,14 +71,25 @@ export class ProduktEditComponent implements OnInit{
     )
   }
 
+  includes(lista:Tip[],tip:Tip):boolean{
+    for( let temp of lista ){
+      if (temp.naziv === tip.naziv)
+        return true;
+    }
+    return false;
+  }
+
   update(){
+    this.status = !this.status
     this.produkt.naziv = this.produktForm.value.naziv;
     this.produkt.deskripcija = this.produktForm.value.deskripcija;
     this.produkt.cena = this.produktForm.value.cena;
 
     this.produkt.listaTipova = []
     for( let i in this.listaTipova ){
-      this.produkt.listaTipova.push(new Tip(this.listaTipova[i].naziv,this.produktForm.value.tipovi.at(i).tip));
+      if (this.produktForm.value.tipovi.at(i).tip){
+        this.produkt.listaTipova.push(new Tip(this.listaTipova[i].naziv,0));
+      }
     }
 
     this.produktService.updateProdukt(this.produkt,this.serijskiBroj).subscribe(

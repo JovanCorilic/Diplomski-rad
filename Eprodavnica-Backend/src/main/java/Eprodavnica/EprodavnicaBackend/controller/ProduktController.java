@@ -72,18 +72,18 @@ public class ProduktController {
     }
 
     @GetMapping("/by-pageIstorijaProdukata")
-    public ResponseEntity<Page<ProduktMiniDTO>>getIstorijaProdukataPageable(Pageable pageable){
+    public ResponseEntity<Page<ProduktDTO>>getIstorijaProdukataPageable(Pageable pageable){
         Page<Produkt>page = produktService.findByIstorijaProdukataPageable(pageable,TrenutnoUlogovanKorisnik());
-        List<ProduktMiniDTO>lista = produktMapper.toDTOListaMiniProdukt(page.toList());
-        Page<ProduktMiniDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
+        List<ProduktDTO>lista = produktMapper.toDTOListProdukt(page.toList());
+        Page<ProduktDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
     @GetMapping("/by-pageWishlist")
-    public ResponseEntity<Page<ProduktMiniDTO>>getWishlistPageable(Pageable pageable){
+    public ResponseEntity<Page<ProduktDTO>>getWishlistPageable(Pageable pageable){
         Page<Produkt>page = produktService.findByWishlist(pageable,TrenutnoUlogovanKorisnik());
-        List<ProduktMiniDTO>lista = produktMapper.toDTOListaMiniProdukt(page.toList());
-        Page<ProduktMiniDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
+        List<ProduktDTO>lista = produktMapper.toDTOListProdukt(page.toList());
+        Page<ProduktDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
@@ -96,18 +96,18 @@ public class ProduktController {
     }
 
     @PostMapping("/filter-by-pageIstorijaProdukata")
-    public ResponseEntity<Page<ProduktMiniDTO>>getProduktFilterPageIstorijaProdukata(@RequestBody FilterDTO filterDTO, Pageable pageable){
+    public ResponseEntity<Page<ProduktDTO>>getProduktFilterPageIstorijaProdukata(@RequestBody FilterDTO filterDTO, Pageable pageable){
         Page<Produkt>page = produktService.filterPageableIstorijaProdukata(filterDTO,pageable,TrenutnoUlogovanKorisnik());
-        List<ProduktMiniDTO>lista = produktMapper.toDTOListaMiniProdukt(page.toList());
-        Page<ProduktMiniDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
+        List<ProduktDTO>lista = produktMapper.toDTOListProdukt(page.toList());
+        Page<ProduktDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
     @GetMapping("/filter-by-pageWishlist")
-    public ResponseEntity<Page<ProduktMiniDTO>>getProduktFilterPageWishlist(@RequestBody FilterDTO filterDTO, Pageable pageable){
+    public ResponseEntity<Page<ProduktDTO>>getProduktFilterPageWishlist(@RequestBody FilterDTO filterDTO, Pageable pageable){
         Page<Produkt>page = produktService.filterPageableWishlist(filterDTO,pageable,TrenutnoUlogovanKorisnik());
-        List<ProduktMiniDTO>lista = produktMapper.toDTOListaMiniProdukt(page.toList());
-        Page<ProduktMiniDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
+        List<ProduktDTO>lista = produktMapper.toDTOListProdukt(page.toList());
+        Page<ProduktDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 

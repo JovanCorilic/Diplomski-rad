@@ -52,6 +52,14 @@ public class ProduktMapper implements MapperInterface<Produkt, ProduktDTO> {
         return temp;
     }
 
+    public List<ProduktDTO> toDTOListProdukt(List<Produkt>lista){
+        List<ProduktDTO>temp = new ArrayList<>();
+        for (Produkt produkt : lista){
+            temp.add(toDto(produkt));
+        }
+        return temp;
+    }
+
     public ProduktMapper() {
         this.tipMapper = new TipMapper();
     }

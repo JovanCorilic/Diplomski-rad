@@ -1,5 +1,5 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { Racun } from 'src/app/MODEL/Racun';
 
@@ -15,7 +15,7 @@ import { Racun } from 'src/app/MODEL/Racun';
     ]),
   ],
 })
-export class TabelaRacunaComponent {
+export class TabelaRacunaComponent implements OnInit, OnChanges{
   @Input() listaRacuna:Racun[]|undefined;
 
   dataSource:Racun[] = []
@@ -26,14 +26,23 @@ export class TabelaRacunaComponent {
   constructor(
     private router:Router,
   ){
-    if (this.listaRacuna !== undefined)
-      this.dataSource = this.listaRacuna
+    
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
     };
   }
+  ngOnInit(): void {
+    this.dataSource = []
+    if (this.listaRacuna !== undefined)
+      this.dataSource = this.listaRacuna
+  }
+  ngOnChanges(changes: any): void {
+    this.dataSource = []
+    if (changes.listaRacuna.currentValue !==undefined)
+      this.dataSource = changes.listaRacuna.currentValue
+  }
 
   idiNaIndividualniRacun(brojRacuna:string){
-    this.router.navigate(['/other/racun/'+brojRacuna])
+    this.router.navigate(['racun/'+brojRacuna])
   }
 }

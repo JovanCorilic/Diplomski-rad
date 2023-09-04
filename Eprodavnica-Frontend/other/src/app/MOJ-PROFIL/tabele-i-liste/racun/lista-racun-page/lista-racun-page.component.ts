@@ -113,7 +113,6 @@ export class ListaRacunPageComponent {
     if (this.filterForm.value.doDatum != "")
       this.filter.datum.doDatum = this.filterForm.value.doDatum;
 
-
     if (this.svrha === "Musterija")
       this.racunService.filterByPageMusterija(this.filter,this.currentPage-1,this.pageSize).subscribe(
         res =>{
