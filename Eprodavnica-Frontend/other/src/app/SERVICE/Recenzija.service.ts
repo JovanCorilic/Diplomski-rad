@@ -30,4 +30,26 @@ export class RecenzijaService{
 		});
         return this.http.post(this.path+'/filter-by-page'+`/${serijskiBroj}`,filter, queryParams);
     }
+
+	public getByPageMusterija(page:number,size:number): Observable<any>{
+        return this.http.get(this.path+"/by-pageMusterija?page="+page+"&size="+size, {headers:this.headers})
+	}
+
+    public filterByPageMusterija(filter:Filter, page:number,size:number):Observable<any>{
+        let queryParams = {};
+
+		queryParams = {
+			headers:new HttpHeaders({
+				'Content-Type': 'application/json'
+			}),
+			observe: 'response',
+			params: new HttpParams()
+				.set('page', String(page))
+				.append('size', String(size)),
+		};
+		const headeri=new HttpHeaders({
+			'Content-Type': 'application/json'
+		});
+        return this.http.post(this.path+'/filter-by-pageMusterija',filter, queryParams);
+    }
 }

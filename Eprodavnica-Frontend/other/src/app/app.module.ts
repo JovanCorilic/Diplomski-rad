@@ -47,6 +47,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { IndividualniRacunComponent } from './MOJ-PROFIL/tabele-i-liste/racun/individualni-racun/individualni-racun.component';
 import { TabelaArtikalComponent } from './MOJ-PROFIL/tabele-i-liste/racun/tabela-artikal/tabela-artikal.component';
+import { TabelaRecenzijaComponent } from './MOJ-PROFIL/musterija/lista-recenzija-page/tabela-recenzija/tabela-recenzija.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { TabelaArtikalComponent } from './MOJ-PROFIL/tabele-i-liste/racun/tabela
     TabelaRacunaComponent,
     ListaRacunPageComponent,
     IndividualniRacunComponent,
-    TabelaArtikalComponent
+    TabelaArtikalComponent,
+    TabelaRecenzijaComponent
   ],
   imports: [
     BrowserModule,
