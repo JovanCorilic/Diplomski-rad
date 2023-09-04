@@ -2,6 +2,7 @@ package Eprodavnica.EprodavnicaBackend.service;
 
 import Eprodavnica.EprodavnicaBackend.dto.Filter.FilterDTO;
 import Eprodavnica.EprodavnicaBackend.dto.Filter.OcenaDTO;
+import Eprodavnica.EprodavnicaBackend.model.Korisnik;
 import Eprodavnica.EprodavnicaBackend.model.Produkt;
 import Eprodavnica.EprodavnicaBackend.model.Recenzija;
 import Eprodavnica.EprodavnicaBackend.repository.KorisnikRepository;
@@ -35,6 +36,11 @@ public class RecenzijaService implements ServiceInterface<Recenzija>{
         return recenzijaRepository.findByProdukt(produkt,pageable);
     }
 
+    public Page<Recenzija>findAllMusterijaPageable(Pageable pageable, String email){
+        Korisnik korisnik = korisnikRepository.findByEmail(email);
+        return recenzijaRepository.findByMusterija(korisnik,pageable);
+    }
+
     public Page<Recenzija>filterPageable(Pageable pageable, String serijskiBroj, FilterDTO filterDTO){
         List<Integer>ocene = new ArrayList<>();
         for (OcenaDTO ocenaDTO : filterDTO.getOcena()){
@@ -44,6 +50,17 @@ public class RecenzijaService implements ServiceInterface<Recenzija>{
         Produkt produkt = produktRepository.findBySerijskiBroj(serijskiBroj).orElse(null);
         return recenzijaRepository.findByOcenaInAndProdukt(ocene,produkt,pageable);
 
+    }
+
+    public Page<Recenzija>filterMusterijaPageable(Pageable pageable,FilterDTO filterDTO,String email){
+        List<Integer>ocene = new ArrayList<>();
+        for (OcenaDTO ocenaDTO : filterDTO.getOcena()){
+            if (ocenaDTO.isKoristiSe())
+                ocene.add(ocenaDTO.getOcena());
+        }
+        Korisnik korisnik = korisnikRepository.findByEmail(email);
+        return recenzijaRepository.findByCustomCriteria(ocene,filterDTO.getDatum().getOdDatum(),
+                filterDTO.getDatum().getDoDatum(), korisnik,pageable);
     }
 
     public Recenzija findOne(Integer id) {

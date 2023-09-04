@@ -1,12 +1,7 @@
 package Eprodavnica.EprodavnicaBackend.controller;
-
 import Eprodavnica.EprodavnicaBackend.dto.Filter.FilterDTO;
-import Eprodavnica.EprodavnicaBackend.dto.ProduktDTO;
-import Eprodavnica.EprodavnicaBackend.dto.ProduktMiniDTO;
 import Eprodavnica.EprodavnicaBackend.dto.RecenzijaDTO;
-import Eprodavnica.EprodavnicaBackend.mapper.ProduktMapper;
 import Eprodavnica.EprodavnicaBackend.mapper.RecenzijaMapper;
-import Eprodavnica.EprodavnicaBackend.model.Produkt;
 import Eprodavnica.EprodavnicaBackend.model.Recenzija;
 import Eprodavnica.EprodavnicaBackend.service.RecenzijaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static Eprodavnica.EprodavnicaBackend.controller.KorisnikController.TrenutnoUlogovanKorisnik;
 
 @RestController
 @RequestMapping(value = "/recenzija", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -67,10 +64,26 @@ public class RecenzijaController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @GetMapping("/by-pageMusterija")
+    public ResponseEntity<Page<RecenzijaDTO>>getRecenzijaPageableMusterija(Pageable pageable){
+        Page<Recenzija>page = recenzijaService.findAllMusterijaPageable(pageable,TrenutnoUlogovanKorisnik());
+        List<RecenzijaDTO>lista = recenzijaMapper.uListuDTO(page.toList());
+        Page<RecenzijaDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
     @PostMapping("/filter-by-page/{serijskiBroj}")
     public ResponseEntity<Page<RecenzijaDTO>>getProduktFilter(@RequestBody FilterDTO filterDTO,
                                                                 @PathVariable String  serijskiBroj,Pageable pageable){
         Page<Recenzija>page = recenzijaService.filterPageable(pageable,serijskiBroj,filterDTO);
+        List<RecenzijaDTO>lista = recenzijaMapper.uListuDTO(page.toList());
+        Page<RecenzijaDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
+    @PostMapping("/filter-by-pageMusterija")
+    public ResponseEntity<Page<RecenzijaDTO>>getProduktFilterMusterija(@RequestBody FilterDTO filterDTO,Pageable pageable){
+        Page<Recenzija>page = recenzijaService.filterPageable(pageable,TrenutnoUlogovanKorisnik(),filterDTO);
         List<RecenzijaDTO>lista = recenzijaMapper.uListuDTO(page.toList());
         Page<RecenzijaDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
         return new ResponseEntity<>(dtos,HttpStatus.OK);
