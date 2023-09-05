@@ -21,9 +21,9 @@ import { TipService } from 'src/app/SERVICE/Tip.service';
 })
 export class MusterijaComponent implements OnInit{
   musterija = <Musterija>{}
+  status:boolean = false
 
   korisnikForm : FormGroup
-
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -33,12 +33,9 @@ export class MusterijaComponent implements OnInit{
     private _snackBar: MatSnackBar,
     private modalService: NgbModal,
     private fBuilder: FormBuilder,
-    private tipService:TipService,
-    private produktService:ProduktService,
-    private racunService:RacunService
   ){
 
-    this.korisnikForm = fBuilder.group({
+    this.korisnikForm = this.fBuilder.group({
       ime: ["",[Validators.required]],
       prezime: ["",[Validators.required]],
     })
@@ -56,7 +53,25 @@ export class MusterijaComponent implements OnInit{
   }
 
   update(){
-    
+    this.status = !this.status
+    this.musterija.ime = this.korisnikForm.value.ime;
+    this.musterija.prezime = this.korisnikForm.value.prezime;
+    this.korisnikService.updateKorisnik(this.musterija).subscribe(
+      res=>{
+        this.status = !this.status
+        this.openSnackBar("Uspešno promenjene lične informacije!")
+      },
+      error =>{
+        this.status = !this.status
+      }
+    )
+  }
+
+  openSnackBar(poruka:string) {
+    this._snackBar.open(poruka, 'x', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
   }
 
   open(content:any) {

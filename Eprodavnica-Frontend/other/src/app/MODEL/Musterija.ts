@@ -1,8 +1,3 @@
-import { ProduktMini } from "./ProduktMini"
-import { Racun } from "./Racun"
-import { Recenzija } from "./Recenzija"
-import { Tip } from "./Tip"
-
 export class Musterija {
     ime: string
     prezime: string

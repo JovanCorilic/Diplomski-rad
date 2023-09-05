@@ -17,4 +17,8 @@ export class KorisnikService{
     public dajProdavac():Observable<Prodavac>{
         return this.http.get<Prodavac>(this.path+"/dajProdavac");
     }
+
+    public updateKorisnik(korisnik:Musterija){
+        return this.http.put(this.path+"/update",korisnik);
+    }
 }

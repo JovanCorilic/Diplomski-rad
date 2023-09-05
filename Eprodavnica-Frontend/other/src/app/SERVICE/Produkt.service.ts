@@ -74,6 +74,28 @@ export class ProduktService{
         return this.http.post(this.path+'/filter-by-pageWishlist',filter, queryParams);
     }
 
+    public getByPageProdavac(page:number,size:number): Observable<any>{
+        return this.http.get(this.path+"/by-pageProdavac?page="+page+"&size="+size, {headers:this.headers})
+	}
+
+    public filterByPageProdavac(filter:Filter, page:number,size:number):Observable<any>{
+        let queryParams = {};
+
+		queryParams = {
+			headers:new HttpHeaders({
+				'Content-Type': 'application/json'
+			}),
+			observe: 'response',
+			params: new HttpParams()
+				.set('page', String(page))
+				.append('size', String(size)),
+		};
+		const headeri=new HttpHeaders({
+			'Content-Type': 'application/json'
+		});
+        return this.http.post(this.path+'/filter-by-pageProdavac',filter, queryParams);
+    }
+
     public izbaciIzWishlista(serijskiBroj:string){
         return this.http.post(this.path+"/izbaciIzWishlista",serijskiBroj);
     }

@@ -69,6 +69,14 @@ export class ListaProduktPageComponent {
         }
       )
     }
+    else if(this.svrha === "Prodavac"){
+      this.produktService.getByPageProdavac(this.currentPage - 1,this.pageSize).subscribe(
+        res =>{
+          this.lista = res.content as Produkt[];
+          this.totalSize = Number(res.totalElements);
+        }
+      )
+    }
 
     this.tipService.getAllTip().subscribe(
       res=>{
@@ -113,6 +121,18 @@ export class ListaProduktPageComponent {
           this.status2 = !this.status2
         }
       )
+    else if(this.svrha === "Prodavac"){
+      this.produktService.getByPageProdavac(this.currentPage - 1,this.pageSize).subscribe(
+        res =>{
+          this.lista = res.content as Produkt[];
+          this.totalSize = Number(res.totalElements);
+          this.status2 = !this.status2
+        },
+        error=>{
+          this.status2 = !this.status2
+        }
+      )
+    }
   }
 
   filters(){
@@ -160,6 +180,19 @@ export class ListaProduktPageComponent {
           this.status = !this.status
         }
       )
+    else if(this.svrha === "Prodavac"){
+      this.produktService.filterByPageProdavac(this.filter,this.currentPage-1,this.pageSize).subscribe(
+        res =>{
+          this.lista = res.body.content as Produkt[];
+          this.totalSize = Number(res.body.totalElements);
+          this.ukljucioFilter = true;
+          this.status = !this.status
+        },
+        error=>{
+          this.status = !this.status
+        }
+      )
+    }
   }
 
   changePage(newPage: number) {
@@ -195,6 +228,22 @@ export class ListaProduktPageComponent {
           }
         )
       }
+    else if(this.svrha === "Prodavac")
+    if (this.ukljucioFilter){
+      this.produktService.filterByPageProdavac(this.filter,newPage-1,this.pageSize).subscribe(
+        res =>{
+          this.lista = res.body.content as Produkt[];
+          this.totalSize = Number(res.body.totalElements);
+        }
+      )
+    }else {
+      this.produktService.getByPageProdavac(newPage - 1,this.pageSize).subscribe(
+        res=>{
+          this.lista = res.content as Produkt[];
+          this.totalSize = Number(res.totalElements);
+        }
+      )
+    }
   }
 
   open(content:any) {

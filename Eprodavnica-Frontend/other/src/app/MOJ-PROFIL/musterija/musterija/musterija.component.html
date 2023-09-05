@@ -26,6 +26,11 @@
                     <mat-hint>Prezime</mat-hint>
                   </mat-form-field>
             </div>
+            <div>
+              <button  mat-raised-button type="submit" color="accent" [disabled]="korisnikForm.invalid">
+                  Promeni lične informacije
+              </button>
+            </div>
         </form>
       </div>
     </mat-tab>

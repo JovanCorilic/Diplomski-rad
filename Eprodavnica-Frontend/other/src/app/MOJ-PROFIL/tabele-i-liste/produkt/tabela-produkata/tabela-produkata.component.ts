@@ -1,6 +1,7 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { Produkt } from 'src/app/MODEL/Produkt';
 
 @Component({
@@ -43,5 +44,18 @@ export class TabelaProdukataComponent implements OnInit, OnChanges{
 
   idiNaProdukt(serijskiBroj:string){
     this.router.navigate(['produktDetaljno/'+serijskiBroj])
+  }
+
+  getRole():string{
+    const item = sessionStorage.getItem('user');
+
+    if(!item){
+      return "";
+    }
+
+    const jwt:JwtHelperService = new JwtHelperService();
+    const decodedItem = JSON.parse(item!);
+    const info = jwt.decodeToken(decodedItem.accessToken);
+    return info['uloga'];
   }
 }

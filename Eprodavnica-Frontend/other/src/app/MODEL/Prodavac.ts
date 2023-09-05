@@ -1,5 +1,3 @@
-import { ProduktMini } from "./ProduktMini"
-
 export class Prodavac {
     ime: string
     prezime: string

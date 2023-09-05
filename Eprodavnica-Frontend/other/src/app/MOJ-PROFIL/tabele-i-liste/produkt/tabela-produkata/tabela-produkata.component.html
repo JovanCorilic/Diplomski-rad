@@ -32,6 +32,9 @@
                   Akcija : {{element.akcija}}%
               </span>
               <ng-template #elseBlock>Nema akcije</ng-template>
+              <span *ngIf="getRole()==='ROLE_PRODAVAC'"> <br>
+                Broj kupljenih produkata : {{element.brojProdato}}
+              </span>
             </td>
             <td>
               Deskripcija : {{element.deskripcija}}

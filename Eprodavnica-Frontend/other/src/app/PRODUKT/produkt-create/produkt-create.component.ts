@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TipFilter } from 'src/app/MODEL/Filter/TipFilter';
@@ -19,12 +20,16 @@ export class ProduktCreateComponent implements OnInit{
   listaTipova: TipFilter[] = [];
   status:boolean= false
 
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+
   constructor(
     private router:Router,
     private produktService:ProduktService,
     private fBuilder: FormBuilder,
     private modalService: NgbModal,
-    private tipService:TipService
+    private tipService:TipService,
+    private _snackBar: MatSnackBar
   ){
     this.produktForm = fBuilder.group({
       naziv: ["",[Validators.required]],
@@ -58,12 +63,19 @@ export class ProduktCreateComponent implements OnInit{
     this.produktService.napraviProdukt(this.produkt).subscribe(
       res=>{
         this.status = !this.status
-        this.router.navigate([''])
+        this.openSnackBar("Uspešno napravljen produkt!")
       },
       error=>{
         this.status = !this.status
       }
     )
+  }
+
+  openSnackBar(poruka:string) {
+    this._snackBar.open(poruka, 'x', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
   }
 
   getErrorMessage(temp:any) {
