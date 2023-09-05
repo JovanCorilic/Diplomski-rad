@@ -49,6 +49,11 @@ public class ProduktService implements ServiceInterface<Produkt>{
         return produktRepository.findByWishlistContains(korisnik,pageable);
     }
 
+    public  Page<Produkt>findByProdavac(Pageable pageable,String email){
+        Korisnik korisnik = korisnikRepository.findByEmail(email);
+        return produktRepository.findByProdavac(korisnik,pageable);
+    }
+
     public Page<Produkt>filterPageable(FilterDTO filterDTO, Pageable pageable){
         List<Integer>ocene = new ArrayList<>();
         for (OcenaDTO ocenaDTO : filterDTO.getOcena()){
@@ -139,6 +144,37 @@ public class ProduktService implements ServiceInterface<Produkt>{
             }
         Korisnik korisnik = korisnikRepository.findByEmail(email);
         return produktRepository.findByCustomCriteriaWishlist(filterDTO.getNaziv(), od,do1,listaTipova,ocene,korisnik,pageable);
+    }
+
+    public Page<Produkt>filterPageableProdavac(FilterDTO filterDTO, Pageable pageable,String email){
+        List<Integer>ocene = new ArrayList<>();
+        for (OcenaDTO ocenaDTO : filterDTO.getOcena()){
+            if (ocenaDTO.isKoristiSe())
+                ocene.add(ocenaDTO.getOcena());
+        }
+        List<String>tipovi = new ArrayList<>();
+        for (TipFilterDTO tipFilterDTO : filterDTO.getTip()){
+            if (tipFilterDTO.isKoristiSe())
+                tipovi.add(tipFilterDTO.getNaziv());
+        }
+        List<Tip> listaTipova;
+        if (tipovi.isEmpty()) {
+            listaTipova = new ArrayList<>();
+        }
+        else {
+            listaTipova = tipRepository.findByNazivIgnoreCaseIn(tipovi);
+        }
+        double od = -1;
+        double do1 = -1;
+        if (filterDTO.getCena()!=null)
+            if (filterDTO.getCena().getDoCena()!=null && filterDTO.getCena().getOdCena()!=null){
+                if (isNumeric(filterDTO.getCena().getDoCena()) && isNumeric(filterDTO.getCena().getOdCena())){
+                    od = Double.parseDouble(filterDTO.getCena().getOdCena());
+                    do1 = Double.parseDouble(filterDTO.getCena().getDoCena());
+                }
+            }
+        Korisnik korisnik = korisnikRepository.findByEmail(email);
+        return produktRepository.findByCustomCriteriaProdavac(filterDTO.getNaziv(), od,do1,listaTipova,ocene,korisnik,pageable);
     }
 
     public static boolean isNumeric(String str) {

@@ -20,6 +20,7 @@ public class ProduktDTO {
     private double ocena;
     private Date datumPravljenja;
     private int akcija;
+    private int brojProdato;
     private List<TipDTO>listaTipova;
     private String emailProdavac;
     //private KorisnikDTO prodavac;

@@ -48,6 +48,9 @@ public class Produkt {
     @Column
     private int akcija;
 
+    @Column
+    private int brojProdato;
+
     @ManyToMany()
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Tip>listaTipova;
@@ -68,7 +71,7 @@ public class Produkt {
     @ManyToMany(mappedBy = "istorijaKupljenihProdukata")
     private List<Korisnik>istorijaKupaca;
 
-    public Produkt(String naziv, String deskripcija, String serijskiBroj, double cena, double ocena, Date datumPravljenja, int akcija, List<Tip> listaTipova, Korisnik prodavac) {
+    public Produkt(String naziv, String deskripcija, String serijskiBroj, double cena, double ocena, Date datumPravljenja, int akcija,int brojProdato, List<Tip> listaTipova, Korisnik prodavac) {
         this.naziv = naziv;
         this.deskripcija = deskripcija;
         this.serijskiBroj = serijskiBroj;
@@ -76,6 +79,7 @@ public class Produkt {
         this.ocena = ocena;
         this.datumPravljenja = datumPravljenja;
         this.akcija = akcija;
+        this.brojProdato = brojProdato;
         this.listaTipova = listaTipova;
         this.prodavac = prodavac;
     }

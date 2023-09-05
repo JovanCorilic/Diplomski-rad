@@ -22,7 +22,7 @@ public class ProduktMapper implements MapperInterface<Produkt, ProduktDTO> {
             tips.add(tipMapper.toModel(tipDTO));
         }
         return new Produkt(dto.getNaziv(),dto.getDeskripcija(),dto.getSerijskiBroj(),dto.getCena(),dto.getOcena(),
-                dto.getDatumPravljenja(),dto.getAkcija(),tips,new Korisnik(dto.getEmailProdavac()));
+                dto.getDatumPravljenja(),dto.getAkcija(),dto.getBrojProdato(),tips,new Korisnik(dto.getEmailProdavac()));
     }
 
     @Override
@@ -32,7 +32,7 @@ public class ProduktMapper implements MapperInterface<Produkt, ProduktDTO> {
             tipDTOS.add(tipMapper.toDto(tip));
         }
         return new ProduktDTO(entity.getNaziv(),entity.getDeskripcija(),entity.getSerijskiBroj(),entity.getCena(),
-                entity.getOcena(),entity.getDatumPravljenja(),entity.getAkcija(),tipDTOS,entity.getProdavac().getEmail());
+                entity.getOcena(),entity.getDatumPravljenja(),entity.getAkcija(),entity.getBrojProdato(),tipDTOS,entity.getProdavac().getEmail());
     }
 
     public ProduktMiniDTO toDTOMini(Produkt entity){
