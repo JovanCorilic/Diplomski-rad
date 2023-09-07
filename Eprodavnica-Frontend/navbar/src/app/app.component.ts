@@ -40,7 +40,7 @@ export class AppComponent {
       ime: ["",[Validators.required]],
       prezime: ["",[Validators.required]],
       email: ["",[Validators.required,Validators.email]],
-      lozinka: ["",[Validators.required, Validators.minLength(4),this.daLiImaBroj(),this.daLiImaSpecijalanKarakter()]]
+      lozinka: ["",[Validators.required, Validators.minLength(5),this.daLiImaBroj(),this.daLiImaSpecijalanKarakter()]]
     });
 
     this.logForm = this.fBuilder.group({
@@ -105,6 +105,9 @@ export class AppComponent {
     }
     else if (temp.hasError('daLiImaSpecijalanKarakter')) {
       return 'Morate uneti specijalni karakter';
+    }
+    else if( temp.hasError('minLength')){
+      return 'Mora biti dužine barem 5 karaktera'
     }
     else
     return temp.hasError('email') ? 'To nije validan email' : '';

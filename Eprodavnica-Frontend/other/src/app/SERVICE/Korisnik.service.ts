@@ -5,6 +5,7 @@ import { Musterija } from "../MODEL/Musterija";
 import { Prodavac } from "../MODEL/Prodavac";
 import { Filter } from "../MODEL/Filter/Filter";
 import { Korisnik } from "../MODEL/Korisnik";
+import { PravljenjeAdmina } from "../MODEL/PravljanjeAdmina";
 
 @Injectable({ providedIn: 'root' })
 export class KorisnikService{
@@ -96,5 +97,9 @@ export class KorisnikService{
 
 	public povuciKorisnika(email:string){
 		return this.http.delete(this.path+"/povuciKorisnika"+`/${email}`)
+	}
+
+	public createAdmin(admin:PravljenjeAdmina){
+		return this.http.post(this.path+"/pravljenjeAdmina",admin);
 	}
 }

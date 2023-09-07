@@ -50,6 +50,7 @@ import { TabelaArtikalComponent } from './MOJ-PROFIL/tabele-i-liste/racun/tabela
 import { TabelaRecenzijaComponent } from './MOJ-PROFIL/musterija/lista-recenzija-page/tabela-recenzija/tabela-recenzija.component';
 import { ListaKorisnikPageComponent } from './MOJ-PROFIL/tabele-i-liste/korisnik/lista-korisnik-page/lista-korisnik-page.component';
 import { TabelaKorisnikComponent } from './MOJ-PROFIL/tabele-i-liste/korisnik/tabela-korisnik/tabela-korisnik.component';
+import { SuperadminComponent } from './MOJ-PROFIL/superadmin/superadmin.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { TabelaKorisnikComponent } from './MOJ-PROFIL/tabele-i-liste/korisnik/ta
     TabelaArtikalComponent,
     TabelaRecenzijaComponent,
     ListaKorisnikPageComponent,
-    TabelaKorisnikComponent
+    TabelaKorisnikComponent,
+    SuperadminComponent
   ],
   imports: [
     BrowserModule,
