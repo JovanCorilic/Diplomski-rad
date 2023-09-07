@@ -1,5 +1,6 @@
 package Eprodavnica.EprodavnicaBackend.service;
 
+import Eprodavnica.EprodavnicaBackend.dto.KorisnikDTO;
 import Eprodavnica.EprodavnicaBackend.dto.MusterijaDTO;
 import Eprodavnica.EprodavnicaBackend.model.Korisnik;
 import Eprodavnica.EprodavnicaBackend.model.Uloga;
@@ -10,6 +11,8 @@ import Eprodavnica.EprodavnicaBackend.repository.UlogaRepository;
 import Eprodavnica.EprodavnicaBackend.repository.VerificationTokenRepository;
 import Eprodavnica.EprodavnicaBackend.security.password.CustomPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -44,6 +47,49 @@ public class CustomUserDetailsService implements UserDetailsService {
                 throw new UsernameNotFoundException(String.format("Korisnik nije odobren od strane admina '%s'.", email));
             return user;
         }
+    }
+
+    public void update(Korisnik korisnik,String email){
+        Korisnik user = userRepository.findByEmail(email);
+        user.setIme(korisnik.getIme());
+        user.setPrezime(korisnik.getPrezime());
+        userRepository.save(user);
+    }
+
+    public Page<Korisnik>findAllMusterija(Pageable pageable){
+        Uloga uloga = ulogaRepository.findByName("ROLE_MUSTERIJA");
+        return userRepository.findByUlogeContainingAndPotvrdjenIsTrueAndOdobrenOdAdminaIsTrue(uloga,pageable);
+    }
+
+    public Page<Korisnik>findAllProdavac(Pageable pageable){
+        Uloga uloga = ulogaRepository.findByName("ROLE_PRODAVAC");
+        return userRepository.findByUlogeContainingAndPotvrdjenIsTrueAndOdobrenOdAdminaIsTrue(uloga,pageable);
+    }
+
+    public Page<Korisnik>findAllAdmin(Pageable pageable){
+        Uloga uloga = ulogaRepository.findByName("ROLE_ADMIN");
+        return userRepository.findByUlogeContainingAndPotvrdjenIsTrueAndOdobrenOdAdminaIsTrue(uloga,pageable);
+    }
+
+    public Page<Korisnik>filterAllMusterija(KorisnikDTO korisnikDTO,Pageable pageable){
+        Uloga uloga = ulogaRepository.findByName("ROLE_MUSTERIJA");
+        return userRepository.findByCustomCriteria(korisnikDTO,uloga,pageable);
+    }
+
+    public Page<Korisnik>filterAllProdavac(KorisnikDTO korisnikDTO,Pageable pageable){
+        Uloga uloga = ulogaRepository.findByName("ROLE_PRODAVAC");
+        return userRepository.findByCustomCriteria(korisnikDTO,uloga,pageable);
+    }
+
+    public void povuciKorisnika(String email){
+        Korisnik korisnik = userRepository.findByEmail(email);
+        korisnik.setOdobrenOdAdmina(false);
+        userRepository.save(korisnik);
+    }
+
+    public Page<Korisnik>filterAllAdmin(KorisnikDTO korisnikDTO,Pageable pageable){
+        Uloga uloga = ulogaRepository.findByName("ROLE_ADMIN");
+        return userRepository.findByCustomCriteria(korisnikDTO,uloga,pageable);
     }
 
     public List<Korisnik> SveMusterije(){
