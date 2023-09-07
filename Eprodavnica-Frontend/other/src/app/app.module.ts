@@ -48,6 +48,8 @@ import {MatNativeDateModule} from '@angular/material/core';
 import { IndividualniRacunComponent } from './MOJ-PROFIL/tabele-i-liste/racun/individualni-racun/individualni-racun.component';
 import { TabelaArtikalComponent } from './MOJ-PROFIL/tabele-i-liste/racun/tabela-artikal/tabela-artikal.component';
 import { TabelaRecenzijaComponent } from './MOJ-PROFIL/musterija/lista-recenzija-page/tabela-recenzija/tabela-recenzija.component';
+import { ListaKorisnikPageComponent } from './MOJ-PROFIL/tabele-i-liste/korisnik/lista-korisnik-page/lista-korisnik-page.component';
+import { TabelaKorisnikComponent } from './MOJ-PROFIL/tabele-i-liste/korisnik/tabela-korisnik/tabela-korisnik.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +70,9 @@ import { TabelaRecenzijaComponent } from './MOJ-PROFIL/musterija/lista-recenzija
     ListaRacunPageComponent,
     IndividualniRacunComponent,
     TabelaArtikalComponent,
-    TabelaRecenzijaComponent
+    TabelaRecenzijaComponent,
+    ListaKorisnikPageComponent,
+    TabelaKorisnikComponent
   ],
   imports: [
     BrowserModule,

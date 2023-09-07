@@ -2,17 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatSnackBar } from '@angular/material/snack-bar';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Cena } from 'src/app/MODEL/Filter/Cena';
-import { Filter } from 'src/app/MODEL/Filter/Filter';
-import { Ocena } from 'src/app/MODEL/Filter/Ocena';
-import { TipFilter } from 'src/app/MODEL/Filter/TipFilter';
 import { Musterija } from 'src/app/MODEL/Musterija';
-import { ProduktMini } from 'src/app/MODEL/ProduktMini';
-import { Tip } from 'src/app/MODEL/Tip';
 import { KorisnikService } from 'src/app/SERVICE/Korisnik.service';
-import { ProduktService } from 'src/app/SERVICE/Produkt.service';
-import { RacunService } from 'src/app/SERVICE/Racun.service';
-import { TipService } from 'src/app/SERVICE/Tip.service';
+
 
 @Component({
   selector: 'app-musterija',
