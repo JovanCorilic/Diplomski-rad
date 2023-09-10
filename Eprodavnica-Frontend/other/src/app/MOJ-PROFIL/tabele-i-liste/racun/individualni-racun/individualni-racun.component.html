@@ -2,7 +2,7 @@
     <h3>Datum kreiranja {{racun.datumKreiranja | date:'dd.MM.yyyy HH:mm'}}</h3>
 
     <div>
-        <app-tabela-artikal [listaArtikala]="lista">
+        <app-tabela-artikal [listaArtikala]="lista" [korpa]="racun.korpa">
 
         </app-tabela-artikal>
     </div>
@@ -12,4 +12,10 @@
             
         </app-pagination>
     </div>
+    <br>
+    Ukupna cena : {{racun.konacnaCena}}din
+    <br>
+    <br>
+    <button mat-raised-button color="warn" (click)="plati()">Plati</button>
+    <br>
 </div>

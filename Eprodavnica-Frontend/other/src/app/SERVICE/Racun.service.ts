@@ -84,5 +84,17 @@ export class RacunService{
 	dajRacun(brojRacuna:String):Observable<Racun>{
 		return this.http.get<Racun>(this.path+"/get"+`/${brojRacuna}`);
 	}
+
+	dajAktivanRacun():Observable<Racun>{
+		return this.http.get<Racun>(this.path+"/dajAktivanRacun");
+	}
+
+	ukloniArtikal(id:number){
+		return this.http.delete(this.path+"/ukloniArtikal"+`/${id}`)
+	}
+
+	plati(brojRacuna:string){
+		return this.http.put(this.path+"/plati",brojRacuna)
+	}
     
 }

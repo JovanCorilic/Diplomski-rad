@@ -30,7 +30,9 @@
               Komentar : {{element.komentar}}
             </td>
             <td style="text-align: right;">
-              <button mat-raised-button color="warn" (click)="idiNaProdukt(element.serijskiBrojProdukt)">Idi na produkt</button>&nbsp;&nbsp;
+              <button mat-raised-button color="accent" (click)="idiNaProdukt(element.produkt.serijskiBroj)">Idi na produkt</button>&nbsp;&nbsp;
+              <br>
+              <button mat-raised-button color="warn" (click)="ukloni(element.id)">Obriši recenziju</button>&nbsp;&nbsp;
             </td>
           </tr>
         </table>

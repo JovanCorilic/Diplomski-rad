@@ -50,6 +50,11 @@
     </mat-drawer>
   
     <div class="example-sidenav-content">
+      <span *ngIf="svrha === 'Musterija'">
+        <br>
+        <button type="button" mat-raised-button color="warn"  style="width: 100%;" (click)="idiNaKorpu(racun.brojRacuna)">Korpa</button>
+        <br>
+      </span>
       <div>
         <app-tabela-racuna [listaRacuna]="lista"></app-tabela-racuna>
       </div>

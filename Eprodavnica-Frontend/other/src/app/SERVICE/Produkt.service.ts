@@ -99,4 +99,8 @@ export class ProduktService{
     public izbaciIzWishlista(serijskiBroj:string){
         return this.http.post(this.path+"/izbaciIzWishlista",serijskiBroj);
     }
+
+    public daLiJeUIstorijiProdukata(serijskiBroj:string):Observable<boolean>{
+        return this.http.get<boolean>(this.path+"/daLiJeUIstorijiProdukata"+`/${serijskiBroj}`);
+    }
 }

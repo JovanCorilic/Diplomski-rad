@@ -1,11 +1,11 @@
+import { Recenzija } from './../../MODEL/Recenzija';
 import { Produkt } from './../../MODEL/Produkt';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, AbstractControl, ValidatorFn, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, AbstractControl, ValidatorFn, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Filter } from 'src/app/MODEL/Filter/Filter';
 import { Ocena } from 'src/app/MODEL/Filter/Ocena';
-import { Recenzija } from 'src/app/MODEL/Recenzija';
 import { Tip } from 'src/app/MODEL/Tip';
 import { ProduktService } from 'src/app/SERVICE/Produkt.service';
 import { RecenzijaService } from 'src/app/SERVICE/Recenzija.service';
@@ -13,6 +13,7 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Artikal } from 'src/app/MODEL/Artikal';
 import { RacunService } from 'src/app/SERVICE/Racun.service';
+import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-produkt-detaljno',
@@ -30,12 +31,20 @@ export class ProduktDetaljnoComponent implements OnInit {
   status: boolean = false;
   status2: boolean = false;
   status3: boolean = false;
+  daLiJeUIstorijiKupovine:boolean = false
+  daLiJeVecNapravljenaRecenzija:boolean = false
 
   listaOcena: number[] = [1,2,3,4,5]
   pageSize: number;
   currentPage: number;
   totalSize: number;
   ocenaForm : FormGroup;
+  recenzijaFrom:FormGroup;
+
+  recenzija = <Recenzija>{}
+
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
   
   constructor(
     private produktService:ProduktService,
@@ -44,7 +53,8 @@ export class ProduktDetaljnoComponent implements OnInit {
     private route:ActivatedRoute,
     private modalService: NgbModal,
     private fBuilder: FormBuilder,
-    private router:Router
+    private router:Router,
+    private _snackBar: MatSnackBar
   ){
     this.pageSize = 2;
 		this.currentPage = 1;
@@ -58,6 +68,11 @@ export class ProduktDetaljnoComponent implements OnInit {
 
     this.ocenaForm = fBuilder.group({
       ocene: this.fBuilder.array([])
+    })
+
+    this.recenzijaFrom = fBuilder.group({
+      ocena:"5",
+      komentar: ["",[Validators.required]]
     })
   }
 
@@ -85,6 +100,44 @@ export class ProduktDetaljnoComponent implements OnInit {
           this.daLiJeUWishlist = res;
         }
       )
+
+    this.produktService.daLiJeUIstorijiProdukata(this.serijskiBroj).subscribe(
+      res=>{
+        this.daLiJeUIstorijiKupovine = res;
+        this.recenzijaService.daLiImaRecenzijuZaProdukt(this.serijskiBroj).subscribe(
+          res=>{
+            this.daLiJeVecNapravljenaRecenzija = res;
+            if (this.daLiJeVecNapravljenaRecenzija){
+              this.recenzijaService.dajRecenziju(this.serijskiBroj).subscribe(
+                res=>{
+                  this.recenzija = res;
+                  this.recenzijaFrom.controls.ocena.setValue(res.ocena);
+                  this.recenzijaFrom.controls.komentar.setValue(res.komentar);
+                }
+              )
+            }
+          }
+        )
+      }
+    )
+  }
+
+  operacijeRecenzije(){
+    this.recenzija.ocena = this.recenzijaFrom.value.ocena;
+    this.recenzija.komentar = this.recenzijaFrom.value.komentar; 
+    if(this.daLiJeVecNapravljenaRecenzija){
+      this.recenzijaService.updateRecenziju(this.recenzija).subscribe(
+        res=>{
+          this.openSnackBar("Uspešno ažurirana recenzija");
+        }
+      )
+    }else{
+      this.recenzijaService.napraviRecenziju(this.recenzija).subscribe(
+        res=>{
+          this.openSnackBar("Uspešno napravljena recenzija");
+        }
+      )
+    }
   }
 
   dodajUKorpu(){
@@ -256,6 +309,13 @@ export class ProduktDetaljnoComponent implements OnInit {
       }
       return (Number.isNaN(Number(nV)) && !control.pristine) ? {notANumber: true} : null;
     };
+  }
+
+  openSnackBar(poruka:string) {
+    this._snackBar.open(poruka, 'x', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
   }
 
 }

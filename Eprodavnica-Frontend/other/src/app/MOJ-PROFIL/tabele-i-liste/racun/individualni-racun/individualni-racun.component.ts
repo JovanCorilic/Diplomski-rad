@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Artikal } from 'src/app/MODEL/Artikal';
 import { Racun } from 'src/app/MODEL/Racun';
@@ -17,9 +18,15 @@ export class IndividualniRacunComponent implements OnInit{
   currentPage: number;
   totalSize: number;
 
+  status:boolean = false
+
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
+
   constructor(
     private racunService:RacunService,
     private route:ActivatedRoute,
+    private _snackBar: MatSnackBar
   ){
     this.pageSize = 2;
 		this.currentPage = 1;
@@ -52,6 +59,26 @@ export class IndividualniRacunComponent implements OnInit{
       res=>{
         this.lista = res.content as Artikal[];
         this.totalSize = Number(res.totalElements);
+      }
+    )
+  }
+
+  openSnackBar(poruka:string) {
+    this._snackBar.open(poruka, 'x', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
+  }
+
+  plati(){
+    this.status = !this.status
+    this.racunService.plati(this.brojRacuna).subscribe(
+      res=>{
+        this.status = !this.status
+        this.openSnackBar("Uspešno plaćeno!")
+      },
+      error=>{
+        this.status = !this.status
       }
     )
   }

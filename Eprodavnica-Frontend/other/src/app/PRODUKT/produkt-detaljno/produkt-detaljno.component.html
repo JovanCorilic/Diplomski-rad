@@ -24,14 +24,22 @@
             </form>
 
             <br> <br>
+
             <button type="button" mat-raised-button *ngIf="getRole()==='ROLE_MUSTERIJA' && !daLiJeUWishlist"
             [mtBasicSpinner]="status2" [hideText]="status2" 
-            (click)="dodajUWishlist()" >Dodaj u Wishlist</button> 
+            (click)="dodajUWishlist()" >Dodaj u wishlist</button> 
 
             <button type="button" mat-raised-button *ngIf="getRole()==='ROLE_MUSTERIJA' && daLiJeUWishlist"
             [mtBasicSpinner]="status2" [hideText]="status2" color="warn"
-            (click)="dodajUWishlist()">U wishlist-u vam je</button>
+            (click)="izbaciIzWishlista()">Ukloni iz wishlist-a</button>
 
+            <br> <br>
+
+            <button type="button" mat-raised-button *ngIf="getRole()==='ROLE_MUSTERIJA' && daLiJeUIstorijiKupovine && !daLiJeVecNapravljenaRecenzija" (click)="open(RecenzijaProzor)"
+             color="accent">Napravi recenziju za ovaj produkt</button> 
+
+            <button type="button" mat-raised-button *ngIf="getRole()==='ROLE_MUSTERIJA' && daLiJeUIstorijiKupovine && daLiJeVecNapravljenaRecenzija" (click)="open(RecenzijaProzor)"
+            color="accent">Edituj recenziju</button> 
             <br> <br>
 
             <button type="button" mat-raised-button color="accent" *ngIf="getRole()==='ROLE_ADMIN' || getRole()==='ROLE_PRODAVAC'" (click)="edit()">Edit</button> <br><br>
@@ -107,4 +115,66 @@
               </button>
         </div>
     </form>
+  </ng-template>
+
+<ng-template #RecenzijaProzor let-modal>
+
+    <div class="modal-header">
+      <h4 class="modal-title" 
+          id="modal-basic-title">
+          Registracija
+      </h4>
+      <button type="button" class="close"
+              aria-label="Close" (click)=
+              "modal.dismiss('Cross click')">
+          <span aria-hidden="true">
+              ×
+          </span>
+      </button>
+  </div>
+
+  <form [formGroup]="recenzijaFrom" (ngSubmit)="operacijeRecenzije()">
+    <div class="modal-body">
+
+      <div class="input-group">
+        <mat-form-field>
+            <mat-label>Ocena</mat-label>
+            <mat-select formControlName = "ocena" required>
+              <mat-option *ngFor="let oce of listaOcena" [value]="oce">
+                {{oce}}
+              </mat-option>
+            </mat-select>
+            <mat-hint>Ocena produkta</mat-hint>
+          </mat-form-field>
+      </div>
+
+      <div class="input-group"><br></div>
+
+      <div class="input-group">
+        <mat-form-field appearance="outline">
+            <mat-label>Unesite razlog</mat-label>
+            <textarea matInput placeholder="Razlog" class="form-control" formControlName = "komentar" required></textarea>
+            <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="recenzijaFrom.controls.komentar.setValue('')">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="recenzijaFrom.controls.komentar.invalid">{{getErrorMessage(recenzijaFrom.controls.komentar)}}</mat-error>
+            <mat-hint>Razlog zašto je data ocena</mat-hint>
+        </mat-form-field>
+      </div>
+      
+    </div>
+
+    <div class="modal-footer">
+      <button  mat-raised-button type="submit"
+                  color="accent" 
+                  (click)="modal.close('Save click')"  [disabled]="recenzijaFrom.invalid">
+                  <span *ngIf="daLiJeVecNapravljenaRecenzija; else elseBlock">
+                    Promeni recenziju
+                  </span>
+                  <ng-template #elseBlock>Napravi recenziju</ng-template>
+              </button>
+    </div>
+
+  </form >
+    
   </ng-template>

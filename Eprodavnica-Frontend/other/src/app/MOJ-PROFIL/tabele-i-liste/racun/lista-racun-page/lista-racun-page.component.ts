@@ -1,14 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn } from '@angular/forms';
+import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Cena } from 'src/app/MODEL/Filter/Cena';
 import { Datum } from 'src/app/MODEL/Filter/Datum';
 import { Filter } from 'src/app/MODEL/Filter/Filter';
-import { Ocena } from 'src/app/MODEL/Filter/Ocena';
-import { Produkt } from 'src/app/MODEL/Produkt';
 import { Racun } from 'src/app/MODEL/Racun';
-import { Tip } from 'src/app/MODEL/Tip';
 import { RacunService } from 'src/app/SERVICE/Racun.service';
 
 @Component({
@@ -27,14 +25,18 @@ export class ListaRacunPageComponent {
   ukljucioFilter:boolean = false;
   status:boolean=false;
   status2:boolean=false;
+  racun=<Racun>{}
 
   filterForm : FormGroup;
+
+  horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
 
   constructor(
     private router:Router,
     private fBuilder: FormBuilder,
-    private modalService: NgbModal,
-    private racunService:RacunService
+    private racunService:RacunService,
+    private _snackBar: MatSnackBar
   ){
     this.pageSize = 2;
 		this.currentPage = 1;
@@ -50,13 +52,19 @@ export class ListaRacunPageComponent {
   }
 
   ngOnInit(): void {
-    if (this.svrha === "Musterija")
+    if (this.svrha === "Musterija"){
       this.racunService.getByPageMusterija(this.currentPage - 1,this.pageSize).subscribe(
         res =>{
           this.lista = res.content as Racun[];
           this.totalSize = Number(res.totalElements);
         }
       )
+      this.racunService.dajAktivanRacun().subscribe(
+        res=>{
+          this.racun = res;
+        }
+      )
+    }
     else if(this.svrha === "Admin"){
       this.racunService.getByPageAdmin(this.currentPage - 1,this.pageSize).subscribe(
         res =>{
@@ -65,6 +73,20 @@ export class ListaRacunPageComponent {
         }
       )
     }
+  }
+
+  idiNaKorpu(brojRacuna:string){
+    if (this.racun.konacnaCena === 0){
+      this.openSnackBar("Korpa je prazna")
+    }else
+      this.router.navigate(['racun/'+brojRacuna])
+  }
+
+  openSnackBar(poruka:string) {
+    this._snackBar.open(poruka, 'x', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
   }
 
   resetuj(){

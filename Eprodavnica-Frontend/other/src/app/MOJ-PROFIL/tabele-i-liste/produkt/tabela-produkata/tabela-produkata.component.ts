@@ -1,8 +1,11 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
+
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+
 import { Produkt } from 'src/app/MODEL/Produkt';
+
 
 @Component({
   selector: 'app-tabela-produkata',
