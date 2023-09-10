@@ -96,7 +96,11 @@ export class KorisnikService{
     }
 
 	public povuciKorisnika(email:string){
-		return this.http.delete(this.path+"/povuciKorisnika"+`/${email}`)
+		return this.http.put(this.path+"/povuciKorisnika",email)
+	}
+
+	public vratiKorisnika(email:string){
+		return this.http.put(this.path+"/vratiKorisnika",email)
 	}
 
 	public createAdmin(admin:PravljenjeAdmina){

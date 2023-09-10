@@ -1,8 +1,6 @@
 export class Tip {
     naziv: string
-    brojPojavljivanja: number
-    constructor(naziv: string, brojPojavljivanja: number) {
+    constructor(naziv: string) {
         this.naziv = naziv
-        this.brojPojavljivanja = brojPojavljivanja
     }
 }

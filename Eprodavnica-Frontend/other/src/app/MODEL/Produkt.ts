@@ -12,7 +12,7 @@ export class Produkt {
     listaTipova: Tip[]
     emailProdavac: string
     brojProdato: number
-
+    odobrenOdAdmina: boolean
     constructor(
         naziv: string,
         deskripcija: string,
@@ -23,7 +23,8 @@ export class Produkt {
         akcija: number,
         listaTipova: Tip[],
         emailProdavac: string,
-        brojProdato: number
+        brojProdato: number,
+        odobrenOdAdmina: boolean
     ) {
         this.naziv = naziv
         this.deskripcija = deskripcija
@@ -35,5 +36,6 @@ export class Produkt {
         this.listaTipova = listaTipova
         this.emailProdavac = emailProdavac
         this.brojProdato = brojProdato
+        this.odobrenOdAdmina = odobrenOdAdmina
     }
 }

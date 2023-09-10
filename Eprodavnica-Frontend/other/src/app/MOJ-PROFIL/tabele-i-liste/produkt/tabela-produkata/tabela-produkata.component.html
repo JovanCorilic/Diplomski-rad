@@ -40,7 +40,15 @@
               Deskripcija : {{element.deskripcija}}
             </td>
             <td style="text-align: right;">
-              <button mat-raised-button color="warn" (click)="idiNaProdukt(element.serijskiBroj)">Idi na produkt</button>&nbsp;&nbsp;
+              <button mat-raised-button color="accent" (click)="idiNaProdukt(element.serijskiBroj)">Idi na produkt</button>&nbsp;&nbsp;
+              <span *ngIf="element.odobrenOdAdmina && ( getRole()==='ROLE_PRODAVAC' || getRole()==='ROLE_ADMIN' )">
+                <br>
+                <button mat-raised-button color="warn" (click)="povuci(element.serijskiBroj)">Povuci</button>&nbsp;&nbsp;
+              </span>
+              <span *ngIf="!element.odobrenOdAdmina && ( getRole()==='ROLE_PRODAVAC' || getRole()==='ROLE_ADMIN' )">
+                <br>
+                <button mat-raised-button color="accent" (click)="vrati(element.serijskiBroj)">Vrati</button>&nbsp;&nbsp;
+              </span>
             </td>
           </tr>
         </table>

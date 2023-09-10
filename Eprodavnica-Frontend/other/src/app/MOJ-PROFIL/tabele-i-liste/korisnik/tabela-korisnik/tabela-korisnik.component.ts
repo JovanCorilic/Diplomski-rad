@@ -49,6 +49,14 @@ export class TabelaKorisnikComponent implements OnInit,OnChanges{
     )
   }
 
+  vrati(email:string){
+    this.korisnikService.vratiKorisnika(email).subscribe(
+      res=>{
+        this.openSnackBar("Uspešno vraćen korisnik sa mejlom : "+email)
+      }
+    )
+  }
+
   openSnackBar(poruka:string) {
     this._snackBar.open(poruka, 'x', {
       horizontalPosition: this.horizontalPosition,

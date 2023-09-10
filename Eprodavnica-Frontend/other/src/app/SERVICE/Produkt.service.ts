@@ -103,4 +103,12 @@ export class ProduktService{
     public daLiJeUIstorijiProdukata(serijskiBroj:string):Observable<boolean>{
         return this.http.get<boolean>(this.path+"/daLiJeUIstorijiProdukata"+`/${serijskiBroj}`);
     }
+
+    public povuciProizvod(serijskiBroj:string){
+        return this.http.put(this.path+"/povuciProdukt",serijskiBroj);
+    }
+
+    public vratiProizvod(serijskiBroj:string){
+        return this.http.put(this.path+"/vratiProdukt",serijskiBroj);
+    }
 }

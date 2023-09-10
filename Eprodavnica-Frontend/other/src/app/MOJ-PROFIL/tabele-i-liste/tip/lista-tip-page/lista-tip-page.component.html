@@ -1,0 +1,88 @@
+<mat-drawer-container  style="height: 120vh;" autosize>
+    <mat-drawer #drawer class="example-sidenav" mode="side" opened>
+      <br>
+      <button type="button" mat-raised-button color="primary"  style="height: 50px;width: 250px;font-size: 15px;" (click)="open(NapraviTip)" 
+        [mtBasicSpinner]="status3" [hideText]="status3">Napravi tip</button>
+
+      <mat-divider></mat-divider> <br>
+
+      <p style="font-size: 25px;">Pretraga</p>
+
+      <mat-divider></mat-divider> <br>
+
+      <form [formGroup]="filterForm" (ngSubmit)="filters()">
+        Naziv produkta <br>
+        <mat-form-field appearance="fill"  [style.height.px]=65>
+          <input matInput class="form-control" formControlName = "naziv" required>
+        </mat-form-field> 
+
+        <br> <br><mat-divider></mat-divider> <br>
+
+        <button type="submit" mat-raised-button color="primary"  style="height: 50px;width: 250px;font-size: 15px;" 
+        [mtBasicSpinner]="status" [hideText]="status">Pretraži</button>
+
+        <br> <br><mat-divider></mat-divider> <br>
+
+        <button type="button" mat-raised-button color="warn"  style="height: 50px;width: 250px;font-size: 15px;" (click)="resetuj()" 
+        [mtBasicSpinner]="status2" [hideText]="status2">Resetuj</button>
+      </form>
+
+    </mat-drawer>
+  
+    <div class="example-sidenav-content">
+      <div>
+        <app-tabela-tip [listaTipova]="lista"></app-tabela-tip>
+      </div>
+      <br>
+      <div style="text-align: center;">
+        <app-pagination [totalItems]="totalSize" [pageSize]="pageSize" (pageSelected)="changePage($event)">
+          
+        </app-pagination>
+      </div>  
+    </div>
+</mat-drawer-container>
+
+<ng-template #NapraviTip let-modal>
+
+  <div class="modal-header">
+    <h4 class="modal-title" 
+        id="modal-basic-title">
+        Registracija
+    </h4>
+    <button type="button" class="close"
+            aria-label="Close" (click)=
+            "modal.dismiss('Cross click')">
+        <span aria-hidden="true">
+            ×
+        </span>
+    </button>
+</div>
+
+<form [formGroup]="tipForm" (ngSubmit)="napravi()">
+  <div class="modal-body">
+
+    <div class="input-group">
+      <mat-form-field appearance="outline">
+        <mat-label>Unesite naziv tipa</mat-label>
+        <input matInput class="form-control" formControlName = "naziv" required>
+        <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="tipForm.controls.naziv.setValue('')">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-error *ngIf="tipForm.controls.naziv.invalid">{{getErrorMessage(tipForm.controls.naziv)}}</mat-error>
+        <mat-hint>Naziv tipa</mat-hint>
+      </mat-form-field>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button  mat-raised-button type="submit"
+                color="accent" 
+                (click)="modal.close('Save click')"  [disabled]="tipForm.invalid">
+                Napravi tip
+            </button>
+  </div>
+
+</form >
+  
+</ng-template>

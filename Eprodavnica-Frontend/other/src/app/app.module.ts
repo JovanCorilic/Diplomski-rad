@@ -52,6 +52,8 @@ import { ListaKorisnikPageComponent } from './MOJ-PROFIL/tabele-i-liste/korisnik
 import { TabelaKorisnikComponent } from './MOJ-PROFIL/tabele-i-liste/korisnik/tabela-korisnik/tabela-korisnik.component';
 import { SuperadminComponent } from './MOJ-PROFIL/superadmin/superadmin.component';
 import {MatSelectModule} from '@angular/material/select';
+import { ListaTipPageComponent } from './MOJ-PROFIL/tabele-i-liste/tip/lista-tip-page/lista-tip-page.component';
+import { TabelaTipComponent } from './MOJ-PROFIL/tabele-i-liste/tip/tabela-tip/tabela-tip.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +77,9 @@ import {MatSelectModule} from '@angular/material/select';
     TabelaRecenzijaComponent,
     ListaKorisnikPageComponent,
     TabelaKorisnikComponent,
-    SuperadminComponent
+    SuperadminComponent,
+    ListaTipPageComponent,
+    TabelaTipComponent
   ],
   imports: [
     BrowserModule,
