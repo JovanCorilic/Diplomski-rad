@@ -34,7 +34,19 @@
         </button>
         <mat-error *ngIf="produktForm.controls.cena.invalid">{{getErrorMessage(produktForm.controls.cena)}}</mat-error>
         <mat-hint>Cena produkta</mat-hint>
-    </mat-form-field>
+    </mat-form-field>din
+
+    <div><br></div>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Unesite akciju produkta</mat-label>
+        <input matInput placeholder="10" class="form-control" formControlName = "akcija" required>
+        <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="produktForm.controls.akcija.setValue(0)">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-error *ngIf="produktForm.controls.akcija.invalid">{{getErrorMessage(produktForm.controls.akcija)}}</mat-error>
+        <mat-hint>Akcija produkta</mat-hint>
+    </mat-form-field>%
 
     <div><br></div>
 

@@ -41,6 +41,7 @@ export class ProduktEditComponent implements OnInit{
     this.produktForm = fBuilder.group({
       naziv: ["",[Validators.required]],
       deskripcija: ["",[Validators.required]],
+      akcija:["",[Validators.required,this.notANumber(),this.viseOdNula(),this.manjeOdSto()]],
       cena: [-1,[Validators.required,this.notANumber(),this.viseOdNula()]],
       tipovi: this.fBuilder.array([])
     })
@@ -53,6 +54,7 @@ export class ProduktEditComponent implements OnInit{
 
         this.produktForm.controls.naziv.setValue(this.produkt.naziv);
         this.produktForm.controls.deskripcija.setValue(this.produkt.deskripcija);
+        this.produktForm.controls.akcija.setValue(this.produkt.akcija);
         this.produktForm.controls.cena.setValue(this.produkt.cena);
 
         this.tipService.getAllTipNormalno().subscribe(
@@ -83,12 +85,13 @@ export class ProduktEditComponent implements OnInit{
     this.status = !this.status
     this.produkt.naziv = this.produktForm.value.naziv;
     this.produkt.deskripcija = this.produktForm.value.deskripcija;
+    this.produkt.akcija = this.produktForm.value.akcija;
     this.produkt.cena = this.produktForm.value.cena;
 
     this.produkt.listaTipova = []
     for( let i in this.listaTipova ){
       if (this.produktForm.value.tipovi.at(i).tip){
-        this.produkt.listaTipova.push(new Tip(this.listaTipova[i].naziv,0));
+        this.produkt.listaTipova.push(new Tip(this.listaTipova[i].naziv));
       }
     }
 
@@ -141,8 +144,11 @@ export class ProduktEditComponent implements OnInit{
     else if (temp.hasError('notANumber')) {
       return 'Morate uneti broj';
     }
+    else if(temp.hasError('manjeOdSto')){
+      return 'Mora biti manje ili jednako od 100'
+    }
     else
-    return temp.hasError('viseOdNula') ? 'Mora biti više od 0' : '';
+    return temp.hasError('viseOdNula') ? 'Mora biti više ili jednako od 0' : '';
   }
 
   viseOdNula():ValidatorFn{
@@ -152,7 +158,7 @@ export class ProduktEditComponent implements OnInit{
       if (typeof value == 'string') {
         nV = value.replace(',', '.')
       }
-      return (Number.isNaN(Number(nV)) && !control.pristine && (Number(nV)>0)) ? {viseOdNula: true} : null;
+      return (Number.isNaN(Number(nV)) && !control.pristine && (Number(nV)>=0)) ? {viseOdNula: true} : null;
     };
   }
 
@@ -164,6 +170,17 @@ export class ProduktEditComponent implements OnInit{
         nV = value.replace(',', '.')
       }
       return (Number.isNaN(Number(nV)) && !control.pristine) ? {notANumber: true} : null;
+    };
+  }
+
+  manjeOdSto():ValidatorFn{
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      const value = control.value
+      let nV = value
+      if (typeof value == 'string') {
+        nV = value.replace(',', '.')
+      }
+      return (Number.isNaN(Number(nV)) && !control.pristine && (Number(nV)<=100)) ? {viseOdNula: true} : null;
     };
   }
 

@@ -111,4 +111,8 @@ export class ProduktService{
     public vratiProizvod(serijskiBroj:string){
         return this.http.put(this.path+"/vratiProdukt",serijskiBroj);
     }
+
+    public dodajAkciju(serijskiBroj:string,broj:number){
+        return this.http.put(this.path+"/dodajAkciju"+`/${broj}`,serijskiBroj);
+    }
 }
