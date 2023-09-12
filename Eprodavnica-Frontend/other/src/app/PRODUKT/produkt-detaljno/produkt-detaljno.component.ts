@@ -125,6 +125,7 @@ export class ProduktDetaljnoComponent implements OnInit {
   operacijeRecenzije(){
     this.recenzija.ocena = this.recenzijaFrom.value.ocena;
     this.recenzija.komentar = this.recenzijaFrom.value.komentar; 
+    this.recenzija.produkt=this.produkt;
     if(this.daLiJeVecNapravljenaRecenzija){
       this.recenzijaService.updateRecenziju(this.recenzija).subscribe(
         res=>{

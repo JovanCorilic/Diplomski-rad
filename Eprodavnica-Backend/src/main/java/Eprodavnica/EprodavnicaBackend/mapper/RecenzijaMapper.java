@@ -9,16 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecenzijaMapper implements MapperInterface<Recenzija, RecenzijaDTO> {
+    private final ProduktMapper produktMapper;
+
     @Override
     public Recenzija toModel(RecenzijaDTO dto) {
         return new Recenzija(dto.getId(),dto.getOcena(),dto.getKomentar(),dto.getDatumPravljenja(),
-                new Korisnik(dto.getEmailMustarija()), new Produkt(dto.getSerijskiBrojProdukt()));
+                new Korisnik(dto.getEmailMustarija()), produktMapper.toMini(dto.getProdukt()));
     }
 
     @Override
     public RecenzijaDTO toDto(Recenzija entity) {
         return new RecenzijaDTO(entity.getId(),entity.getOcena(),entity.getKomentar(),entity.getDatumPravljenja(),
-                entity.getMusterija().getEmail(), entity.getProdukt().getSerijskiBroj());
+                entity.getMusterija().getEmail(), produktMapper.toDTOMini(entity.getProdukt()));
     }
 
     public List<RecenzijaDTO>uListuDTO(List<Recenzija>lista){
@@ -27,5 +29,9 @@ public class RecenzijaMapper implements MapperInterface<Recenzija, RecenzijaDTO>
             temp.add(toDto(recenzija));
         }
         return temp;
+    }
+
+    public RecenzijaMapper() {
+        this.produktMapper = new ProduktMapper();
     }
 }

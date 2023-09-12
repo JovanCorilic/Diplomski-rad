@@ -15,5 +15,6 @@ public class ProduktMiniDTO {
     private double cena;
     private double ocena;
     private int akcija;
+    private boolean odobrenOdAdmina;
 
 }

@@ -14,6 +14,15 @@ import java.util.List;
 
 public interface RecenzijaRepository extends JpaRepository<Recenzija,Integer> {
 
+    Recenzija findByMusterijaAndProdukt(Korisnik korisnik, Produkt produkt);
+
+    @Query("SELECT AVG(r.ocena) FROM Recenzija r " +
+            "WHERE ( r.produkt = :produkt )"
+    )
+    Double dajProsecnuOcenu(@Param("produkt")Produkt produkt);
+
+    Boolean existsByMusterijaAndProdukt(Korisnik korisnik,Produkt produkt);
+
     Page<Recenzija>findByProdukt(Produkt produkt,Pageable pageable);
 
     Page<Recenzija>findByOcenaInAndProdukt(List<Integer>ocene, Produkt produkt, Pageable pageable);
@@ -27,4 +36,11 @@ public interface RecenzijaRepository extends JpaRepository<Recenzija,Integer> {
     )
     Page<Recenzija>findByCustomCriteria(@Param("ocene") List<Integer>ocene, @Param("odDatum") Date odDatum,
                                         @Param("doDatum")Date doDatum,@Param("korisnik") Korisnik korisnik,Pageable pageable);
+
+    @Query("SELECT r FROM Recenzija r " +
+            "WHERE ( COALESCE( :ocene , null ) is null or r.ocena IN :ocene )" +
+            "AND ( CAST( :odDatum AS date ) is null or CAST( :doDatum AS date ) is null or r.datumPravljenja BETWEEN :odDatum AND :doDatum)"
+    )
+    Page<Recenzija>findByCustomCriteriaAdmin(@Param("ocene") List<Integer>ocene, @Param("odDatum") Date odDatum,
+                                        @Param("doDatum")Date doDatum,Pageable pageable);
 }

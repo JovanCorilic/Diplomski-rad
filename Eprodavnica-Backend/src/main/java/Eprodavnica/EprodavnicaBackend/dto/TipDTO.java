@@ -11,5 +11,4 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TipDTO {
     private String naziv;
-    private int brojPojavljivanja;
 }

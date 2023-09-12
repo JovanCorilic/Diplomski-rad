@@ -20,6 +20,18 @@ public class Artikal {
     @Column
     private int broj;
 
+    @Column
+    private String nazivProdukta;
+
+    @Column
+    private Double cena;
+
+    @Column
+    private Integer akcija;
+
+    @Column
+    private Double ukupnaCena;
+
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     @JoinColumn
     private Produkt produkt;
@@ -28,8 +40,12 @@ public class Artikal {
     @JoinColumn
     private Racun racun;
 
-    public Artikal(int broj, Produkt produkt) {
+    public Artikal(Integer id, int broj, String nazivProdukta, Double cena, Integer akcija, Double ukupnaCena) {
+        this.id = id;
         this.broj = broj;
-        this.produkt = produkt;
+        this.nazivProdukta = nazivProdukta;
+        this.cena = cena;
+        this.akcija = akcija;
+        this.ukupnaCena = ukupnaCena;
     }
 }

@@ -9,12 +9,12 @@ import java.util.List;
 public class KorisnikMapper implements MapperInterface<Korisnik, KorisnikDTO> {
     @Override
     public Korisnik toModel(KorisnikDTO dto) {
-        return new Korisnik(dto.getIme(),dto.getPrezime(),dto.getEmail());
+        return new Korisnik(dto.getIme(),dto.getPrezime(),dto.getEmail(),dto.isOdobrenOdAdmina());
     }
 
     @Override
     public KorisnikDTO toDto(Korisnik entity) {
-        return new KorisnikDTO(entity.getIme(),entity.getPrezime(),entity.getEmail());
+        return new KorisnikDTO(entity.getIme(),entity.getPrezime(),entity.getEmail(),entity.isOdobrenOdAdmina());
     }
 
     public List<KorisnikDTO>toDtoKorisnikLista(List<Korisnik>lista){

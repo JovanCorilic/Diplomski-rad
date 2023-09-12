@@ -7,6 +7,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArtikalDTO {
-    private int broj;
-    private ProduktDTO produkt;
+    private Integer id;
+    private Integer broj;
+    private String nazivProdukta;
+    private Double cena;
+    private Integer akcija;
+    private Double ukupnaCena;
+    private String serijskiBroj;
 }

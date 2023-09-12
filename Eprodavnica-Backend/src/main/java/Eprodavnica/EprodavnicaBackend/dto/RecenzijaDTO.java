@@ -17,5 +17,5 @@ public class RecenzijaDTO {
     private String komentar;
     private Date datumPravljenja;
     private String emailMustarija;
-    private String serijskiBrojProdukt;
+    private ProduktMiniDTO produkt;
 }

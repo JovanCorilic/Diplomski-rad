@@ -23,5 +23,6 @@ public class ProduktDTO {
     private int brojProdato;
     private List<TipDTO>listaTipova;
     private String emailProdavac;
+    private boolean odobrenOdAdmina;
     //private KorisnikDTO prodavac;
 }

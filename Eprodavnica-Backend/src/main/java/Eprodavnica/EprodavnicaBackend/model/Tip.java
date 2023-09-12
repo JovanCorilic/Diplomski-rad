@@ -21,9 +21,6 @@ public class Tip {
     @Column
     private String naziv;
 
-    @Column
-    private int brojPojavljivanja;
-
     @ManyToMany(mappedBy = "listaTipova")
     private List<Produkt>listaProdukata;
 
@@ -34,8 +31,4 @@ public class Tip {
         this.naziv = naziv;
     }
 
-    public Tip(String naziv, int brojPojavljivanja) {
-        this.naziv = naziv;
-        this.brojPojavljivanja = brojPojavljivanja;
-    }
 }

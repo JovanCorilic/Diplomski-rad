@@ -1,6 +1,8 @@
 package Eprodavnica.EprodavnicaBackend.repository;
 
 import Eprodavnica.EprodavnicaBackend.model.Tip;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -11,5 +13,7 @@ public interface TipRepository extends JpaRepository<Tip,Integer> {
     Boolean existsTipByNaziv(String id);
 
     List<Tip>findByNazivIgnoreCaseIn(List<String>lista);
+
+    Page<Tip>findByNazivContainingIgnoreCase(String naziv, Pageable pageable);
 
 }

@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class RecenzijaService implements ServiceInterface<Recenzija>{
+public class RecenzijaService{
     @Autowired
     private RecenzijaRepository recenzijaRepository;
     @Autowired
@@ -26,7 +26,6 @@ public class RecenzijaService implements ServiceInterface<Recenzija>{
     @Autowired
     private ProduktRepository produktRepository;
 
-    @Override
     public List<Recenzija> findAll() {
         return recenzijaRepository.findAll();
     }
@@ -39,6 +38,10 @@ public class RecenzijaService implements ServiceInterface<Recenzija>{
     public Page<Recenzija>findAllMusterijaPageable(Pageable pageable, String email){
         Korisnik korisnik = korisnikRepository.findByEmail(email);
         return recenzijaRepository.findByMusterija(korisnik,pageable);
+    }
+
+    public Page<Recenzija>findAllAdminPageable(Pageable pageable){
+        return recenzijaRepository.findAll(pageable);
     }
 
     public Page<Recenzija>filterPageable(Pageable pageable, String serijskiBroj, FilterDTO filterDTO){
@@ -63,37 +66,73 @@ public class RecenzijaService implements ServiceInterface<Recenzija>{
                 filterDTO.getDatum().getDoDatum(), korisnik,pageable);
     }
 
+    public Page<Recenzija>filterAdminPageable(Pageable pageable,FilterDTO filterDTO){
+        List<Integer>ocene = new ArrayList<>();
+        for (OcenaDTO ocenaDTO : filterDTO.getOcena()){
+            if (ocenaDTO.isKoristiSe())
+                ocene.add(ocenaDTO.getOcena());
+        }
+        return recenzijaRepository.findByCustomCriteriaAdmin(ocene,filterDTO.getDatum().getOdDatum(),
+                filterDTO.getDatum().getDoDatum(),pageable);
+    }
+
     public Recenzija findOne(Integer id) {
         return recenzijaRepository.findById(id).orElse(null);
     }
 
-    @Override
-    public Recenzija create(Recenzija entity) {
+    public Recenzija dajRecenzijuMusterije(String serijskiBroj,String email){
+        Produkt produkt = produktRepository.findBySerijskiBroj(serijskiBroj).orElse(null);
+        Korisnik korisnik = korisnikRepository.findByEmail(email);
+        return recenzijaRepository.findByMusterijaAndProdukt(korisnik,produkt);
+    }
+
+    public void create(Recenzija entity) {
         entity.setMusterija(korisnikRepository.findByEmail(entity.getMusterija().getEmail()));
         entity.setProdukt(produktRepository.findBySerijskiBroj(entity.getProdukt().getSerijskiBroj()).orElse(null));
         entity.setDatumPravljenja(new Date());
-        return recenzijaRepository.save(entity);
+        recenzijaRepository.save(entity);
+        IzracunajProsecnuOcenu(entity.getProdukt());
     }
 
-    public Recenzija update(Recenzija entity, int id) {
+    public void update(Recenzija entity, int id) {
         Recenzija recenzija = recenzijaRepository.findById(id).orElse(null);
         assert recenzija != null;
         recenzija.setOcena(entity.getOcena());
         recenzija.setKomentar(entity.getKomentar());
-        return recenzijaRepository.save(recenzija);
+        recenzijaRepository.save(recenzija);
+        IzracunajProsecnuOcenu(recenzija.getProdukt());
     }
 
-    @Override
-    public void delete(String id) {
 
+    public void delete(Integer id) {
+        Recenzija recenzija = recenzijaRepository.findById(id).orElse(null);
+        assert recenzija != null;
+        recenzija.setMusterija(null);
+        Produkt produkt = recenzija.getProdukt();
+        recenzija.setProdukt(null);
+        recenzija = recenzijaRepository.save(recenzija);
+        recenzijaRepository.delete(recenzija);
+
+        IzracunajProsecnuOcenu(produkt);
     }
 
-    @Override
+    public Boolean daLiImaRecenzijuZaProdukt(String serijskiBroj, String email){
+        Produkt produkt = produktRepository.findBySerijskiBroj(serijskiBroj).orElse(null);
+        Korisnik korisnik = korisnikRepository.findByEmail(email);
+        return recenzijaRepository.existsByMusterijaAndProdukt(korisnik,produkt);
+    }
+
+    public void IzracunajProsecnuOcenu(Produkt produkt){
+        double ocena = recenzijaRepository.dajProsecnuOcenu(produkt);
+        produkt.setOcena(ocena);
+        produkt.PretvoriUPunBroj();
+        produktRepository.save(produkt);
+    }
+
     public Recenzija update(Recenzija entity, String id) {
         return null;
     }
 
-    @Override
     public Recenzija findOne(String id) {
         return null;
     }

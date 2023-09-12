@@ -51,6 +51,8 @@ public class Produkt {
     @Column
     private int brojProdato;
 
+    @Column boolean odobrenOdAdmina;
+
     @ManyToMany()
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Tip>listaTipova;
@@ -71,7 +73,7 @@ public class Produkt {
     @ManyToMany(mappedBy = "istorijaKupljenihProdukata")
     private List<Korisnik>istorijaKupaca;
 
-    public Produkt(String naziv, String deskripcija, String serijskiBroj, double cena, double ocena, Date datumPravljenja, int akcija,int brojProdato, List<Tip> listaTipova, Korisnik prodavac) {
+    public Produkt(String naziv, String deskripcija, String serijskiBroj, double cena, double ocena, Date datumPravljenja, int akcija,int brojProdato, Boolean odobrenOdAdmina,List<Tip> listaTipova, Korisnik prodavac) {
         this.naziv = naziv;
         this.deskripcija = deskripcija;
         this.serijskiBroj = serijskiBroj;
@@ -82,27 +84,29 @@ public class Produkt {
         this.brojProdato = brojProdato;
         this.listaTipova = listaTipova;
         this.prodavac = prodavac;
+        this.odobrenOdAdmina=odobrenOdAdmina;
     }
 
-    public Produkt(String naziv, String serijskiBroj, double cena, double ocena, int akcija) {
+    public Produkt(String naziv, String serijskiBroj, double cena, double ocena, int akcija,Boolean odobrenOdAdmina) {
         this.naziv = naziv;
         this.serijskiBroj = serijskiBroj;
         this.cena = cena;
         this.ocena = ocena;
         this.akcija = akcija;
+        this.odobrenOdAdmina = odobrenOdAdmina;
     }
 
     public Produkt(String serijskiBroj) {
         this.serijskiBroj = serijskiBroj;
     }
 
-    public void IzracunajProsecnuOcenu(){
+    /*public void IzracunajProsecnuOcenu(){
         double temp = 0.0;
         for (Recenzija recenzija : listaRecenzija){
             temp += recenzija.getOcena();
         }
         ocena = temp/listaRecenzija.size();
-    }
+    }*/
 
     public void PretvoriUPunBroj(){
         ocenaPunBroj = (int)ocena;

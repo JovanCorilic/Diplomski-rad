@@ -15,9 +15,9 @@ INSERT INTO korisnik_uloge(korisnik_list_user_id,uloge_id) VALUES (1,4)
 INSERT INTO korisnik_uloge(korisnik_list_user_id,uloge_id) VALUES (2,3)
 
 /*TIP*/
-INSERT INTO tip (id,naziv,broj_pojavljivanja) VALUES (1,'Voce',0)
-INSERT INTO tip (id,naziv,broj_pojavljivanja) VALUES (2,'Racunar',0)
-INSERT INTO tip (id,naziv,broj_pojavljivanja) VALUES (3,'Test',0)
+INSERT INTO tip (id,naziv) VALUES (1,'Voce')
+INSERT INTO tip (id,naziv) VALUES (2,'Racunar')
+INSERT INTO tip (id,naziv) VALUES (3,'Test')
 
 /*Produkt*/
 INSERT INTO produkt(id,cena,datum_pravljenja,deskripcija,naziv,ocena,ocena_pun_broj,serijski_broj,prodavac_user_id,akcija) VALUES (1,100,'2020-12-1','Tako nesto','Jagoda',5,5,'123',2,5)

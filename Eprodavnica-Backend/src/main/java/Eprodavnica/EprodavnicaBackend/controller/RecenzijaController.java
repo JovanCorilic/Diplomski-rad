@@ -1,6 +1,7 @@
 package Eprodavnica.EprodavnicaBackend.controller;
 import Eprodavnica.EprodavnicaBackend.dto.Filter.FilterDTO;
 import Eprodavnica.EprodavnicaBackend.dto.RecenzijaDTO;
+import Eprodavnica.EprodavnicaBackend.dto.TipDTO;
 import Eprodavnica.EprodavnicaBackend.mapper.RecenzijaMapper;
 import Eprodavnica.EprodavnicaBackend.model.Recenzija;
 import Eprodavnica.EprodavnicaBackend.service.RecenzijaService;
@@ -46,6 +47,18 @@ public class RecenzijaController {
         return new ResponseEntity<>(recenzijaDTO, HttpStatus.OK);
     }
 
+    @GetMapping("/dajRecenzijuMusterije/{serijskiBroj}")
+    public ResponseEntity<RecenzijaDTO>dajRecenziju(@PathVariable String serijskiBroj){
+        Recenzija recenzija = recenzijaService.dajRecenzijuMusterije(serijskiBroj,TrenutnoUlogovanKorisnik());
+        return new ResponseEntity<>(recenzijaMapper.toDto(recenzija),HttpStatus.OK);
+    }
+
+    @GetMapping("/daLiImaRecenzijuZaProdukt/{serijskiBroj}")
+    public ResponseEntity<Boolean>daLiImaRecenzijuZaProdukt(@PathVariable String serijskiBroj){
+        Boolean odgovor = recenzijaService.daLiImaRecenzijuZaProdukt(serijskiBroj,TrenutnoUlogovanKorisnik());
+        return new ResponseEntity<>(odgovor,HttpStatus.OK);
+    }
+
     @GetMapping("/getAll")
     public ResponseEntity<?>getAll(){
         List<RecenzijaDTO> lista = new ArrayList<>();
@@ -72,8 +85,16 @@ public class RecenzijaController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @GetMapping("/by-pageAdmin")
+    public ResponseEntity<Page<RecenzijaDTO>>getRecenzijaPageableAdmin(Pageable pageable){
+        Page<Recenzija>page = recenzijaService.findAllAdminPageable(pageable);
+        List<RecenzijaDTO>lista = recenzijaMapper.uListuDTO(page.toList());
+        Page<RecenzijaDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
     @PostMapping("/filter-by-page/{serijskiBroj}")
-    public ResponseEntity<Page<RecenzijaDTO>>getProduktFilter(@RequestBody FilterDTO filterDTO,
+    public ResponseEntity<Page<RecenzijaDTO>>getRecenzijaFilter(@RequestBody FilterDTO filterDTO,
                                                                 @PathVariable String  serijskiBroj,Pageable pageable){
         Page<Recenzija>page = recenzijaService.filterPageable(pageable,serijskiBroj,filterDTO);
         List<RecenzijaDTO>lista = recenzijaMapper.uListuDTO(page.toList());
@@ -82,11 +103,25 @@ public class RecenzijaController {
     }
 
     @PostMapping("/filter-by-pageMusterija")
-    public ResponseEntity<Page<RecenzijaDTO>>getProduktFilterMusterija(@RequestBody FilterDTO filterDTO,Pageable pageable){
-        Page<Recenzija>page = recenzijaService.filterPageable(pageable,TrenutnoUlogovanKorisnik(),filterDTO);
+    public ResponseEntity<Page<RecenzijaDTO>>getRecenzijaFilterMusterija(@RequestBody FilterDTO filterDTO,Pageable pageable){
+        Page<Recenzija>page = recenzijaService.filterMusterijaPageable(pageable,filterDTO,TrenutnoUlogovanKorisnik());
         List<RecenzijaDTO>lista = recenzijaMapper.uListuDTO(page.toList());
         Page<RecenzijaDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
         return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
+    @PostMapping("/filter-by-pageAdmin")
+    public ResponseEntity<Page<RecenzijaDTO>>getRecenzijaFilterAdmin(@RequestBody FilterDTO filterDTO,Pageable pageable){
+        Page<Recenzija>page = recenzijaService.filterAdminPageable(pageable,filterDTO);
+        List<RecenzijaDTO>lista = recenzijaMapper.uListuDTO(page.toList());
+        Page<RecenzijaDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?>delete(@PathVariable Integer id){
+        recenzijaService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     public RecenzijaController() {
