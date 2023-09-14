@@ -137,7 +137,7 @@ public class RacunController {
 
     @PutMapping("/plati")
     public ResponseEntity<?>plati(@RequestBody String brojRacuna){
-        racunService.plati(brojRacuna);
+        racunService.plati(brojRacuna,TrenutnoUlogovanKorisnik());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

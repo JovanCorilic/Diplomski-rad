@@ -5,6 +5,8 @@ import Eprodavnica.EprodavnicaBackend.dto.MusterijaDTO;
 import Eprodavnica.EprodavnicaBackend.model.Korisnik;
 import Eprodavnica.EprodavnicaBackend.model.Uloga;
 import Eprodavnica.EprodavnicaBackend.model.VerificationToken;
+import Eprodavnica.EprodavnicaBackend.other.KonverterDatum;
+import Eprodavnica.EprodavnicaBackend.other.ObavestenjeEmail;
 import Eprodavnica.EprodavnicaBackend.other.VerifikacioniTokenSlanjeEmail;
 import Eprodavnica.EprodavnicaBackend.repository.KorisnikRepository;
 import Eprodavnica.EprodavnicaBackend.repository.UlogaRepository;
@@ -85,12 +87,30 @@ public class CustomUserDetailsService implements UserDetailsService {
         Korisnik korisnik = userRepository.findByEmail(email);
         korisnik.setOdobrenOdAdmina(false);
         userRepository.save(korisnik);
+
+        String text = "Vaš akaunt je blokiran zbog kršenja pravila ! \n"+
+                "Blokiran je : " + KonverterDatum.konvertovanjeSamoDatumUString(KonverterDatum.konvertovanjeDateULocalDate(new Date()));
+        List<Korisnik>lista = new ArrayList<>();
+        lista.add(korisnik);
+        slanjeObavestenja(lista,text,"Blokiranje akaunta");
     }
 
     public void vratiKorisnika(String email){
         Korisnik korisnik = userRepository.findByEmail(email);
         korisnik.setOdobrenOdAdmina(true);
         userRepository.save(korisnik);
+
+        String text = "Vaš akaunt je vraćen. \n"+
+                "Vraćen je : " + KonverterDatum.konvertovanjeSamoDatumUString(KonverterDatum.konvertovanjeDateULocalDate(new Date()));
+        List<Korisnik>lista = new ArrayList<>();
+        lista.add(korisnik);
+        slanjeObavestenja(lista,text,"Vraćanje akaunta");
+    }
+
+    @Async
+    public void slanjeObavestenja(List<Korisnik> korisniks, String text, String naslov){
+        ObavestenjeEmail thread = new ObavestenjeEmail(korisniks,javaMailSender,naslov,text);
+        thread.start();
     }
 
     public Page<Korisnik>filterAllAdmin(KorisnikDTO korisnikDTO,Pageable pageable){
@@ -133,9 +153,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Async
     public void pravljenjePotvrde(Korisnik korisnik,String adresa){
         String komeSalje = korisnik.getEmail();
-        String naslov = "Potvrda zahteva";
 
-        String poruka = "Aktivacioni link: ";
         String token = UUID.randomUUID().toString();
         VerificationToken verificationToken = new VerificationToken();
         verificationToken.setToken(token);

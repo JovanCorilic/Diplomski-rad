@@ -1,10 +1,10 @@
 package Eprodavnica.EprodavnicaBackend.service;
 
 import Eprodavnica.EprodavnicaBackend.dto.Filter.FilterDTO;
-import Eprodavnica.EprodavnicaBackend.model.Artikal;
-import Eprodavnica.EprodavnicaBackend.model.Korisnik;
-import Eprodavnica.EprodavnicaBackend.model.Produkt;
-import Eprodavnica.EprodavnicaBackend.model.Racun;
+import Eprodavnica.EprodavnicaBackend.model.*;
+import Eprodavnica.EprodavnicaBackend.other.KonverterDatum;
+import Eprodavnica.EprodavnicaBackend.other.ObavestenjeEmail;
+import Eprodavnica.EprodavnicaBackend.other.VerifikacioniTokenSlanjeEmail;
 import Eprodavnica.EprodavnicaBackend.repository.ArtikalRepository;
 import Eprodavnica.EprodavnicaBackend.repository.KorisnikRepository;
 import Eprodavnica.EprodavnicaBackend.repository.ProduktRepository;
@@ -12,14 +12,15 @@ import Eprodavnica.EprodavnicaBackend.repository.RacunRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.text.NumberFormat;
 import java.text.ParsePosition;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 
 @Service
 public class RacunService implements ServiceInterface<Racun> {
@@ -31,6 +32,8 @@ public class RacunService implements ServiceInterface<Racun> {
     private ProduktRepository produktRepository;
     @Autowired
     private KorisnikRepository korisnikRepository;
+    @Autowired
+    private JavaMailSender javaMailSender;
 
 
     @Override
@@ -61,19 +64,20 @@ public class RacunService implements ServiceInterface<Racun> {
             racun1.setKonacnaCena(0.0);
             racun1.setBrojRacuna(generisiRandomBrojRacuna());
             racun1.getArtikals().add(artikal);
-            racun1.setDatumKreiranja(new Date());
             racun1.setKorpa(true);
-            createSaArtiklom(racun1,artikal, korisnik);
+            racun1.setKonacnaCena(artikal.getUkupnaCena());
+            createSaArtiklom(racun1,artikal);
         }else {
             artikal.setProdukt(produktRepository.findBySerijskiBroj(artikal.getProdukt().getSerijskiBroj()).orElse(null));
             artikal = artikalRepository.save(artikal);
             racun.getArtikals().add(artikal);
-            DodajUIStoriju(korisnik,artikal.getProdukt());
+            racun.setKonacnaCena(racun.getKonacnaCena()+artikal.getUkupnaCena());
+
             racunRepository.save(racun);
         }
     }
 
-    public void createSaArtiklom(Racun entity,Artikal artikal,Korisnik korisnik) {
+    public void createSaArtiklom(Racun entity,Artikal artikal) {
         entity.setBrojRacuna(generisiRandomBrojRacuna());
         while (racunRepository.existsRacunByBrojRacuna(entity.getBrojRacuna())){
             entity.setBrojRacuna(generisiRandomBrojRacuna());
@@ -82,16 +86,7 @@ public class RacunService implements ServiceInterface<Racun> {
         artikal.setProdukt(produktRepository.findBySerijskiBroj(artikal.getProdukt().getSerijskiBroj()).orElse(null));
         artikal = artikalRepository.save(artikal);
         entity.getArtikals().add(artikal);
-        DodajUIStoriju(korisnik,artikal.getProdukt());
-        //entity.setMusterija(korisnikRepository.findByEmail(entity.getMusterija().getEmail()));
         racunRepository.save(entity);
-    }
-
-    public void DodajUIStoriju(Korisnik korisnik, Produkt produkt){
-        if (!korisnik.getIstorijaKupljenihProdukata().contains(produkt)){
-            korisnik.getIstorijaKupljenihProdukata().add(produkt);
-            korisnikRepository.save(korisnik);
-        }
     }
 
     public String generisiRandomBrojRacuna() {
@@ -192,15 +187,57 @@ public class RacunService implements ServiceInterface<Racun> {
         Artikal artikal = artikalRepository.findById(id).orElse(null);
         assert artikal != null;
         artikal.setProdukt(null);
+
+        Racun racun = artikal.getRacun();
+        racun.setKonacnaCena(racun.getKonacnaCena()-artikal.getUkupnaCena());
+        racunRepository.save(racun);
         artikal.setRacun(null);
+
         artikal = artikalRepository.save(artikal);
         artikalRepository.delete(artikal);
     }
 
-    public void plati(String brojRacuna){
+    public void plati(String brojRacuna,String email){
+        Korisnik korisnik = korisnikRepository.findByEmail(email);
         Racun racun = racunRepository.findByBrojRacuna(brojRacuna).orElse(null);
         assert racun != null;
         racun.setKorpa(false);
+        Racun temp =racunRepository.save(racun);
+        slanjeObavestenjaZaRacun(korisnik,racun);
+        DodajUIStoriju(korisnik,temp);
+    }
+
+    @Async
+    public void slanjeObavestenjaZaRacun(Korisnik korisnik,Racun racun){
+        List<Korisnik>korisniks = new ArrayList<>();
+        korisniks.add(korisnik);
+
+        String text = "";
+
+        for (Artikal artikal : racun.getArtikals()){
+            text+="---------------------------------------------\n" +
+                "Naziv produkta : "+artikal.getNazivProdukta()+"\n" +
+                "Broj uzetih prdukata : "+artikal.getBroj() + "\n" +
+                "Akcija : "+artikal.getAkcija()+"%\n" +
+                "Cena :"+(artikal.getCena() - (artikal.getCena()*(artikal.getAkcija()/100))) + "din\n" +
+                "Ukupna cena za artikal : "+artikal.getUkupnaCena()+"din\n" +
+                "---------------------------------------------";
+        }
+        racun.setDatumKreiranja(new Date());
+        LocalDate date = LocalDate.ofInstant(racun.getDatumKreiranja().toInstant(), ZoneId.systemDefault());
+        text += "Konačna cena : "+racun.getKonacnaCena()+"\n"+
+                "Datum pravljenja računa : "+ KonverterDatum.konvertovanjeSamoDatumUString(date);
+        ObavestenjeEmail thread = new ObavestenjeEmail(korisniks,javaMailSender,"EProdavnica račun",text);
+        thread.start();
         racunRepository.save(racun);
+    }
+
+    public void DodajUIStoriju(Korisnik korisnik, Racun racun){
+        for (Artikal artikal : racun.getArtikals()) {
+            if (!korisnik.getIstorijaKupljenihProdukata().contains(artikal.getProdukt())) {
+                korisnik.getIstorijaKupljenihProdukata().add(artikal.getProdukt());
+            }
+        }
+        korisnikRepository.save(korisnik);
     }
 }

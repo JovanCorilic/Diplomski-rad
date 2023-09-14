@@ -3,19 +3,23 @@ package Eprodavnica.EprodavnicaBackend.service;
 import Eprodavnica.EprodavnicaBackend.dto.Filter.FilterDTO;
 import Eprodavnica.EprodavnicaBackend.dto.Filter.OcenaDTO;
 import Eprodavnica.EprodavnicaBackend.dto.Filter.TipFilterDTO;
-import Eprodavnica.EprodavnicaBackend.model.Korisnik;
-import Eprodavnica.EprodavnicaBackend.model.Produkt;
-import Eprodavnica.EprodavnicaBackend.model.Tip;
+import Eprodavnica.EprodavnicaBackend.model.*;
+import Eprodavnica.EprodavnicaBackend.other.KonverterDatum;
+import Eprodavnica.EprodavnicaBackend.other.ObavestenjeEmail;
 import Eprodavnica.EprodavnicaBackend.repository.KorisnikRepository;
 import Eprodavnica.EprodavnicaBackend.repository.ProduktRepository;
 import Eprodavnica.EprodavnicaBackend.repository.TipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.text.NumberFormat;
 import java.text.ParsePosition;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +33,8 @@ public class ProduktService implements ServiceInterface<Produkt>{
     private TipRepository tipRepository;
     @Autowired
     private KorisnikRepository korisnikRepository;
+    @Autowired
+    private JavaMailSender javaMailSender;
 
     @Override
     public List<Produkt> findAll() {
@@ -287,7 +293,11 @@ public class ProduktService implements ServiceInterface<Produkt>{
         produkt.setOdobrenOdAdmina(false);
         produktRepository.save(produkt);
 
-        //email
+        String text = "Povučen je proizvod sa nazivom :"+produkt.getNaziv()+"\n"+
+                "Povučen je : " +KonverterDatum.konvertovanjeSamoDatumUString(KonverterDatum.konvertovanjeDateULocalDate(new Date()));
+        List<Korisnik>lista = produkt.getWishlist();
+        lista.add(produkt.getProdavac());
+        slanjeObavestenja(lista,text,"Povlačenje produkta");
     }
 
     public void vratiProizvod(String serijskiBroj){
@@ -296,7 +306,11 @@ public class ProduktService implements ServiceInterface<Produkt>{
         produkt.setOdobrenOdAdmina(true);
         produktRepository.save(produkt);
 
-        //email
+        String text = "Vraćen je proizvod sa nazivom :"+produkt.getNaziv()+"\n"+
+                "Vraćen je : " +KonverterDatum.konvertovanjeSamoDatumUString(KonverterDatum.konvertovanjeDateULocalDate(new Date()));
+        List<Korisnik>lista = produkt.getWishlist();
+        lista.add(produkt.getProdavac());
+        slanjeObavestenja(lista,text,"Vraćanje produkta");
     }
 
     public void dodajAkciju(String serijskiBroj,Integer broj){
@@ -305,6 +319,16 @@ public class ProduktService implements ServiceInterface<Produkt>{
         produkt.setAkcija(broj);
         produktRepository.save(produkt);
 
-        //email
+        String text = "Proizvod sa nazivom :"+produkt.getNaziv()+" . Data mu je akcija "+produkt.getAkcija()+"%\n"+
+                "Akcija je data : " +KonverterDatum.konvertovanjeSamoDatumUString(KonverterDatum.konvertovanjeDateULocalDate(new Date()));
+        List<Korisnik>lista = produkt.getWishlist();
+        lista.add(produkt.getProdavac());
+        slanjeObavestenja(lista,text,"Akcija !");
+    }
+
+    @Async
+    public void slanjeObavestenja(List<Korisnik> korisniks, String text, String naslov){
+        ObavestenjeEmail thread = new ObavestenjeEmail(korisniks,javaMailSender,naslov,text);
+        thread.start();
     }
 }

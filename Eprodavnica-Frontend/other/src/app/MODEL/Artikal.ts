@@ -30,7 +30,7 @@ export class Artikal {
         this.cena = produkt.cena;
         this.nazivProdukta = produkt.naziv;
         this.akcija = produkt.akcija;
-        this.ukupnaCena = this.broj * this.cena;
+        this.ukupnaCena = this.broj * ( this.cena - (this.cena*this.akcija/100));
         this.serijskiBroj = produkt.serijskiBroj;
     }
 }

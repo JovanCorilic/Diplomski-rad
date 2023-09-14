@@ -2,7 +2,9 @@ package Eprodavnica.EprodavnicaBackend.other;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class KonverterDatum {
     public static String konvertovanjeUString(LocalDateTime temp) {
@@ -23,5 +25,9 @@ public class KonverterDatum {
     public static LocalDate konvertovanjeSamoDatumUDate(String temp) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         return LocalDate.parse(temp, dateTimeFormatter);
+    }
+
+    public static LocalDate konvertovanjeDateULocalDate(Date date){
+        return LocalDate.ofInstant(date.toInstant(), ZoneId.systemDefault());
     }
 }
