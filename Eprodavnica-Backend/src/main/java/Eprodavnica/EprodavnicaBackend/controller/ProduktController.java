@@ -137,6 +137,36 @@ public class ProduktController {
         return new ResponseEntity<>(lista,HttpStatus.OK);
     }
 
+    @PostMapping("/izbaciIzWishlista")
+    public ResponseEntity<?>izbaciIzWishlista(@RequestBody String serijskiBroj){
+        produktService.izbaciIzWishlista(serijskiBroj,TrenutnoUlogovanKorisnik());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/daLiJeUIstorijiProdukata/{serijskiBroj}")
+    public ResponseEntity<Boolean>daLiJeUIstorijiProdukata(@PathVariable String serijskiBroj){
+        Boolean odgovor = produktService.daLiJeUIstorijiProdukata(serijskiBroj,TrenutnoUlogovanKorisnik());
+        return new ResponseEntity<>(odgovor,HttpStatus.OK);
+    }
+
+    @PutMapping("/povuciProdukt")
+    public ResponseEntity<?>povuciProdukt(@RequestBody String serijskiBroj){
+        produktService.povuciProizvod(serijskiBroj);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/vratiProdukt")
+    public ResponseEntity<?>vratiProdukt(@RequestBody String serijskiBroj){
+        produktService.vratiProizvod(serijskiBroj);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/dodajAkciju/{broj}")
+    public ResponseEntity<?>dodajAkciju(@RequestBody String serijskiBroj, @PathVariable Integer broj){
+        produktService.dodajAkciju(serijskiBroj,broj);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     public ProduktController() {
         this.produktMapper = new ProduktMapper();
     }

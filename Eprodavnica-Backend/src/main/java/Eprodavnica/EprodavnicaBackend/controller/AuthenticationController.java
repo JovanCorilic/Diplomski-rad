@@ -36,6 +36,9 @@ public class AuthenticationController {
     @PostMapping("/log-in")
     public ResponseEntity<?> createAuthenticationToken(@Valid @RequestBody UserLoginDTO authenticationRequest,
                                                        HttpServletResponse response) throws InterruptedException {
+        if (!userDetailsService.daLiJeOdobrenOdAdmina(authenticationRequest.getUsername())){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
 
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),

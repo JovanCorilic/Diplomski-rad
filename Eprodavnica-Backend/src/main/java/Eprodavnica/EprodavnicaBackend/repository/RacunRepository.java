@@ -17,7 +17,7 @@ import java.util.Optional;
 public interface RacunRepository extends JpaRepository<Racun,Integer> {
     Optional<Racun>findByBrojRacuna(String id);
     Boolean existsRacunByBrojRacuna(String id);
-    Optional<Racun>findByKonacnaCenaAndMusterija(double broj, Korisnik musterija);
+    Optional<Racun>findByKorpaIsTrue();
     Page<Racun>findByMusterija(Korisnik korisnik, Pageable pageable);
 
     @Query("SELECT r FROM Racun r " +

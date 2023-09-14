@@ -36,7 +36,7 @@ public class ProduktService implements ServiceInterface<Produkt>{
     }
 
     public Page<Produkt>findAllPageable(Pageable pageable){
-        return produktRepository.findAll(pageable);
+        return produktRepository.findAllByOdobrenOdAdminaIsTrue(pageable);
     }
 
     public Page<Produkt>findByIstorijaProdukataPageable(Pageable pageable,String email){
@@ -267,5 +267,44 @@ public class ProduktService implements ServiceInterface<Produkt>{
     @Override
     public void delete(String id) {
 
+    }
+
+    public void izbaciIzWishlista(String serijskiBroj, String email){
+        Produkt produkt = produktRepository.findBySerijskiBroj(serijskiBroj).orElse(null);
+        Korisnik korisnik = korisnikRepository.findByEmail(email);
+        korisnik.getWishlist().remove(produkt);
+        korisnikRepository.save(korisnik);
+    }
+
+    public Boolean daLiJeUIstorijiProdukata(String serijskiBroj, String email){
+        Produkt produkt = produktRepository.findBySerijskiBroj(serijskiBroj).orElse(null);
+        return korisnikRepository.existsKorisnikByEmailAndIstorijaKupljenihProdukataContains(email,produkt);
+    }
+
+    public void povuciProizvod(String serijskiBroj){
+        Produkt produkt = produktRepository.findBySerijskiBroj(serijskiBroj).orElse(null);
+        assert produkt != null;
+        produkt.setOdobrenOdAdmina(false);
+        produktRepository.save(produkt);
+
+        //email
+    }
+
+    public void vratiProizvod(String serijskiBroj){
+        Produkt produkt = produktRepository.findBySerijskiBroj(serijskiBroj).orElse(null);
+        assert produkt != null;
+        produkt.setOdobrenOdAdmina(true);
+        produktRepository.save(produkt);
+
+        //email
+    }
+
+    public void dodajAkciju(String serijskiBroj,Integer broj){
+        Produkt produkt = produktRepository.findBySerijskiBroj(serijskiBroj).orElse(null);
+        assert produkt != null;
+        produkt.setAkcija(broj);
+        produktRepository.save(produkt);
+
+        //email
     }
 }

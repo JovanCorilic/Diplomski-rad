@@ -28,6 +28,9 @@ public class Racun {
     @Column
     private Date datumKreiranja;
 
+    @Column
+    private boolean korpa;
+
     @OneToMany(mappedBy = "racun", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Artikal>artikals;
 
@@ -35,10 +38,11 @@ public class Racun {
     @JoinColumn
     private Korisnik musterija;
 
-    public Racun(double konacnaCena, String brojRacuna, Date datumKreiranja, Korisnik musterija) {
+    public Racun(double konacnaCena, String brojRacuna, Date datumKreiranja, boolean korpa, Korisnik musterija) {
         this.konacnaCena = konacnaCena;
         this.brojRacuna = brojRacuna;
         this.datumKreiranja = datumKreiranja;
+        this.korpa = korpa;
         this.musterija = musterija;
     }
 }

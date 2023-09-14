@@ -92,7 +92,13 @@ public class Korisnik implements UserDetails {
         this.lozinka = lozinka;
     }
 
-    public Korisnik(String ime, String prezime, String email,Boolean odobrenOdAdmina) {
+    public Korisnik(String ime, String prezime, String email) {
+        this.ime = ime;
+        this.prezime = prezime;
+        this.email = email;
+    }
+
+    public Korisnik(String ime, String prezime, String email, Boolean odobrenOdAdmina) {
         this.ime = ime;
         this.prezime = prezime;
         this.email = email;

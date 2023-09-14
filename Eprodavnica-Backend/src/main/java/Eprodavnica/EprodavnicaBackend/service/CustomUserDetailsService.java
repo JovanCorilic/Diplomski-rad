@@ -87,6 +87,12 @@ public class CustomUserDetailsService implements UserDetailsService {
         userRepository.save(korisnik);
     }
 
+    public void vratiKorisnika(String email){
+        Korisnik korisnik = userRepository.findByEmail(email);
+        korisnik.setOdobrenOdAdmina(true);
+        userRepository.save(korisnik);
+    }
+
     public Page<Korisnik>filterAllAdmin(KorisnikDTO korisnikDTO,Pageable pageable){
         Uloga uloga = ulogaRepository.findByName("ROLE_ADMIN");
         return userRepository.findByCustomCriteria(korisnikDTO,uloga,pageable);
@@ -109,7 +115,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public void register(MusterijaDTO musterijaDTO){
         List<Uloga>listaUloga = new ArrayList<>();
         listaUloga.add(ulogaRepository.findById(3).orElse(null));
-        Korisnik korisnik = new Korisnik(musterijaDTO.getIme(), musterijaDTO.getPrezime(), musterijaDTO.getEmail(), musterijaDTO.getLozinka(), false,false,listaUloga);
+        Korisnik korisnik = new Korisnik(musterijaDTO.getIme(), musterijaDTO.getPrezime(), musterijaDTO.getEmail(), musterijaDTO.getLozinka(), false,true,listaUloga);
         korisnik.setId(userRepository.findAll().size()+1);
         korisnik.setLozinka(customPasswordEncoder.encode(korisnik.getLozinka()));
         pravljenjePotvrde(userRepository.save(korisnik),"/verifikacijaRegistracija");
@@ -158,6 +164,11 @@ public class CustomUserDetailsService implements UserDetailsService {
         Korisnik korisnik = userRepository.findByEmail(email);
         verificationTokenRepository.deleteByKorisnik(korisnik);
         userRepository.delete(korisnik);
+    }
+
+    public Boolean daLiJeOdobrenOdAdmina(String email){
+        Korisnik korisnik = userRepository.findByEmail(email);
+        return korisnik.isOdobrenOdAdmina();
     }
 
     public Korisnik dajKorisnika(String email){

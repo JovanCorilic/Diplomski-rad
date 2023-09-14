@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn } from '@angular/forms';
 import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Cena } from 'src/app/MODEL/Filter/Cena';
 import { Datum } from 'src/app/MODEL/Filter/Datum';
 import { Filter } from 'src/app/MODEL/Filter/Filter';

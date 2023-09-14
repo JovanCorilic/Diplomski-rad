@@ -51,6 +51,13 @@ public class KorisnikController {
         return new ResponseEntity<>(prodavacDTO,HttpStatus.OK);
     }
 
+    @GetMapping("/dajAdmin")
+    public ResponseEntity<KorisnikDTO>dajAdmin(){
+        Korisnik korisnik = userDetailsService.dajKorisnika(TrenutnoUlogovanKorisnik());
+        KorisnikDTO korisnikDTO = korisnikMapper.toDto(korisnik);
+        return new ResponseEntity<>(korisnikDTO,HttpStatus.OK);
+    }
+
     @PutMapping("/update")
     public ResponseEntity<?>update(@RequestBody KorisnikDTO korisnikDTO){
         userDetailsService.update(korisnikMapper.toModel(korisnikDTO),TrenutnoUlogovanKorisnik());
@@ -105,15 +112,21 @@ public class KorisnikController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
-    @DeleteMapping("/povuciKorisnika/{email}")
-    public ResponseEntity<?>povuciKorisnika(@PathVariable String email){
+    @PutMapping("/povuciKorisnika")
+    public ResponseEntity<?>povuciKorisnika(@RequestBody String email){
         userDetailsService.povuciKorisnika(email);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PutMapping("/vratiKorisnika")
+    public ResponseEntity<?>vratiKorisnika(@RequestBody String email){
+        userDetailsService.vratiKorisnika(email);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping("/pravljenjeAdmina")
-    public ResponseEntity<?>napraviAdmina(@RequestBody MusterijaDTO musterijaDTO){
-        userDetailsService.register(musterijaDTO);
+    public ResponseEntity<?>pravljenjeAdmina(@RequestBody MusterijaDTO admin){
+        userDetailsService.pravljenjeAdminNaloga(admin);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -10,7 +10,7 @@
             <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="600" height="400">
         </td>
         <td>
-            <form>
+            <form *ngIf="produkt.odobrenOdAdmina">
                 Količina <br>
                 <mat-form-field appearance="fill"  [style.height.px]=65>
                     <input matInput class="form-control" [formControl] = "kolicinaFormControl" required>

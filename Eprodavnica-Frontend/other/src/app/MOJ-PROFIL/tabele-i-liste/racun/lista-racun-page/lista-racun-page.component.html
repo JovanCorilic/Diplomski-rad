@@ -50,7 +50,7 @@
     </mat-drawer>
   
     <div class="example-sidenav-content">
-      <span *ngIf="svrha === 'Musterija'">
+      <span *ngIf="svrha === 'Musterija' && racun.brojRacuna!=='nema'">
         <br>
         <button type="button" mat-raised-button color="warn"  style="width: 100%;" (click)="idiNaKorpu(racun.brojRacuna)">Korpa</button>
         <br>

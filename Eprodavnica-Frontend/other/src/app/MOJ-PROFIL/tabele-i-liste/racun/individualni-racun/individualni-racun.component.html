@@ -16,6 +16,8 @@
     Ukupna cena : {{racun.konacnaCena}}din
     <br>
     <br>
-    <button mat-raised-button color="warn" (click)="plati()">Plati</button>
-    <br>
+    <span *ngIf="racun.korpa">
+        <button mat-raised-button color="warn" (click)="plati()">Plati</button>
+        <br>
+    </span>
 </div>

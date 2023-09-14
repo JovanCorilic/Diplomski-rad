@@ -47,8 +47,8 @@ public class RacunController {
     }
 
     @PostMapping("/dodajArtikal")
-    public ResponseEntity<?>dodajArtikal(@RequestBody Artikal artikal){
-
+    public ResponseEntity<?>dodajArtikal(@RequestBody ArtikalDTO artikalDTO){
+        Artikal artikal = artikalMapper.toModel(artikalDTO);
         racunService.dodajArtikal(artikal,TrenutnoUlogovanKorisnik());
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -114,6 +114,31 @@ public class RacunController {
         List<ArtikalDTO>lista = artikalMapper.toDtoArtikal(page.toList());
         Page<ArtikalDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
         return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
+    @GetMapping("/dajAktivanRacun")
+    public ResponseEntity<RacunDTO>dajAktivanRacun(){
+        Racun racun = racunService.dajAktivanRacun();
+        if (racun == null){
+            racun = new Racun();
+            racun.setBrojRacuna("nema");
+        }
+
+        RacunDTO racunDTO = racunMapper.toDto(racun);
+
+        return new ResponseEntity<>(racunDTO,HttpStatus.OK);
+    }
+
+    @DeleteMapping("/ukloniArtikal/{id}")
+    public ResponseEntity<?>ukloniArtikal(@PathVariable Integer id){
+        racunService.deleteArtikal(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/plati")
+    public ResponseEntity<?>plati(@RequestBody String brojRacuna){
+        racunService.plati(brojRacuna);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     public RacunController() {

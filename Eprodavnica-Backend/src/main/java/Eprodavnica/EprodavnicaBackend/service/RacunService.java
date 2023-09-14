@@ -43,12 +43,37 @@ public class RacunService implements ServiceInterface<Racun> {
         return racunRepository.findByBrojRacuna(id).orElse(null);
     }
 
+    public Racun dajAktivanRacun(){
+        return racunRepository.findByKorpaIsTrue().orElse(null);
+    }
+
     @Override
     public Racun create(Racun entity) {
         return null;
     }
 
-    public Racun createSaArtiklom(Racun entity,Artikal artikal,Korisnik korisnik) {
+    public void dodajArtikal(Artikal artikal,String email){
+        Korisnik korisnik = korisnikRepository.findByEmail(email);
+        Racun racun = racunRepository.findByKorpaIsTrue().orElse(null);
+        if (racun == null){
+            Racun racun1 = new Racun();
+            racun1.setMusterija(korisnik);
+            racun1.setKonacnaCena(0.0);
+            racun1.setBrojRacuna(generisiRandomBrojRacuna());
+            racun1.getArtikals().add(artikal);
+            racun1.setDatumKreiranja(new Date());
+            racun1.setKorpa(true);
+            createSaArtiklom(racun1,artikal, korisnik);
+        }else {
+            artikal.setProdukt(produktRepository.findBySerijskiBroj(artikal.getProdukt().getSerijskiBroj()).orElse(null));
+            artikal = artikalRepository.save(artikal);
+            racun.getArtikals().add(artikal);
+            DodajUIStoriju(korisnik,artikal.getProdukt());
+            racunRepository.save(racun);
+        }
+    }
+
+    public void createSaArtiklom(Racun entity,Artikal artikal,Korisnik korisnik) {
         entity.setBrojRacuna(generisiRandomBrojRacuna());
         while (racunRepository.existsRacunByBrojRacuna(entity.getBrojRacuna())){
             entity.setBrojRacuna(generisiRandomBrojRacuna());
@@ -59,27 +84,7 @@ public class RacunService implements ServiceInterface<Racun> {
         entity.getArtikals().add(artikal);
         DodajUIStoriju(korisnik,artikal.getProdukt());
         //entity.setMusterija(korisnikRepository.findByEmail(entity.getMusterija().getEmail()));
-        return racunRepository.save(entity);
-    }
-
-    public void dodajArtikal(Artikal artikal,String email){
-        Korisnik korisnik = korisnikRepository.findByEmail(email);
-        Racun racun = racunRepository.findByKonacnaCenaAndMusterija(0.0,korisnik).orElse(null);
-        if (racun == null){
-            Racun racun1 = new Racun();
-            racun1.setMusterija(korisnik);
-            racun1.setKonacnaCena(0.0);
-            racun1.setBrojRacuna(generisiRandomBrojRacuna());
-            racun1.getArtikals().add(artikal);
-            racun1.setDatumKreiranja(new Date());
-            createSaArtiklom(racun1,artikal, korisnik);
-        }else {
-            artikal.setProdukt(produktRepository.findBySerijskiBroj(artikal.getProdukt().getSerijskiBroj()).orElse(null));
-            artikal = artikalRepository.save(artikal);
-            racun.getArtikals().add(artikal);
-            DodajUIStoriju(korisnik,artikal.getProdukt());
-            racunRepository.save(racun);
-        }
+        racunRepository.save(entity);
     }
 
     public void DodajUIStoriju(Korisnik korisnik, Produkt produkt){
@@ -181,5 +186,21 @@ public class RacunService implements ServiceInterface<Racun> {
     @Override
     public void delete(String id) {
 
+    }
+
+    public void deleteArtikal(Integer id) {
+        Artikal artikal = artikalRepository.findById(id).orElse(null);
+        assert artikal != null;
+        artikal.setProdukt(null);
+        artikal.setRacun(null);
+        artikal = artikalRepository.save(artikal);
+        artikalRepository.delete(artikal);
+    }
+
+    public void plati(String brojRacuna){
+        Racun racun = racunRepository.findByBrojRacuna(brojRacuna).orElse(null);
+        assert racun != null;
+        racun.setKorpa(false);
+        racunRepository.save(racun);
     }
 }

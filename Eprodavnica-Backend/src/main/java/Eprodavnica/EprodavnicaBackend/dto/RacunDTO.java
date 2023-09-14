@@ -17,4 +17,5 @@ public class RacunDTO {
     private String brojRacuna;
     private String emailMusterija;
     private Date datumKreiranja;
+    private boolean korpa;
 }

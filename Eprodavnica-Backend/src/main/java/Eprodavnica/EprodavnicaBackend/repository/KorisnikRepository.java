@@ -2,6 +2,7 @@ package Eprodavnica.EprodavnicaBackend.repository;
 
 import Eprodavnica.EprodavnicaBackend.dto.KorisnikDTO;
 import Eprodavnica.EprodavnicaBackend.model.Korisnik;
+import Eprodavnica.EprodavnicaBackend.model.Produkt;
 import Eprodavnica.EprodavnicaBackend.model.Uloga;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,4 +28,6 @@ public interface KorisnikRepository extends JpaRepository<Korisnik,Integer> {
             "AND ( :#{#korisnik.prezime} is null or k.prezime = :#{#korisnik.prezime})"
     )
     Page<Korisnik>findByCustomCriteria(@Param("korisnik") KorisnikDTO korisnik, @Param("uloga")Uloga uloga, Pageable pageable);
+
+    Boolean existsKorisnikByEmailAndIstorijaKupljenihProdukataContains(String email, Produkt produkt);
 }

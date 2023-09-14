@@ -15,12 +15,14 @@ public class RacunMapper implements MapperInterface<Racun, RacunDTO> {
 
     @Override
     public Racun toModel(RacunDTO dto) {
-        return new Racun(dto.getKonacnaCena(),dto.getBrojRacuna(),dto.getDatumKreiranja(),new Korisnik(dto.getEmailMusterija()));
+        return new Racun(dto.getKonacnaCena(),dto.getBrojRacuna(),dto.getDatumKreiranja(),dto.isKorpa(),
+                new Korisnik(dto.getEmailMusterija()));
     }
 
     @Override
     public RacunDTO toDto(Racun entity) {
-        return new RacunDTO(entity.getKonacnaCena(),entity.getBrojRacuna(),entity.getMusterija().getEmail(),entity.getDatumKreiranja());
+        return new RacunDTO(entity.getKonacnaCena(),entity.getBrojRacuna(),entity.getMusterija().getEmail(),
+                entity.getDatumKreiranja(),entity.isKorpa());
     }
 
     public List<RacunDTO> toDtoLista(List<Racun>lista){
