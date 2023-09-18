@@ -209,7 +209,7 @@ export class ProduktEditComponent implements OnInit{
       if (typeof value == 'string') {
         nV = value.replace(',', '.')
       }
-      return (Number.isNaN(Number(nV)) && !control.pristine && (Number(nV)<=100)) ? {viseOdNula: true} : null;
+      return (!Number.isNaN(Number(nV)) && !control.pristine && (Number(nV)>100)) ? {viseOdNula: true} : null;
     };
   }
 

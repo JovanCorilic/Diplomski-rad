@@ -21,7 +21,7 @@ export class ProduktCreateComponent implements OnInit{
   listaTipova: TipFilter[] = [];
   status:boolean= false
 
-  imaSliku:boolean =false
+  stanje:boolean=false
 
   selectedFile!: File;
 
@@ -45,6 +45,10 @@ export class ProduktCreateComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    this.produktForm.controls.naziv.setValue("Naziv ovde");
+    this.produktForm.controls.deskripcija.setValue("Deskripcija ovde");
+    this.produktForm.controls.cena.setValue("1");
+
     this.tipService.getAllTip().subscribe(
       res=>{
         this.listaTipova = res;
