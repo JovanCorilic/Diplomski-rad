@@ -212,7 +212,8 @@ public class ProduktService {
         }
 
         entity = produktRepository.save(entity);
-        SacuvajSliku(img);
+        if (!img.getName().equals("nema"))
+            SacuvajSliku(img);
         return entity;
     }
 
@@ -271,7 +272,8 @@ public class ProduktService {
         produkt.setListaTipova(temp);
         produkt.setNazivSlike(entity.getNazivSlike());
         produkt = produktRepository.save(produkt);
-        SacuvajSliku(img);
+        if (!img.getName().equals("nema"))
+            SacuvajSliku(img);
         return produkt;
     }
 

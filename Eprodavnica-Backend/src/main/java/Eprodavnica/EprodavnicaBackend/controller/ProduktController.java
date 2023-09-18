@@ -38,7 +38,12 @@ public class ProduktController {
 
     @PostMapping(value = "/create",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ProduktDTO> createProdukt(@RequestPart("File") MultipartFile file, @RequestPart("produkt")ProduktDTO produktDTO) throws IOException {
-        produktDTO.getSlika().setPicByte(file.getBytes());
+        if (file.getOriginalFilename().equals("nema")){
+            produktDTO.setSlika(new ImageModel());
+            produktDTO.getSlika().setName("nema");
+        }else{
+            produktDTO.getSlika().setPicByte(file.getBytes());
+        }
         Produkt produkt = produktMapper.toModel(produktDTO);
         Produkt produkt1 = produktService.create(produkt, produktDTO.getSlika(),TrenutnoUlogovanKorisnik());
         return new ResponseEntity<>(produktMapper.toDto(produkt1),HttpStatus.OK);
@@ -60,7 +65,12 @@ public class ProduktController {
     public ResponseEntity<ProduktDTO>updateProdukt(@RequestPart("File") MultipartFile file,
                                                    @RequestPart("produkt")ProduktDTO produktDTO ,
                                                    @PathVariable String serijskiBroj) throws IOException {
-        produktDTO.getSlika().setPicByte(file.getBytes());
+        if (file.getOriginalFilename().equals("nema")){
+            produktDTO.setSlika(new ImageModel());
+            produktDTO.getSlika().setName("nema");
+        }else{
+            produktDTO.getSlika().setPicByte(file.getBytes());
+        }
         Produkt produkt = produktMapper.toModel(produktDTO);
         produkt = produktService.update(produkt,serijskiBroj,produktDTO.getSlika());
         return new ResponseEntity<>(produktMapper.toDto(produkt),HttpStatus.OK);

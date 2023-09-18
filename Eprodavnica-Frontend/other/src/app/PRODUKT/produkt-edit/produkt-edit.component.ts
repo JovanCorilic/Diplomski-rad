@@ -51,6 +51,8 @@ export class ProduktEditComponent implements OnInit{
     })
     this.produkt.slika = <ImageModel>{}
     this.produkt.slika.name="1"
+
+    this.selectedFile = new File([],"nema");
   }
 
   ngOnInit(): void {

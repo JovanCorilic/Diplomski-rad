@@ -42,6 +42,8 @@ export class ProduktCreateComponent implements OnInit{
       cena: ["",[Validators.required,this.notANumber(),this.viseOdNula()]],
       tipovi: this.fBuilder.array([])
     })
+
+    this.selectedFile = new File([],"nema");
   }
 
   ngOnInit(): void {
