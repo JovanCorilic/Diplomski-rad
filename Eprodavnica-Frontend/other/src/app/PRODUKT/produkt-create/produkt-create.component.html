@@ -1,8 +1,10 @@
 <form [formGroup]="produktForm" (ngSubmit)="create()" style="text-align: center;">
     <br>
-    <div>
-        <input type="file" (change)="onFileChanged($event)" accept="image/*">
-    </div><br>
+    <label class="custom-file-upload">
+        <input type="file" (change)="onFileChanged($event)" accept=".jpg,.jpeg,.png" />
+        <i></i> Postavite sliku
+    </label>
+    <br><br>
 
     <mat-form-field appearance="outline">
         <mat-label>Unesite naziv produkta</mat-label>

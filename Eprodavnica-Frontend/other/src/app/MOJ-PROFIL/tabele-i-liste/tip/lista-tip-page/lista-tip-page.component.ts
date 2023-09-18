@@ -65,6 +65,9 @@ export class ListaTipPageComponent implements OnInit{
     this.tipService.createTip(this.tip).subscribe(
       res=>{
         this.openSnackBar("Uspešno napravljen tip")
+      },
+      error=>{
+        this.openSnackBar("Tip sa tim nazivom već postoji")
       }
     )
   }

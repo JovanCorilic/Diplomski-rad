@@ -58,9 +58,16 @@ export class ProduktCreateComponent implements OnInit{
   public onFileChanged(event:any) {
     //Select File
     this.selectedFile = event.target.files[0];
-    this.openSnackBar("Postavljen fajl")
-    this.produkt.slika = <ImageModel>{}
-    this.produkt.slika.name = this.selectedFile.name;
+    let temp = this.selectedFile.name.split(".")
+    let tip = temp[temp.length-1]
+    if (tip === "jpeg" || tip === "png" || tip==="jpg"){
+      this.openSnackBar("Postavljen fajl")
+      this.produkt.slika = <ImageModel>{}
+      this.produkt.slika.name = this.selectedFile.name;
+    }
+    else{
+      this.openSnackBar("Fajl mora biti u formatu jpeg ili png!")
+    }
   }
 
   create(){
@@ -151,7 +158,6 @@ export class ProduktCreateComponent implements OnInit{
       return (Number.isNaN(Number(nV)) && !control.pristine) ? {notANumber: true} : null;
     };
   }
-
 
 }
 

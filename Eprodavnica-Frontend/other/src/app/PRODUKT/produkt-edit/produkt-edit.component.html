@@ -1,9 +1,18 @@
 <form [formGroup]="produktForm" (ngSubmit)="update()" style="text-align: center;">
     
-    <img *ngIf="produkt.slikaPrikaz===null; else elseBlockSlika" src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="600" height="400">
+    <img *ngIf="produkt.slika.name==='nema'; else elseBlockSlika" src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="600" height="400">
     <ng-template #elseBlockSlika>
       <img [src]="retrievedImage" width="600" height="400">
     </ng-template>
+
+    <div>
+      <br>
+      <label class="custom-file-upload">
+          <input type="file" (change)="onFileChanged($event)" accept=".jpg,.jpeg,.png" />
+          <i></i> Promeni sliku
+      </label>
+      <br><br>
+    </div>
 
     <mat-form-field appearance="outline">
         <mat-label>Unesite naziv produkta</mat-label>

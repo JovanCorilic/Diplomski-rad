@@ -55,6 +55,9 @@ export class TabelaTipComponent implements OnInit,OnChanges{
     this.tipService.updateTip(this.tip).subscribe(
       res=>{
         this.openSnackBar("Uspešno promenjen naziv tipa")
+      },
+      error=>{
+        this.openSnackBar("Tip sa tim nazivom već postoji")
       }
     )
   }

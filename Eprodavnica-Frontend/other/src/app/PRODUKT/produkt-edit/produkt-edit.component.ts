@@ -4,6 +4,7 @@ import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatSnackBar
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TipFilter } from 'src/app/MODEL/Filter/TipFilter';
+import { ImageModel } from 'src/app/MODEL/ImageModel';
 import { Produkt } from 'src/app/MODEL/Produkt';
 import { Tip } from 'src/app/MODEL/Tip';
 import { ProduktService } from 'src/app/SERVICE/Produkt.service';
@@ -22,6 +23,7 @@ export class ProduktEditComponent implements OnInit{
   status:boolean= false
 
   retrievedImage: any;
+  selectedFile!: File;
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -47,14 +49,17 @@ export class ProduktEditComponent implements OnInit{
       cena: [-1,[Validators.required,this.notANumber(),this.viseOdNula()]],
       tipovi: this.fBuilder.array([])
     })
+    this.produkt.slika = <ImageModel>{}
+    this.produkt.slika.name="1"
   }
 
   ngOnInit(): void {
     this.produktService.dajProdukt(this.serijskiBroj).subscribe(
       res=>{
         this.produkt = res;
-        if (this.produkt.slika!==null){
-          this.retrievedImage = 'data:image/jpeg;base64,' + this.produkt.slika.picByte;
+        if (this.produkt.slika.name!=="nema"){
+          let listaTemp = this.produkt.slika.name.split('.')
+          this.retrievedImage = 'data:image/'+listaTemp[listaTemp.length-1]+';base64,' + this.produkt.slika.picByte;
         }
         this.produktForm.controls.naziv.setValue(this.produkt.naziv);
         this.produktForm.controls.deskripcija.setValue(this.produkt.deskripcija);
@@ -85,6 +90,21 @@ export class ProduktEditComponent implements OnInit{
     return false;
   }
 
+  public onFileChanged(event:any) {
+    //Select File
+    this.selectedFile = event.target.files[0];
+    let temp = this.selectedFile.name.split(".")
+    let tip = temp[temp.length-1]
+    if (tip === "jpeg" || tip === "png" || tip==="jpg"){
+      this.openSnackBar("Slika postavljena , morate kliknuti na dugme promeni")
+      this.produkt.slika = <ImageModel>{}
+      this.produkt.slika.name = this.selectedFile.name;
+    }
+    else{
+      this.openSnackBar("Fajl mora biti u formatu jpeg ili png!")
+    }
+  }
+
   update(){
     this.status = !this.status
     this.produkt.naziv = this.produktForm.value.naziv;
@@ -98,11 +118,16 @@ export class ProduktEditComponent implements OnInit{
         this.produkt.listaTipova.push(new Tip(this.listaTipova[i].naziv));
       }
     }
-
-    this.produktService.updateProdukt(this.produkt,this.serijskiBroj).subscribe(
+    
+    this.produktService.updateProdukt(this.produkt,this.serijskiBroj,this.selectedFile).subscribe(
       res=>{
         this.status = !this.status
         this.openSnackBar("Uspešno promenjene vrednosti produkta!")
+        this.produkt=res
+        if (this.produkt.slika.name!=="nema"){
+          let listaTemp = this.produkt.slika.name.split('.')
+          this.retrievedImage = 'data:image/'+listaTemp[listaTemp.length-1]+';base64,' + this.produkt.slika.picByte;
+        }
       },
       error=>{
         this.status = !this.status
@@ -162,7 +187,7 @@ export class ProduktEditComponent implements OnInit{
       if (typeof value == 'string') {
         nV = value.replace(',', '.')
       }
-      return (Number.isNaN(Number(nV)) && !control.pristine && (Number(nV)>=0)) ? {viseOdNula: true} : null;
+      return (!Number.isNaN(Number(nV)) && !control.pristine && (Number(nV)<=0)) ? {viseOdNula: true} : null;
     };
   }
 

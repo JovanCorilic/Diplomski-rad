@@ -56,11 +56,14 @@ public class ProduktController {
         return new ResponseEntity<>(temp,HttpStatus.OK);
     }
 
-    @PutMapping("/update/{serijskiBroj}")
-    public ResponseEntity<?>updateProdukt(@RequestBody ProduktDTO produktDTO , @PathVariable String serijskiBroj){
+    @PutMapping(value = "/update/{serijskiBroj}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ProduktDTO>updateProdukt(@RequestPart("File") MultipartFile file,
+                                                   @RequestPart("produkt")ProduktDTO produktDTO ,
+                                                   @PathVariable String serijskiBroj) throws IOException {
+        produktDTO.getSlika().setPicByte(file.getBytes());
         Produkt produkt = produktMapper.toModel(produktDTO);
-        produktService.update(produkt,serijskiBroj);
-        return new ResponseEntity<>(HttpStatus.OK);
+        produkt = produktService.update(produkt,serijskiBroj,produktDTO.getSlika());
+        return new ResponseEntity<>(produktMapper.toDto(produkt),HttpStatus.OK);
     }
 
     @GetMapping("/get/{serijskiBroj}")

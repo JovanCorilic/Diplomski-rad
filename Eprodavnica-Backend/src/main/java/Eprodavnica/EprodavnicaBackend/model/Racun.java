@@ -16,7 +16,6 @@ import java.util.Set;
 @Entity
 public class Racun {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column

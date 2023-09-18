@@ -15,7 +15,6 @@ export class Produkt {
     brojProdato: number
     odobrenOdAdmina: boolean
     slika: ImageModel
-    slikaPrikaz: any
     constructor(
         naziv: string,
         deskripcija: string,
@@ -28,8 +27,7 @@ export class Produkt {
         emailProdavac: string,
         brojProdato: number,
         odobrenOdAdmina: boolean,
-        slika: ImageModel,
-        slikaPrikaz: any
+        slika: ImageModel
     ) {
         this.naziv = naziv
         this.deskripcija = deskripcija
@@ -43,6 +41,5 @@ export class Produkt {
         this.brojProdato = brojProdato
         this.odobrenOdAdmina = odobrenOdAdmina
         this.slika = slika
-        this.slikaPrikaz = slikaPrikaz
     }
 }

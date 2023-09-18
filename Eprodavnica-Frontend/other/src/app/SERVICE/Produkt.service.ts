@@ -33,8 +33,15 @@ export class ProduktService{
         return this.http.post<Produkt>(this.path+"/create", formData);
     }
 
-    public updateProdukt(produkt:Produkt, serijskiBroj:string){
-        return this.http.put(this.path+"/update"+`/${serijskiBroj}`,produkt);
+    public updateProdukt(produkt:Produkt, serijskiBroj:string, file:File):Observable<Produkt>{
+        const formData:FormData=new FormData();
+        formData.append('File',file,file.name);
+
+        const myObjStr = JSON.stringify(produkt); 
+        const userBlob = new Blob([myObjStr],{ type: "application/json"});
+        formData.append('produkt', userBlob);
+
+        return this.http.put<Produkt>(this.path+"/update"+`/${serijskiBroj}`,formData);
     }
     
     public getByPageIstorijaProdukata(page:number,size:number): Observable<any>{

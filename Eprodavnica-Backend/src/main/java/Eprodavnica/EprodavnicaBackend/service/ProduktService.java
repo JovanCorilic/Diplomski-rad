@@ -202,21 +202,17 @@ public class ProduktService {
         entity.setDatumPravljenja(new Date());
         entity.setOcena(-1.0);
         entity.setOcenaPunBroj(-1);
+        entity.setId((int) produktRepository.count());
+        entity.setOdobrenOdAdmina(true);
 
         entity.setSerijskiBroj(generisiRandomSerijskiBroj());
         while (produktRepository.existsProduktBySerijskiBroj(entity.getSerijskiBroj())){
             entity.setSerijskiBroj(generisiRandomSerijskiBroj());
         }
 
-        entity.setId((int) produktRepository.count());
-
-        Korisnik korisnik = korisnikRepository.findByEmail(email);
-        entity.setProdavac(korisnik);
-
         entity = produktRepository.save(entity);
         SacuvajSliku(img);
         return entity;
-
     }
 
     public void SacuvajSliku(ImageModel img){
@@ -250,7 +246,7 @@ public class ProduktService {
     }
 
 
-    public Produkt update(Produkt entity, String id) {
+    public Produkt update(Produkt entity, String id, ImageModel img) {
         Produkt produkt = produktRepository.findBySerijskiBroj(id).orElse(null);
 
         assert produkt != null;
@@ -272,8 +268,10 @@ public class ProduktService {
             }
         }
         produkt.setListaTipova(temp);
-
-        return produktRepository.save(produkt);
+        produkt.setNazivSlike(entity.getNazivSlike());
+        produkt = produktRepository.save(produkt);
+        SacuvajSliku(img);
+        return produkt;
     }
 
     public boolean daLiSadrziTip(List<Tip> lista, Tip tip){

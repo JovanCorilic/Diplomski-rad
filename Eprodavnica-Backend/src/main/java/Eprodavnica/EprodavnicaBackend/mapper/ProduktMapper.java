@@ -69,14 +69,18 @@ public class ProduktMapper implements MapperInterface<Produkt, ProduktDTO> {
 
     public ImageModel UcitajImageModel(String naziv){
         ImageModel imageModel = new ImageModel();
-        imageModel.setName(naziv);
-        byte[]temp = null;
         try {
-            temp = Files.readAllBytes(Paths.get(LOKACIJA_SLIKA+naziv));
+            if (Files.exists(Paths.get(LOKACIJA_SLIKA+naziv))){
+                byte[]temp = Files.readAllBytes(Paths.get(LOKACIJA_SLIKA+naziv));
+                imageModel.setName(naziv);
+                imageModel.setPicByte(temp);
+            }else {
+                imageModel.setName("nema");
+            }
         }catch (IOException e){
             e.printStackTrace();
+            imageModel.setName("nema");
         }
-        imageModel.setPicByte(temp);
         return imageModel;
     }
 

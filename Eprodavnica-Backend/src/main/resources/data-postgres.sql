@@ -32,11 +32,11 @@ INSERT INTO produkt_lista_tipova(lista_produkata_id,lista_tipova_id) VALUES (2,0
 INSERT INTO produkt_lista_tipova(lista_produkata_id,lista_tipova_id) VALUES (2,1)
 
 /*Recenzija*/
-INSERT INTO recenzija(id,datum_pravljenja,komentar,ocena,musterija_user_id,produkt_id) VALUES (0,'2022-12-1','wdwdwdw wdwdw wdw',5,0,0)
+INSERT INTO recenzija(id,datum_pravljenja,komentar,ocena,musterija_user_id,produkt_id) VALUES (5000,'2022-12-1','wdwdwdw wdwdw wdw',5,0,0)
 
 /*Racun*/
 INSERT INTO racun(id,broj_racuna,datum_kreiranja,konacna_cena,musterija_user_id) values (0,'qwe','2021-12-1',5000.0,0)
-INSERT INTO artikal(id,broj,produkt_id,racun_id) VALUES (0,2,0,0)
+INSERT INTO artikal(id,broj,produkt_id,racun_id) VALUES (5000,2,0,0)
 
 /*Wishlist*/
 INSERT INTO korisnik_wishlist(wishlist_user_id,wishlist_id) VALUES (0,0)

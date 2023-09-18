@@ -35,8 +35,10 @@ public class TipService{
     }
 
     public Tip create(Tip entity) throws Exception {
-        if (!tipRepository.existsTipByNaziv(entity.getNaziv()))
+        if (!tipRepository.existsTipByNaziv(entity.getNaziv())) {
+            entity.setId((int) tipRepository.count());
             return tipRepository.save(entity);
+        }
         else
             throw new Exception();
     }
@@ -44,7 +46,7 @@ public class TipService{
     public Tip update(Tip entity, String id) throws Exception {
         Tip tip = tipRepository.findByNaziv(id).orElse(null);
         assert tip != null;
-        if (!tipRepository.existsTipByNaziv(entity.getNaziv()) && !tip.getNaziv().equals(entity.getNaziv())) {
+        if (!tipRepository.existsTipByNaziv(entity.getNaziv())) {
             tip.setNaziv(entity.getNaziv());
             return tipRepository.save(tip);
         }else
