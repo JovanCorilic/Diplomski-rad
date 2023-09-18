@@ -4,6 +4,7 @@ import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatSnackBar
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TipFilter } from 'src/app/MODEL/Filter/TipFilter';
+import { ImageModel } from 'src/app/MODEL/ImageModel';
 import { Produkt } from 'src/app/MODEL/Produkt';
 import { Tip } from 'src/app/MODEL/Tip';
 import { ProduktService } from 'src/app/SERVICE/Produkt.service';
@@ -20,6 +21,10 @@ export class ProduktCreateComponent implements OnInit{
   listaTipova: TipFilter[] = [];
   status:boolean= false
 
+  imaSliku:boolean =false
+
+  selectedFile!: File;
+
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
@@ -34,7 +39,7 @@ export class ProduktCreateComponent implements OnInit{
     this.produktForm = fBuilder.group({
       naziv: ["",[Validators.required]],
       deskripcija: ["",[Validators.required]],
-      cena: [-1,[Validators.required,this.notANumber(),this.viseOdNula()]],
+      cena: ["",[Validators.required,this.notANumber(),this.viseOdNula()]],
       tipovi: this.fBuilder.array([])
     })
   }
@@ -50,20 +55,32 @@ export class ProduktCreateComponent implements OnInit{
     )
   }
 
+  public onFileChanged(event:any) {
+    //Select File
+    this.selectedFile = event.target.files[0];
+    this.openSnackBar("Postavljen fajl")
+    this.produkt.slika = <ImageModel>{}
+    this.produkt.slika.name = this.selectedFile.name;
+  }
+
   create(){
+    this.status = !this.status
     this.produkt.naziv = this.produktForm.value.naziv;
     this.produkt.deskripcija = this.produktForm.value.deskripcija;
     this.produkt.cena = this.produktForm.value.cena;
 
     this.produkt.listaTipova = []
     for( let i in this.listaTipova ){
-      this.produkt.listaTipova.push(new Tip(this.listaTipova[i].naziv,this.produktForm.value.tipovi.at(i).tip));
+      if (this.produktForm.value.tipovi.at(i).tip){
+        this.produkt.listaTipova.push(new Tip(this.listaTipova[i].naziv));
+      }
     }
 
-    this.produktService.napraviProdukt(this.produkt).subscribe(
+    this.produktService.napraviProdukt(this.produkt,this.selectedFile).subscribe(
       res=>{
         this.status = !this.status
         this.openSnackBar("Uspešno napravljen produkt!")
+        this.router.navigate(['editProdukta/'+res.serijskiBroj])
       },
       error=>{
         this.status = !this.status
@@ -120,7 +137,7 @@ export class ProduktCreateComponent implements OnInit{
       if (typeof value == 'string') {
         nV = value.replace(',', '.')
       }
-      return (Number.isNaN(Number(nV)) && !control.pristine && (Number(nV)>0)) ? {viseOdNula: true} : null;
+      return (!Number.isNaN(Number(nV)) && !control.pristine && (Number(nV)<=0)) ? {viseOdNula: true} : null;
     };
   }
 
@@ -137,3 +154,39 @@ export class ProduktCreateComponent implements OnInit{
 
 
 }
+
+function readFileAsArrayBuffer(file: File): Promise<ArrayBuffer> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (reader.result instanceof ArrayBuffer) {
+        resolve(reader.result);
+      } else {
+        reject(new Error('Failed to read file as ArrayBuffer.'));
+      }
+    };
+
+    reader.onerror = () => {
+      reject(new Error('Error reading file.'));
+    };
+
+    reader.readAsArrayBuffer(file);
+  });
+}
+
+function arrayBufferToByteArray(buffer: ArrayBuffer): Uint8Array {
+  return new Uint8Array(buffer);
+}
+
+async function convertFileToByteArray(file: File): Promise<Uint8Array> {
+  try {
+    const arrayBuffer = await readFileAsArrayBuffer(file);
+    const byteArray = arrayBufferToByteArray(arrayBuffer);
+    return byteArray;
+  } catch (error) {
+    console.error('Error converting file to byte array:', error);
+    throw error;
+  }
+}
+

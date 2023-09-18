@@ -86,6 +86,7 @@ public class RacunService implements ServiceInterface<Racun> {
         artikal.setProdukt(produktRepository.findBySerijskiBroj(artikal.getProdukt().getSerijskiBroj()).orElse(null));
         artikal = artikalRepository.save(artikal);
         entity.getArtikals().add(artikal);
+        entity.setId((int) racunRepository.count());
         racunRepository.save(entity);
     }
 
@@ -94,7 +95,7 @@ public class RacunService implements ServiceInterface<Racun> {
         Random random = new Random();
         random.nextBytes(array);
 
-        return new String(array);
+        return Base64.getUrlEncoder().encodeToString(array);
     }
 
     @Override

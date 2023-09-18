@@ -3,6 +3,7 @@ package Eprodavnica.EprodavnicaBackend.service;
 import Eprodavnica.EprodavnicaBackend.dto.Filter.FilterDTO;
 import Eprodavnica.EprodavnicaBackend.dto.Filter.OcenaDTO;
 import Eprodavnica.EprodavnicaBackend.dto.Filter.TipFilterDTO;
+import Eprodavnica.EprodavnicaBackend.dto.ImageModel;
 import Eprodavnica.EprodavnicaBackend.model.*;
 import Eprodavnica.EprodavnicaBackend.other.KonverterDatum;
 import Eprodavnica.EprodavnicaBackend.other.ObavestenjeEmail;
@@ -16,17 +17,17 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Service
-public class ProduktService implements ServiceInterface<Produkt>{
+public class ProduktService {
     @Autowired
     private ProduktRepository produktRepository;
     @Autowired
@@ -36,7 +37,8 @@ public class ProduktService implements ServiceInterface<Produkt>{
     @Autowired
     private JavaMailSender javaMailSender;
 
-    @Override
+    private static final String LOKACIJA_SLIKA = "src/main/resources/slike/";
+
     public List<Produkt> findAll() {
         return produktRepository.findAll();
     }
@@ -189,28 +191,40 @@ public class ProduktService implements ServiceInterface<Produkt>{
         return str.length() == pos.getIndex();
     }
 
-    @Override
     public Produkt findOne(String id) {
         return produktRepository.findBySerijskiBroj(id).orElse(null);
     }
 
-    @Override
-    public Produkt create(Produkt entity) {
-        if (produktRepository.existsProduktBySerijskiBroj(entity.getSerijskiBroj()))
-            return null;
-        for (Tip tip : entity.getListaTipova()){
-            tip = tipRepository.findByNaziv(tip.getNaziv()).orElse(null);
-        }
+    public Produkt create(Produkt entity, ImageModel img,String email) {
+        entity.getListaTipova().replaceAll(tip -> tipRepository.findByNaziv(tip.getNaziv()).orElse(null));
+
         entity.setProdavac(korisnikRepository.findByEmail(entity.getProdavac().getEmail()));
         entity.setDatumPravljenja(new Date());
         entity.setOcena(-1.0);
+        entity.setOcenaPunBroj(-1);
 
         entity.setSerijskiBroj(generisiRandomSerijskiBroj());
         while (produktRepository.existsProduktBySerijskiBroj(entity.getSerijskiBroj())){
             entity.setSerijskiBroj(generisiRandomSerijskiBroj());
         }
 
-        return produktRepository.save(entity);
+        entity.setId((int) produktRepository.count());
+
+        Korisnik korisnik = korisnikRepository.findByEmail(email);
+        entity.setProdavac(korisnik);
+
+        entity = produktRepository.save(entity);
+        SacuvajSliku(img);
+        return entity;
+
+    }
+
+    public void SacuvajSliku(ImageModel img){
+        try {
+            Files.write(Paths.get(LOKACIJA_SLIKA+img.getName()),img.getPicByte());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public String generisiRandomSerijskiBroj() {
@@ -218,7 +232,7 @@ public class ProduktService implements ServiceInterface<Produkt>{
         Random random = new Random();
         random.nextBytes(array);
 
-        return new String(array);
+        return Base64.getUrlEncoder().encodeToString(array);
     }
 
     public void dodajUWishlist(String email, String serijskiBroj){
@@ -235,7 +249,7 @@ public class ProduktService implements ServiceInterface<Produkt>{
         return korisnik.getWishlist().contains(produktRepository.findBySerijskiBroj(serijskiBroj).orElse(null));
     }
 
-    @Override
+
     public Produkt update(Produkt entity, String id) {
         Produkt produkt = produktRepository.findBySerijskiBroj(id).orElse(null);
 
@@ -270,7 +284,6 @@ public class ProduktService implements ServiceInterface<Produkt>{
         return false;
     }
 
-    @Override
     public void delete(String id) {
 
     }

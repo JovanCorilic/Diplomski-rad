@@ -1,19 +1,21 @@
 package Eprodavnica.EprodavnicaBackend.mapper;
 
-import Eprodavnica.EprodavnicaBackend.dto.ProduktDTO;
-import Eprodavnica.EprodavnicaBackend.dto.ProduktMiniDTO;
-import Eprodavnica.EprodavnicaBackend.dto.RecenzijaDTO;
-import Eprodavnica.EprodavnicaBackend.dto.TipDTO;
+import Eprodavnica.EprodavnicaBackend.dto.*;
 import Eprodavnica.EprodavnicaBackend.model.Korisnik;
 import Eprodavnica.EprodavnicaBackend.model.Produkt;
 import Eprodavnica.EprodavnicaBackend.model.Recenzija;
 import Eprodavnica.EprodavnicaBackend.model.Tip;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProduktMapper implements MapperInterface<Produkt, ProduktDTO> {
     private final TipMapper tipMapper;
+    private static final String LOKACIJA_SLIKA = "src/main/resources/slike/";
 
     @Override
     public Produkt toModel(ProduktDTO dto) {
@@ -22,7 +24,8 @@ public class ProduktMapper implements MapperInterface<Produkt, ProduktDTO> {
             tips.add(tipMapper.toModel(tipDTO));
         }
         return new Produkt(dto.getNaziv(),dto.getDeskripcija(),dto.getSerijskiBroj(),dto.getCena(),dto.getOcena(),
-                dto.getDatumPravljenja(),dto.getAkcija(),dto.getBrojProdato(),dto.isOdobrenOdAdmina(),tips,new Korisnik(dto.getEmailProdavac()));
+                dto.getDatumPravljenja(),dto.getAkcija(),dto.getBrojProdato(),dto.isOdobrenOdAdmina(),
+                dto.getSlika().getName(), tips,new Korisnik(dto.getEmailProdavac()));
     }
 
     @Override
@@ -31,13 +34,17 @@ public class ProduktMapper implements MapperInterface<Produkt, ProduktDTO> {
         for (Tip tip : entity.getListaTipova()){
             tipDTOS.add(tipMapper.toDto(tip));
         }
+        ImageModel imageModel = UcitajImageModel(entity.getNazivSlike());
+
         return new ProduktDTO(entity.getNaziv(),entity.getDeskripcija(),entity.getSerijskiBroj(),entity.getCena(),
-                entity.getOcena(),entity.getDatumPravljenja(),entity.getAkcija(),entity.getBrojProdato(),tipDTOS,entity.getProdavac().getEmail(),entity.isOdobrenOdAdmina());
+                entity.getOcena(),entity.getDatumPravljenja(),entity.getAkcija(),entity.getBrojProdato(),tipDTOS,
+                entity.getProdavac().getEmail(),entity.isOdobrenOdAdmina(),imageModel);
     }
 
     public ProduktMiniDTO toDTOMini(Produkt entity){
+        ImageModel imageModel = UcitajImageModel(entity.getNazivSlike());
         return new ProduktMiniDTO(entity.getNaziv(),entity.getSerijskiBroj(),entity.getCena(),entity.getOcena(),
-                entity.getAkcija(),entity.isOdobrenOdAdmina());
+                entity.getAkcija(),entity.isOdobrenOdAdmina(),imageModel);
     }
 
     public Produkt toMini(ProduktMiniDTO dto){
@@ -58,6 +65,19 @@ public class ProduktMapper implements MapperInterface<Produkt, ProduktDTO> {
             temp.add(toDto(produkt));
         }
         return temp;
+    }
+
+    public ImageModel UcitajImageModel(String naziv){
+        ImageModel imageModel = new ImageModel();
+        imageModel.setName(naziv);
+        byte[]temp = null;
+        try {
+            temp = Files.readAllBytes(Paths.get(LOKACIJA_SLIKA+naziv));
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        imageModel.setPicByte(temp);
+        return imageModel;
     }
 
     public ProduktMapper() {

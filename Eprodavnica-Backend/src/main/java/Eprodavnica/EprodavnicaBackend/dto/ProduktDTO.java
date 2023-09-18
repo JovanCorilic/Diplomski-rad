@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -24,5 +25,6 @@ public class ProduktDTO {
     private List<TipDTO>listaTipova;
     private String emailProdavac;
     private boolean odobrenOdAdmina;
+    private ImageModel slika;
     //private KorisnikDTO prodavac;
 }

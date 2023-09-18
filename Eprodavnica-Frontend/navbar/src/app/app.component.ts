@@ -40,7 +40,8 @@ export class AppComponent {
       ime: ["",[Validators.required]],
       prezime: ["",[Validators.required]],
       email: ["",[Validators.required,Validators.email]],
-      lozinka: ["",[Validators.required, Validators.minLength(5),this.daLiImaBroj(),this.daLiImaSpecijalanKarakter()]]
+      lozinka: ["",[Validators.required, Validators.minLength(5),this.daLiImaBroj(),this.daLiImaSpecijalanKarakter()]],
+      uloga: "ROLE_MUSTERIJA"
     });
 
     this.logForm = this.fBuilder.group({
@@ -158,6 +159,7 @@ export class AppComponent {
     this.musterija.ime = this.registerForm.value.ime;
     this.musterija.prezime = this.registerForm.value.prezime;
     this.musterija.lozinka = this.registerForm.value.lozinka;
+    this.musterija.uloga = this.registerForm.value.uloga;
     this.authenticationService.register(this.musterija).subscribe(
       res=>{
         this.status2= !this.status2;

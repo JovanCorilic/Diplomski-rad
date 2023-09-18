@@ -1,6 +1,7 @@
 package Eprodavnica.EprodavnicaBackend.controller;
 
 import Eprodavnica.EprodavnicaBackend.dto.MusterijaDTO;
+import Eprodavnica.EprodavnicaBackend.dto.RegistracijaDTO;
 import Eprodavnica.EprodavnicaBackend.dto.UserLoginDTO;
 import Eprodavnica.EprodavnicaBackend.dto.UserTokenStateDTO;
 import Eprodavnica.EprodavnicaBackend.model.Korisnik;
@@ -72,12 +73,10 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?>registracijaMusterije(@RequestBody MusterijaDTO musterijaDTO){
-        if (musterijaDTO.proveraPodataka())
+    public ResponseEntity<?>registracijaMusterije(@RequestBody RegistracijaDTO registracijaDTO){
+        if (userDetailsService.daLiSeVecKoristiEmail(registracijaDTO.getEmail()))
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        if (userDetailsService.daLiSeVecKoristiEmail(musterijaDTO.getEmail()))
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        userDetailsService.register(musterijaDTO);
+        userDetailsService.register(registracijaDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

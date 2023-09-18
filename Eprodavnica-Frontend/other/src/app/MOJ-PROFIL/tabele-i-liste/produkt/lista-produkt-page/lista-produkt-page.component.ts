@@ -148,7 +148,7 @@ export class ListaProduktPageComponent {
 
     this.filter.tip = []
     for( let i in this.listaTipova ){
-      this.filter.tip.push(new Tip(this.listaTipova[i].naziv,this.filterForm.value.tipovi.at(i).tip));
+      this.filter.tip.push(new TipFilter(this.listaTipova[i].naziv,this.filterForm.value.tipovi.at(i).tip));
     }
 
     this.filter.ocena = []

@@ -16,5 +16,5 @@ public class ProduktMiniDTO {
     private double ocena;
     private int akcija;
     private boolean odobrenOdAdmina;
-
+    private ImageModel slika;
 }

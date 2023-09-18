@@ -2,6 +2,7 @@ package Eprodavnica.EprodavnicaBackend.service;
 
 import Eprodavnica.EprodavnicaBackend.dto.KorisnikDTO;
 import Eprodavnica.EprodavnicaBackend.dto.MusterijaDTO;
+import Eprodavnica.EprodavnicaBackend.dto.RegistracijaDTO;
 import Eprodavnica.EprodavnicaBackend.model.Korisnik;
 import Eprodavnica.EprodavnicaBackend.model.Uloga;
 import Eprodavnica.EprodavnicaBackend.model.VerificationToken;
@@ -132,10 +133,10 @@ public class CustomUserDetailsService implements UserDetailsService {
         return userRepository.existsKorisnikByEmail(email);
     }
 
-    public void register(MusterijaDTO musterijaDTO){
+    public void register(RegistracijaDTO registracijaDTO){
         List<Uloga>listaUloga = new ArrayList<>();
-        listaUloga.add(ulogaRepository.findById(3).orElse(null));
-        Korisnik korisnik = new Korisnik(musterijaDTO.getIme(), musterijaDTO.getPrezime(), musterijaDTO.getEmail(), musterijaDTO.getLozinka(), false,true,listaUloga);
+        listaUloga.add(ulogaRepository.findByName(registracijaDTO.getUloga()));
+        Korisnik korisnik = new Korisnik(registracijaDTO.getIme(), registracijaDTO.getPrezime(), registracijaDTO.getEmail(), registracijaDTO.getLozinka(), false,true,listaUloga);
         korisnik.setId(userRepository.findAll().size()+1);
         korisnik.setLozinka(customPasswordEncoder.encode(korisnik.getLozinka()));
         pravljenjePotvrde(userRepository.save(korisnik),"/verifikacijaRegistracija");

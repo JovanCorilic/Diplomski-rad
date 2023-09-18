@@ -22,8 +22,15 @@ export class ProduktService{
         return this.http.get<boolean>(this.path+"/daLiJeUWishlist"+`/${serijskiBroj}`)
     }
 
-    public napraviProdukt(produkt:Produkt){
-        return this.http.post(this.path+"/create",produkt);
+    public napraviProdukt(produkt:Produkt,file:File):Observable<Produkt>{
+        const formData:FormData=new FormData();
+        formData.append('File',file,file.name);
+
+        const myObjStr = JSON.stringify(produkt); 
+        const userBlob = new Blob([myObjStr],{ type: "application/json"});
+        formData.append('produkt', userBlob);
+
+        return this.http.post<Produkt>(this.path+"/create", formData);
     }
 
     public updateProdukt(produkt:Produkt, serijskiBroj:string){

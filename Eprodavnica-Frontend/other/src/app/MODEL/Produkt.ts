@@ -1,3 +1,4 @@
+import { ImageModel } from "./ImageModel"
 import { Recenzija } from "./Recenzija"
 import { Tip } from "./Tip"
 
@@ -13,6 +14,8 @@ export class Produkt {
     emailProdavac: string
     brojProdato: number
     odobrenOdAdmina: boolean
+    slika: ImageModel
+    slikaPrikaz: any
     constructor(
         naziv: string,
         deskripcija: string,
@@ -24,7 +27,9 @@ export class Produkt {
         listaTipova: Tip[],
         emailProdavac: string,
         brojProdato: number,
-        odobrenOdAdmina: boolean
+        odobrenOdAdmina: boolean,
+        slika: ImageModel,
+        slikaPrikaz: any
     ) {
         this.naziv = naziv
         this.deskripcija = deskripcija
@@ -37,5 +42,7 @@ export class Produkt {
         this.emailProdavac = emailProdavac
         this.brojProdato = brojProdato
         this.odobrenOdAdmina = odobrenOdAdmina
+        this.slika = slika
+        this.slikaPrikaz = slikaPrikaz
     }
 }

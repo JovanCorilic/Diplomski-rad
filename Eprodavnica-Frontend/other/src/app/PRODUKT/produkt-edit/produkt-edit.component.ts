@@ -21,6 +21,8 @@ export class ProduktEditComponent implements OnInit{
   listaTipova: Tip[] = [];
   status:boolean= false
 
+  retrievedImage: any;
+
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
@@ -51,7 +53,9 @@ export class ProduktEditComponent implements OnInit{
     this.produktService.dajProdukt(this.serijskiBroj).subscribe(
       res=>{
         this.produkt = res;
-
+        if (this.produkt.slika!==null){
+          this.retrievedImage = 'data:image/jpeg;base64,' + this.produkt.slika.picByte;
+        }
         this.produktForm.controls.naziv.setValue(this.produkt.naziv);
         this.produktForm.controls.deskripcija.setValue(this.produkt.deskripcija);
         this.produktForm.controls.akcija.setValue(this.produkt.akcija);

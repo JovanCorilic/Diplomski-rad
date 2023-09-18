@@ -1,10 +1,12 @@
 <form [formGroup]="produktForm" (ngSubmit)="create()" style="text-align: center;">
-
-    <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="600" height="400">
+    <br>
+    <div>
+        <input type="file" (change)="onFileChanged($event)" accept="image/*">
+    </div><br>
 
     <mat-form-field appearance="outline">
         <mat-label>Unesite naziv produkta</mat-label>
-        <input matInput placeholder="Naziv produkta" class="form-control" formControlName = "naziv" required>
+        <input matInput class="form-control" formControlName = "naziv" required>
         <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="produktForm.controls.naziv.setValue('')">
           <mat-icon>close</mat-icon>
         </button>
@@ -16,7 +18,7 @@
 
     <mat-form-field appearance="outline">
         <mat-label>Unesite deskripciju produkta</mat-label>
-        <textarea matInput placeholder="Deskripcija produkta" class="form-control" formControlName = "deskripcija" required></textarea>
+        <textarea matInput class="form-control" formControlName = "deskripcija" required></textarea>
         <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="produktForm.controls.deskripcija.setValue('')">
           <mat-icon>close</mat-icon>
         </button>
@@ -28,13 +30,13 @@
 
     <mat-form-field appearance="outline">
         <mat-label>Unesite cenu produkta</mat-label>
-        <input matInput placeholder="1000.50" class="form-control" formControlName = "cena" required>
-        <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="produktForm.controls.cena.setValue(-1)">
+        <input matInput class="form-control" formControlName = "cena" required>
+        <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="produktForm.controls.cena.setValue('')">
           <mat-icon>close</mat-icon>
         </button>
         <mat-error *ngIf="produktForm.controls.cena.invalid">{{getErrorMessage(produktForm.controls.cena)}}</mat-error>
         <mat-hint>Cena produkta</mat-hint>
-    </mat-form-field>din.
+    </mat-form-field>
 
     <div><br></div>
 
@@ -42,7 +44,7 @@
 
     <div><br></div>
 
-    <button type="submit" [mtBasicSpinner]="status" [hideText]="status"
+    <button type="submit" [mtBasicSpinner]="status" [hideText]="status" mat-raised-button color="warn"
                 [disabled]="produktForm.invalid">
                 Napravi
             </button>

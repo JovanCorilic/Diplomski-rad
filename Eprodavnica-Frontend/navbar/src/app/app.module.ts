@@ -18,6 +18,7 @@ import { NgxLoadingButtonsModule } from 'ngx-loading-buttons';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { VerifikacijaAdminRegistracijaComponent } from './SECURITY/verifikacija-admin-registracija/verifikacija-admin-registracija.component';
 import { VerifikacijaMusterijaProdavacRegistracijaComponent } from './SECURITY/verifikacija-musterija-prodavac-registracija/verifikacija-musterija-prodavac-registracija.component';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { VerifikacijaMusterijaProdavacRegistracijaComponent } from './SECURITY/v
     NgbModule,
     MatInputModule,
     NgxLoadingButtonsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSelectModule,
   ],
   providers: [
     {

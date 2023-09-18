@@ -1,6 +1,7 @@
 package Eprodavnica.EprodavnicaBackend.controller;
 
 import Eprodavnica.EprodavnicaBackend.dto.Filter.FilterDTO;
+import Eprodavnica.EprodavnicaBackend.dto.ImageModel;
 import Eprodavnica.EprodavnicaBackend.dto.ProduktDTO;
 import Eprodavnica.EprodavnicaBackend.dto.ProduktMiniDTO;
 import Eprodavnica.EprodavnicaBackend.mapper.ProduktMapper;
@@ -17,7 +18,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,11 +34,14 @@ public class ProduktController {
 
     private final ProduktMapper produktMapper;
 
-    @PostMapping("/create")
-    public ResponseEntity<?> createProdukt(@RequestBody ProduktDTO produktDTO){
+    //moze i @RequestParam
+
+    @PostMapping(value = "/create",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ProduktDTO> createProdukt(@RequestPart("File") MultipartFile file, @RequestPart("produkt")ProduktDTO produktDTO) throws IOException {
+        produktDTO.getSlika().setPicByte(file.getBytes());
         Produkt produkt = produktMapper.toModel(produktDTO);
-        produktService.create(produkt);
-        return new ResponseEntity<>(HttpStatus.OK);
+        Produkt produkt1 = produktService.create(produkt, produktDTO.getSlika(),TrenutnoUlogovanKorisnik());
+        return new ResponseEntity<>(produktMapper.toDto(produkt1),HttpStatus.OK);
     }
 
     @PostMapping("/dodajuWishlist")

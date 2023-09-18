@@ -89,7 +89,7 @@
     <div class="modal-footer">
       <button  mat-raised-button type="submit"
                   color="accent" 
-                  (click)="modal.close('Save click');logIn();"  [disabled]="logForm.invalid">
+                  (click)="modal.close('Save click')"  [disabled]="logForm.invalid">
                   Login
               </button>
     </div>
@@ -169,13 +169,30 @@
           <mat-hint>Prezime</mat-hint>
         </mat-form-field>
       </div>
+
+      <div class="input-group"><br></div>
+
+      <div class="input-group">
+        <mat-form-field>
+          <mat-label>Uloga</mat-label>
+          <mat-select formControlName = "uloga" required>
+            <mat-option [value]="'ROLE_MUSTERIJA'">
+              Uloga mušterije
+            </mat-option>
+            <mat-option [value]="'ROLE_PRODAVAC'">
+              Uloga prodavca
+            </mat-option>
+          </mat-select>
+          <mat-hint>Uloga vašeg naloga</mat-hint>
+        </mat-form-field>
+      </div>
       
     </div>
 
     <div class="modal-footer">
       <button  mat-raised-button type="submit"
                   color="accent" 
-                  (click)="modal.close('Save click');register();"  [disabled]="registerForm.invalid">
+                  (click)="modal.close('Save click')"  [disabled]="registerForm.invalid">
                   Registruj se
               </button>
     </div>

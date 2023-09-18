@@ -21,7 +21,8 @@ import java.util.Set;
 public class Produkt {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private Integer id;
 
     @Column
@@ -51,7 +52,11 @@ public class Produkt {
     @Column
     private int brojProdato;
 
-    @Column boolean odobrenOdAdmina;
+    @Column
+    private boolean odobrenOdAdmina;
+
+    @Column
+    private String nazivSlike;
 
     @ManyToMany()
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -73,7 +78,9 @@ public class Produkt {
     @ManyToMany(mappedBy = "istorijaKupljenihProdukata")
     private List<Korisnik>istorijaKupaca;
 
-    public Produkt(String naziv, String deskripcija, String serijskiBroj, double cena, double ocena, Date datumPravljenja, int akcija,int brojProdato, Boolean odobrenOdAdmina,List<Tip> listaTipova, Korisnik prodavac) {
+    public Produkt(String naziv, String deskripcija, String serijskiBroj, double cena, double ocena,
+                   Date datumPravljenja, int akcija,int brojProdato, Boolean odobrenOdAdmina,String nazivSlike ,List<Tip> listaTipova,
+                   Korisnik prodavac) {
         this.naziv = naziv;
         this.deskripcija = deskripcija;
         this.serijskiBroj = serijskiBroj;
@@ -85,9 +92,11 @@ public class Produkt {
         this.listaTipova = listaTipova;
         this.prodavac = prodavac;
         this.odobrenOdAdmina=odobrenOdAdmina;
+        this.nazivSlike = nazivSlike;
     }
 
-    public Produkt(String naziv, String serijskiBroj, double cena, double ocena, int akcija,Boolean odobrenOdAdmina) {
+    public Produkt(String naziv, String serijskiBroj, double cena, double ocena, int akcija,
+                   Boolean odobrenOdAdmina) {
         this.naziv = naziv;
         this.serijskiBroj = serijskiBroj;
         this.cena = cena;
