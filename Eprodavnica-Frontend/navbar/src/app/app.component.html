@@ -175,14 +175,10 @@
       <div class="input-group">
         <mat-form-field>
           <mat-label>Uloga</mat-label>
-          <mat-select formControlName = "uloga" required>
-            <mat-option [value]="'ROLE_MUSTERIJA'">
-              Uloga mušterije
-            </mat-option>
-            <mat-option [value]="'ROLE_PRODAVAC'">
-              Uloga prodavca
-            </mat-option>
-          </mat-select>
+          <select matNativeControl formControlName = "uloga" required>
+            <option [value]="'ROLE_MUSTERIJA'">Uloga mušterije</option>
+            <option [value]="'ROLE_PRODAVAC'">Uloga prodavca</option>
+          </select>
           <mat-hint>Uloga vašeg naloga</mat-hint>
         </mat-form-field>
       </div>

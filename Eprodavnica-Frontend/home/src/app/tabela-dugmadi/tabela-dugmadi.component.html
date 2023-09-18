@@ -5,7 +5,10 @@
   <button mat-stroked-button matTooltip={{produktMini.naziv}}  (click)="idiNaProdukt(produktMini.serijskiBroj)"
     [disableRipple]="true" style="width : 450px;height: 450px;">
     
-    <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="370" height="300">
+    <img *ngIf="mapa.get(produktMini.serijskiBroj)?.name==='nema'; else elseBlockSlika" src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="370" height="300">
+    <ng-template #elseBlockSlika>
+      <img [src]="mapa.get(produktMini.serijskiBroj)?.retrievedImage" width="370" height="300">
+    </ng-template>
 
     <p class="ellipsis">
       <br>
@@ -13,7 +16,13 @@
     </p>
     <p>
       <b style="color: red;" *ngIf="produktMini.akcija !== 0">Akcija {{produktMini.akcija}}%</b><br>
-      Ocena : &nbsp; {{produktMini.ocena}}<br>
+      <span *ngIf="produktMini.ocena!==-1; else elseBlockOcena">
+        Ocena : &nbsp; {{produktMini.ocena}}
+      </span>
+      <ng-template #elseBlockOcena>
+        Nema ocenu
+      </ng-template>
+      <br>
       {{produktMini.cena - (produktMini.cena*produktMini.akcija/100)}} &nbsp; din.
     </p>
   </button>&nbsp;&nbsp;

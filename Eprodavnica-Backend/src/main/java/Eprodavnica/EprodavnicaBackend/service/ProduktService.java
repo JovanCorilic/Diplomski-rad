@@ -198,7 +198,8 @@ public class ProduktService {
     public Produkt create(Produkt entity, ImageModel img,String email) {
         entity.getListaTipova().replaceAll(tip -> tipRepository.findByNaziv(tip.getNaziv()).orElse(null));
 
-        entity.setProdavac(korisnikRepository.findByEmail(entity.getProdavac().getEmail()));
+        Korisnik korisnik = korisnikRepository.findByEmail(email);
+        entity.setProdavac(korisnik);
         entity.setDatumPravljenja(new Date());
         entity.setOcena(-1.0);
         entity.setOcenaPunBroj(-1);
