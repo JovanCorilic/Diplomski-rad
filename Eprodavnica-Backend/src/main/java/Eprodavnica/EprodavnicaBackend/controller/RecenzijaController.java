@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class RecenzijaController {
 
     private final RecenzijaMapper recenzijaMapper;
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_MUSTERIJOM')")
     @PostMapping("/create")
     public ResponseEntity<?> createProdukt(@RequestBody RecenzijaDTO recenzijaDTO){
         Recenzija recenzija = recenzijaMapper.toModel(recenzijaDTO);
@@ -34,6 +36,7 @@ public class RecenzijaController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_MUSTERIJOM')")
     @PutMapping("/update/{id}")
     public ResponseEntity<?>updateProdukt(@RequestBody RecenzijaDTO recenzijaDTO , @PathVariable Integer id){
         Recenzija recenzija = recenzijaMapper.toModel(recenzijaDTO);
@@ -41,18 +44,21 @@ public class RecenzijaController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_MUSTERIJOM')")
     @GetMapping("/get/{id}")
     public ResponseEntity<?>get(@PathVariable String id){
         RecenzijaDTO recenzijaDTO = recenzijaMapper.toDto(recenzijaService.findOne(id));
         return new ResponseEntity<>(recenzijaDTO, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_MUSTERIJOM')")
     @GetMapping("/dajRecenzijuMusterije/{serijskiBroj}")
     public ResponseEntity<RecenzijaDTO>dajRecenziju(@PathVariable String serijskiBroj){
         Recenzija recenzija = recenzijaService.dajRecenzijuMusterije(serijskiBroj,TrenutnoUlogovanKorisnik());
         return new ResponseEntity<>(recenzijaMapper.toDto(recenzija),HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_MUSTERIJOM')")
     @GetMapping("/daLiImaRecenzijuZaProdukt/{serijskiBroj}")
     public ResponseEntity<Boolean>daLiImaRecenzijuZaProdukt(@PathVariable String serijskiBroj){
         Boolean odgovor = recenzijaService.daLiImaRecenzijuZaProdukt(serijskiBroj,TrenutnoUlogovanKorisnik());
@@ -77,6 +83,7 @@ public class RecenzijaController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_MUSTERIJOM')")
     @GetMapping("/by-pageMusterija")
     public ResponseEntity<Page<RecenzijaDTO>>getRecenzijaPageableMusterija(Pageable pageable){
         Page<Recenzija>page = recenzijaService.findAllMusterijaPageable(pageable,TrenutnoUlogovanKorisnik());
@@ -85,6 +92,7 @@ public class RecenzijaController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_ADMINOM')")
     @GetMapping("/by-pageAdmin")
     public ResponseEntity<Page<RecenzijaDTO>>getRecenzijaPageableAdmin(Pageable pageable){
         Page<Recenzija>page = recenzijaService.findAllAdminPageable(pageable);
@@ -102,6 +110,7 @@ public class RecenzijaController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_MUSTERIJOM')")
     @PostMapping("/filter-by-pageMusterija")
     public ResponseEntity<Page<RecenzijaDTO>>getRecenzijaFilterMusterija(@RequestBody FilterDTO filterDTO,Pageable pageable){
         Page<Recenzija>page = recenzijaService.filterMusterijaPageable(pageable,filterDTO,TrenutnoUlogovanKorisnik());
@@ -110,6 +119,7 @@ public class RecenzijaController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_ADMINOM')")
     @PostMapping("/filter-by-pageAdmin")
     public ResponseEntity<Page<RecenzijaDTO>>getRecenzijaFilterAdmin(@RequestBody FilterDTO filterDTO,Pageable pageable){
         Page<Recenzija>page = recenzijaService.filterAdminPageable(pageable,filterDTO);
@@ -118,6 +128,7 @@ public class RecenzijaController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyAuthority('OPERACIJE_SA_ADMINOM','OPERACIJE_SA_MUSTERIJOM')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?>delete(@PathVariable Integer id){
         recenzijaService.delete(id);

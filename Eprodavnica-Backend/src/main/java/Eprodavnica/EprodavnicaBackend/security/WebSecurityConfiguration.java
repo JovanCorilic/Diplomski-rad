@@ -66,7 +66,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
 
                 // svim korisnicima dopusti da pristupe putanji /auth/**
-                .authorizeRequests().antMatchers("/auth/**").permitAll()
+                .authorizeRequests().antMatchers("/auth/log-in").permitAll()
+                .antMatchers("/auth/log-in").permitAll()
                 .antMatchers("/produkt/**").permitAll()
                 .antMatchers("/racun/**").permitAll()
                 .antMatchers("/recenzija/**").permitAll()

@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,7 @@ public class KorisnikController {
     private final ProdavacMapper prodavacMapper;
     private final KorisnikMapper korisnikMapper;
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_MUSTERIJOM')")
     @GetMapping("/dajMusteriju")
     public ResponseEntity<MusterijaDTO>dajMusteriju(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -42,6 +44,7 @@ public class KorisnikController {
         return new ResponseEntity<>(musterijaDTO, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_PRODAVCEM')")
     @GetMapping("/dajProdavac")
     public ResponseEntity<ProdavacDTO>dajProdavac(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -51,6 +54,7 @@ public class KorisnikController {
         return new ResponseEntity<>(prodavacDTO,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_ADMINOM')")
     @GetMapping("/dajAdmin")
     public ResponseEntity<KorisnikDTO>dajAdmin(){
         Korisnik korisnik = userDetailsService.dajKorisnika(TrenutnoUlogovanKorisnik());
@@ -58,12 +62,14 @@ public class KorisnikController {
         return new ResponseEntity<>(korisnikDTO,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyAuthority('OPERACIJE_SA_ADMINOM','OPERACIJE_SA_PRODAVCEM','OPERACIJE_SA_MUSTERIJOM')")
     @PutMapping("/update")
     public ResponseEntity<?>update(@RequestBody KorisnikDTO korisnikDTO){
         userDetailsService.update(korisnikMapper.toModel(korisnikDTO),TrenutnoUlogovanKorisnik());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_ADMINOM')")
     @GetMapping("/by-pageMusterija")
     public ResponseEntity<Page<KorisnikDTO>>byPageMusterija(Pageable pageable){
         Page<Korisnik>page = userDetailsService.findAllMusterija(pageable);
@@ -72,6 +78,7 @@ public class KorisnikController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_ADMINOM')")
     @GetMapping("/by-pageProdavac")
     public ResponseEntity<Page<KorisnikDTO>>byPageProdavac(Pageable pageable){
         Page<Korisnik>page = userDetailsService.findAllProdavac(pageable);
@@ -80,6 +87,7 @@ public class KorisnikController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_SUPERADMINOM')")
     @GetMapping("/by-pageAdmin")
     public ResponseEntity<Page<KorisnikDTO>>byPageAdmin(Pageable pageable){
         Page<Korisnik>page = userDetailsService.findAllAdmin(pageable);
@@ -88,6 +96,7 @@ public class KorisnikController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_ADMINOM')")
     @PostMapping("/filter-by-pageMusterija")
     public ResponseEntity<Page<KorisnikDTO>>filterMusterija(@RequestBody KorisnikDTO korisnikDTO,Pageable pageable){
         Page<Korisnik>page = userDetailsService.filterAllMusterija(korisnikDTO,pageable);
@@ -96,6 +105,7 @@ public class KorisnikController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_ADMINOM')")
     @PostMapping("/filter-by-pageProdavac")
     public ResponseEntity<Page<KorisnikDTO>>filterProdavac(@RequestBody KorisnikDTO korisnikDTO,Pageable pageable){
         Page<Korisnik>page = userDetailsService.filterAllProdavac(korisnikDTO,pageable);
@@ -104,6 +114,7 @@ public class KorisnikController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_SUPERADMINOM')")
     @PostMapping("/filter-by-pageAdmin")
     public ResponseEntity<Page<KorisnikDTO>>filterAdmin(@RequestBody KorisnikDTO korisnikDTO,Pageable pageable){
         Page<Korisnik>page = userDetailsService.filterAllAdmin(korisnikDTO,pageable);
@@ -112,18 +123,21 @@ public class KorisnikController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_ADMINOM')")
     @PutMapping("/povuciKorisnika")
     public ResponseEntity<?>povuciKorisnika(@RequestBody String email){
         userDetailsService.povuciKorisnika(email);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_ADMINOM')")
     @PutMapping("/vratiKorisnika")
     public ResponseEntity<?>vratiKorisnika(@RequestBody String email){
         userDetailsService.vratiKorisnika(email);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_SUPERADMINOM')")
     @PostMapping("/pravljenjeAdmina")
     public ResponseEntity<?>pravljenjeAdmina(@RequestBody MusterijaDTO admin){
         userDetailsService.pravljenjeAdminNaloga(admin);

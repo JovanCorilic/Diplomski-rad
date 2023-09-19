@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class TipController {
 
     private final TipMapper tipMapper;
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_ADMINOM')")
     @PostMapping("/create")
     public ResponseEntity<?> createProdukt(@RequestBody TipDTO tipDTO){
         Tip tip = tipMapper.toModel(tipDTO);
@@ -39,6 +41,7 @@ public class TipController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_ADMINOM')")
     @PutMapping("/update/{naziv}")
     public ResponseEntity<?>updateProdukt(@RequestBody TipDTO tipDTO , @PathVariable String naziv){
         Tip tip = tipMapper.toModel(tipDTO);
@@ -66,6 +69,7 @@ public class TipController {
         return new ResponseEntity<>(lista,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_ADMINOM')")
     @GetMapping("/by-page")
     public ResponseEntity<Page<TipDTO>>getTipPageable(Pageable pageable){
         Page<Tip>page = tipService.findAllPageable(pageable);
@@ -74,6 +78,7 @@ public class TipController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_ADMINOM')")
     @PostMapping("/filter-by-page")
     public ResponseEntity<Page<TipDTO>>getTipFilter(@RequestBody FilterDTO filterDTO, Pageable pageable){
         Page<Tip>page = tipService.filterAllPageable(pageable,filterDTO);

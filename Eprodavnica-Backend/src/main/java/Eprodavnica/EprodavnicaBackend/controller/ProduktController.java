@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +37,7 @@ public class ProduktController {
 
     //moze i @RequestParam
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_PRODAVCEM')")
     @PostMapping(value = "/create",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ProduktDTO> createProdukt(@RequestPart("File") MultipartFile file, @RequestPart("produkt")ProduktDTO produktDTO) throws IOException {
         if (file.getOriginalFilename().equals("nema")){
@@ -49,18 +51,21 @@ public class ProduktController {
         return new ResponseEntity<>(produktMapper.toDto(produkt1),HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_MUSTERIJOM')")
     @PostMapping("/dodajuWishlist")
     public ResponseEntity<?> dodajUWishlist(@RequestBody String serijskiBroj){
         produktService.dodajUWishlist(TrenutnoUlogovanKorisnik(),serijskiBroj);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_MUSTERIJOM')")
     @GetMapping("/daLiJeUWishlist/{serijskiBroj}")
     public ResponseEntity<Boolean>daLiJeUWishlist(@PathVariable String serijskiBroj){
         Boolean temp=produktService.daLiJeUWishlist(TrenutnoUlogovanKorisnik(),serijskiBroj);
         return new ResponseEntity<>(temp,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_PRODAVCEM')")
     @PutMapping(value = "/update/{serijskiBroj}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ProduktDTO>updateProdukt(@RequestPart("File") MultipartFile file,
                                                    @RequestPart("produkt")ProduktDTO produktDTO ,
@@ -90,6 +95,7 @@ public class ProduktController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_MUSTERIJOM')")
     @GetMapping("/by-pageIstorijaProdukata")
     public ResponseEntity<Page<ProduktDTO>>getIstorijaProdukataPageable(Pageable pageable){
         Page<Produkt>page = produktService.findByIstorijaProdukataPageable(pageable,TrenutnoUlogovanKorisnik());
@@ -98,6 +104,7 @@ public class ProduktController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_MUSTERIJOM')")
     @GetMapping("/by-pageWishlist")
     public ResponseEntity<Page<ProduktDTO>>getWishlistPageable(Pageable pageable){
         Page<Produkt>page = produktService.findByWishlist(pageable,TrenutnoUlogovanKorisnik());
@@ -106,6 +113,7 @@ public class ProduktController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_PRODAVCEM')")
     @GetMapping("/by-pageProdavac")
     public ResponseEntity<Page<ProduktDTO>>getProdavacPageable(Pageable pageable){
         Page<Produkt>page = produktService.findByProdavac(pageable,TrenutnoUlogovanKorisnik());
@@ -122,6 +130,7 @@ public class ProduktController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_MUSTERIJOM')")
     @PostMapping("/filter-by-pageIstorijaProdukata")
     public ResponseEntity<Page<ProduktDTO>>getProduktFilterPageIstorijaProdukata(@RequestBody FilterDTO filterDTO, Pageable pageable){
         Page<Produkt>page = produktService.filterPageableIstorijaProdukata(filterDTO,pageable,TrenutnoUlogovanKorisnik());
@@ -130,6 +139,7 @@ public class ProduktController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_MUSTERIJOM')")
     @GetMapping("/filter-by-pageWishlist")
     public ResponseEntity<Page<ProduktDTO>>getProduktFilterPageWishlist(@RequestBody FilterDTO filterDTO, Pageable pageable){
         Page<Produkt>page = produktService.filterPageableWishlist(filterDTO,pageable,TrenutnoUlogovanKorisnik());
@@ -138,6 +148,7 @@ public class ProduktController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_PRODAVCEM')")
     @GetMapping("/filter-by-pageProdavac")
     public ResponseEntity<Page<ProduktDTO>>getProduktFilterPageProdavac(@RequestBody FilterDTO filterDTO, Pageable pageable){
         Page<Produkt>page = produktService.filterPageableProdavac(filterDTO,pageable,TrenutnoUlogovanKorisnik());
@@ -156,30 +167,35 @@ public class ProduktController {
         return new ResponseEntity<>(lista,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_MUSTERIJOM')")
     @PostMapping("/izbaciIzWishlista")
     public ResponseEntity<?>izbaciIzWishlista(@RequestBody String serijskiBroj){
         produktService.izbaciIzWishlista(serijskiBroj,TrenutnoUlogovanKorisnik());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_MUSTERIJOM')")
     @GetMapping("/daLiJeUIstorijiProdukata/{serijskiBroj}")
     public ResponseEntity<Boolean>daLiJeUIstorijiProdukata(@PathVariable String serijskiBroj){
         Boolean odgovor = produktService.daLiJeUIstorijiProdukata(serijskiBroj,TrenutnoUlogovanKorisnik());
         return new ResponseEntity<>(odgovor,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyAuthority('OPERACIJE_SA_ADMINOM','OPERACIJE_SA_PRODAVCEM')")
     @PutMapping("/povuciProdukt")
     public ResponseEntity<?>povuciProdukt(@RequestBody String serijskiBroj){
         produktService.povuciProizvod(serijskiBroj);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyAuthority('OPERACIJE_SA_ADMINOM','OPERACIJE_SA_PRODAVCEM')")
     @PutMapping("/vratiProdukt")
     public ResponseEntity<?>vratiProdukt(@RequestBody String serijskiBroj){
         produktService.vratiProizvod(serijskiBroj);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_PRODAVCEM')")
     @PutMapping("/dodajAkciju/{broj}")
     public ResponseEntity<?>dodajAkciju(@RequestBody String serijskiBroj, @PathVariable Integer broj){
         produktService.dodajAkciju(serijskiBroj,broj);

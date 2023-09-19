@@ -21,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -35,10 +36,10 @@ import static Eprodavnica.EprodavnicaBackend.controller.KorisnikController.Trenu
 public class RacunController {
     @Autowired
     private RacunService racunService;
-
     private final RacunMapper racunMapper;
     private final ArtikalMapper artikalMapper;
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_MUSTERIJOM')")
     @PostMapping("/create")
     public ResponseEntity<?> createProdukt(@RequestBody RacunDTO racunDTO){
         Racun racun = racunMapper.toModel(racunDTO);
@@ -46,6 +47,7 @@ public class RacunController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_MUSTERIJOM')")
     @PostMapping("/dodajArtikal")
     public ResponseEntity<?>dodajArtikal(@RequestBody ArtikalDTO artikalDTO){
         Artikal artikal = artikalMapper.toModel(artikalDTO);
@@ -53,6 +55,7 @@ public class RacunController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_MUSTERIJOM')")
     @PutMapping("/update/{id}")
     public ResponseEntity<?>updateProdukt(@RequestBody RacunDTO racunDTO , @PathVariable String id){
         Racun racun = racunMapper.toModel(racunDTO);
@@ -60,6 +63,7 @@ public class RacunController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyAuthority('OPERACIJE_SA_ADMINOM','OPERACIJE_SA_MUSTERIJOM')")
     @GetMapping("/get/{brojRacuna}")
     public ResponseEntity<?>get(@PathVariable String brojRacuna){
         RacunDTO racunDTO = racunMapper.toDto(racunService.findOne(brojRacuna));
@@ -76,6 +80,7 @@ public class RacunController {
         return new ResponseEntity<>(lista,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_MUSTERIJOM')")
     @GetMapping("/by-pageMusterija")
     public ResponseEntity<Page<RacunDTO>>getPageableMusterija(Pageable pageable){
         Page<Racun>page = racunService.getAllMusterija(pageable,TrenutnoUlogovanKorisnik());
@@ -84,6 +89,7 @@ public class RacunController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_ADMINOM')")
     @GetMapping("/by-pageAdmin")
     public ResponseEntity<Page<RacunDTO>>getPageableAdmin(Pageable pageable){
         Page<Racun>page = racunService.getAllAdmin(pageable);
@@ -92,6 +98,7 @@ public class RacunController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_MUSTERIJOM')")
     @PostMapping("/filter-by-pageMusterija")
     public ResponseEntity<Page<RacunDTO>>getFilterMusterijaPageable(@RequestBody FilterDTO filterDTO, Pageable pageable){
         Page<Racun>page = racunService.filterMusterija(filterDTO,pageable,TrenutnoUlogovanKorisnik());
@@ -100,6 +107,7 @@ public class RacunController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_ADMINOM')")
     @PostMapping("/filter-by-pageAdmin")
     public ResponseEntity<Page<RacunDTO>>getFilterAdminPageable(@RequestBody FilterDTO filterDTO, Pageable pageable){
         Page<Racun>page = racunService.filterAdmin(filterDTO,pageable);
@@ -108,6 +116,7 @@ public class RacunController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyAuthority('OPERACIJE_SA_ADMINOM','OPERACIJE_SA_MUSTERIJOM')")
     @GetMapping("/by-pageArtikal/{brojRacuna}")
     public ResponseEntity<Page<ArtikalDTO>>getPageableAdmin(Pageable pageable,@PathVariable String brojRacuna){
         Page<Artikal>page = racunService.getAllArtikalPageable(brojRacuna,pageable);
@@ -116,6 +125,7 @@ public class RacunController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_MUSTERIJOM')")
     @GetMapping("/dajAktivanRacun")
     public ResponseEntity<RacunDTO>dajAktivanRacun(){
         Racun racun = racunService.dajAktivanRacun(TrenutnoUlogovanKorisnik());
@@ -130,12 +140,14 @@ public class RacunController {
         return new ResponseEntity<>(racunDTO,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_MUSTERIJOM')")
     @DeleteMapping("/ukloniArtikal/{id}")
     public ResponseEntity<?>ukloniArtikal(@PathVariable Integer id){
         racunService.deleteArtikal(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_MUSTERIJOM')")
     @PutMapping("/plati")
     public ResponseEntity<?>plati(@RequestBody String brojRacuna){
         racunService.plati(brojRacuna,TrenutnoUlogovanKorisnik());
