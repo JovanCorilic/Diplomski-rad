@@ -44,22 +44,22 @@ public class ProduktService {
     }
 
     public Page<Produkt>findAllPageable(Pageable pageable){
-        return produktRepository.findAllByOdobrenOdAdminaIsTrue(pageable);
+        return produktRepository.findAllByOdobrenOdAdminaIsTrueOrderByDatumPravljenjaDesc(pageable);
     }
 
     public Page<Produkt>findByIstorijaProdukataPageable(Pageable pageable,String email){
         Korisnik korisnik = korisnikRepository.findByEmail(email);
-        return produktRepository.findByIstorijaKupacaContains(korisnik,pageable);
+        return produktRepository.findByIstorijaKupacaContainsOrderByDatumPravljenjaDesc(korisnik,pageable);
     }
 
     public  Page<Produkt>findByWishlist(Pageable pageable,String email){
         Korisnik korisnik = korisnikRepository.findByEmail(email);
-        return produktRepository.findByWishlistContains(korisnik,pageable);
+        return produktRepository.findByWishlistContainsOrderByDatumPravljenjaDesc(korisnik,pageable);
     }
 
     public  Page<Produkt>findByProdavac(Pageable pageable,String email){
         Korisnik korisnik = korisnikRepository.findByEmail(email);
-        return produktRepository.findByProdavac(korisnik,pageable);
+        return produktRepository.findByProdavacOrderByDatumPravljenjaDesc(korisnik,pageable);
     }
 
     public Page<Produkt>filterPageable(FilterDTO filterDTO, Pageable pageable){

@@ -25,23 +25,25 @@ public interface RecenzijaRepository extends JpaRepository<Recenzija,Integer> {
 
     Boolean existsByMusterijaAndProdukt(Korisnik korisnik,Produkt produkt);
 
-    Page<Recenzija>findByProdukt(Produkt produkt,Pageable pageable);
+    Page<Recenzija>findByProduktOrderByDatumPravljenjaDesc(Produkt produkt,Pageable pageable);
 
-    Page<Recenzija>findByOcenaInAndProdukt(List<Integer>ocene, Produkt produkt, Pageable pageable);
+    Page<Recenzija>findByOcenaInAndProduktOrderByDatumPravljenjaDesc(List<Integer>ocene, Produkt produkt, Pageable pageable);
 
-    Page<Recenzija>findByMusterija(Korisnik korisnik,Pageable pageable);
+    Page<Recenzija>findByMusterijaOrderByDatumPravljenjaDesc(Korisnik korisnik,Pageable pageable);
 
     @Query("SELECT r FROM Recenzija r " +
             "WHERE ( COALESCE( :ocene , null ) is null or r.ocena IN :ocene )" +
             "AND ( CAST( :odDatum AS date ) is null or CAST( :doDatum AS date ) is null or r.datumPravljenja BETWEEN :odDatum AND :doDatum)"+
-            "AND ( r.musterija = :korisnik )"
+            "AND ( r.musterija = :korisnik )"+
+            "ORDER BY r.datumPravljenja DESC "
     )
     Page<Recenzija>findByCustomCriteria(@Param("ocene") List<Integer>ocene, @Param("odDatum") Date odDatum,
                                         @Param("doDatum")Date doDatum,@Param("korisnik") Korisnik korisnik,Pageable pageable);
 
     @Query("SELECT r FROM Recenzija r " +
             "WHERE ( COALESCE( :ocene , null ) is null or r.ocena IN :ocene )" +
-            "AND ( CAST( :odDatum AS date ) is null or CAST( :doDatum AS date ) is null or r.datumPravljenja BETWEEN :odDatum AND :doDatum)"
+            "AND ( CAST( :odDatum AS date ) is null or CAST( :doDatum AS date ) is null or r.datumPravljenja BETWEEN :odDatum AND :doDatum)"+
+            "ORDER BY r.datumPravljenja DESC "
     )
     Page<Recenzija>findByCustomCriteriaAdmin(@Param("ocene") List<Integer>ocene, @Param("odDatum") Date odDatum,
                                         @Param("doDatum")Date doDatum,Pageable pageable);

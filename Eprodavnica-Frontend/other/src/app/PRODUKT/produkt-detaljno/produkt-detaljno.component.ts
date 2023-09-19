@@ -33,6 +33,7 @@ export class ProduktDetaljnoComponent implements OnInit {
   status3: boolean = false;
   daLiJeUIstorijiKupovine:boolean = false
   daLiJeVecNapravljenaRecenzija:boolean = false
+  retrievedImage: any;
 
   listaOcena: number[] = [1,2,3,4,5]
   pageSize: number;
@@ -80,6 +81,10 @@ export class ProduktDetaljnoComponent implements OnInit {
     this.produktService.dajProdukt(this.serijskiBroj).subscribe(
       res=>{
         this.produkt = res;
+        if (this.produkt.slika.name!=="nema"){
+          let listaTemp = this.produkt.slika.name.split('.')
+          this.retrievedImage = 'data:image/'+listaTemp[listaTemp.length-1]+';base64,' + this.produkt.slika.picByte;
+        }
       }
     )
 

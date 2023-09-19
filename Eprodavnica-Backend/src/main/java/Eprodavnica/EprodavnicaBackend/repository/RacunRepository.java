@@ -18,20 +18,26 @@ public interface RacunRepository extends JpaRepository<Racun,Integer> {
     Optional<Racun>findByBrojRacuna(String id);
     Boolean existsRacunByBrojRacuna(String id);
     Optional<Racun>findByKorpaIsTrueAndMusterija(Korisnik korisnik);
-    Page<Racun>findByMusterija(Korisnik korisnik, Pageable pageable);
+    Page<Racun>findByMusterijaAndKorpaIsFalseOrderByDatumKreiranjaDesc(Korisnik korisnik, Pageable pageable);
+
+    Page<Racun>findAllByKorpaIsFalseOrderByDatumKreiranjaDesc(Pageable pageable);
 
     @Query("SELECT r FROM Racun r " +
-            "WHERE ( :od = -1.0 or :do1 = -1.0 or r.konacnaCena BETWEEN :od AND :do1 )" +
+            "WHERE ( :od = -1.0 or :do1 = -1.0 or r.konacnaCena BETWEEN :od AND :do1 ) AND (r.korpa is false ) "+
             "AND ( CAST( :odDatum AS date ) is null or CAST( :doDatum AS date ) is null or r.datumKreiranja BETWEEN :odDatum AND :doDatum)" +
-            "AND ( :korisnik = r.musterija )")
+            "AND ( :korisnik = r.musterija )"+
+            "ORDER BY r.datumKreiranja DESC "
+    )
     Page<Racun>findByCustomCriteriaMusterija(
             @Param("od") double od, @Param("do1") double do1, @Param("odDatum")Date odDatum,@Param("doDatum")Date doDatum,
             @Param("korisnik")Korisnik korisnik, Pageable pageable
     );
 
     @Query("SELECT r FROM Racun r " +
-            "WHERE ( :od = -1.0 or :do1 = -1.0 or r.konacnaCena BETWEEN :od AND :do1 )" +
-            "AND ( CAST( :odDatum AS date ) is null or CAST( :doDatum AS date ) is null or r.datumKreiranja BETWEEN :odDatum AND :doDatum)")
+            "WHERE ( :od = -1.0 or :do1 = -1.0 or r.konacnaCena BETWEEN :od AND :do1 ) AND (r.korpa is false ) " +
+            "AND ( CAST( :odDatum AS date ) is null or CAST( :doDatum AS date ) is null or r.datumKreiranja BETWEEN :odDatum AND :doDatum)"+
+            "ORDER BY r.datumKreiranja DESC "
+    )
     Page<Racun>findByCustomCriteriaAdmin(
             @Param("od") double od, @Param("do1") double do1, @Param("odDatum")Date odDatum,@Param("doDatum")Date doDatum,
             Pageable pageable

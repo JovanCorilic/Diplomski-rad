@@ -21,6 +21,7 @@ import java.text.ParsePosition;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class RacunService implements ServiceInterface<Racun> {
@@ -135,11 +136,11 @@ public class RacunService implements ServiceInterface<Racun> {
 
     public Page<Racun> getAllMusterija(Pageable pageable,String email){
         Korisnik korisnik = korisnikRepository.findByEmail(email);
-        return racunRepository.findByMusterija(korisnik,pageable);
+        return racunRepository.findByMusterijaAndKorpaIsFalseOrderByDatumKreiranjaDesc(korisnik,pageable);
     }
 
     public Page<Racun>getAllAdmin(Pageable pageable){
-        return racunRepository.findAll(pageable);
+        return racunRepository.findAllByKorpaIsFalseOrderByDatumKreiranjaDesc(pageable);
     }
 
     public Page<Racun>filterMusterija(FilterDTO filterDTO, Pageable pageable, String email){
@@ -179,7 +180,7 @@ public class RacunService implements ServiceInterface<Racun> {
 
     public Page<Artikal>getAllArtikalPageable(String brojRacuna,Pageable pageable){
         Racun racun = racunRepository.findByBrojRacuna(brojRacuna).orElse(null);
-        return artikalRepository.findByRacun(racun,pageable);
+        return artikalRepository.findByRacunOrderByNazivProduktaAsc(racun,pageable);
     }
 
     @Override
@@ -209,6 +210,22 @@ public class RacunService implements ServiceInterface<Racun> {
         Racun temp =racunRepository.save(racun);
         slanjeObavestenjaZaRacun(korisnik,racun);
         DodajUIStoriju(korisnik,temp);
+
+        HashMap<String,Produkt>mapa = new HashMap<>();
+        for (Artikal artikal : racun.getArtikals()){
+            if (mapa.containsKey(artikal.getProdukt().getSerijskiBroj())){
+                Produkt produkt = mapa.get(artikal.getProdukt().getSerijskiBroj());
+                produkt.setBrojProdato(produkt.getBrojProdato()+artikal.getBroj());
+                mapa.put(produkt.getSerijskiBroj(),produkt);
+            }else{
+                Produkt produkt = artikal.getProdukt();
+                produkt.setBrojProdato(produkt.getBrojProdato()+artikal.getBroj());
+                mapa.put(produkt.getSerijskiBroj(),produkt);
+            }
+        }
+        List<Produkt> lista = new ArrayList<>(mapa.values());
+
+        produktRepository.saveAll(lista);
     }
 
     @Async

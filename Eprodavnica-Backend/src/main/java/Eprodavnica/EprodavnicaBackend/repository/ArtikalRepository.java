@@ -7,5 +7,5 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ArtikalRepository extends JpaRepository<Artikal,Integer> {
-    Page<Artikal>findByRacun(Racun racun, Pageable pageable);
+    Page<Artikal>findByRacunOrderByNazivProduktaAsc(Racun racun, Pageable pageable);
 }

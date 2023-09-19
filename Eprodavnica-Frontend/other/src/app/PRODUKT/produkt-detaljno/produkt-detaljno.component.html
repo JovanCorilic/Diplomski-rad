@@ -7,7 +7,10 @@
 <table style="text-align: center;width: 100%;">
     <tr>
         <td>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="600" height="400">
+            <img *ngIf="produkt.slika.name==='nema'; else elseBlockSlika" src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="600" height="400">
+            <ng-template #elseBlockSlika>
+            <img [src]="retrievedImage" width="600" height="400">
+            </ng-template>
         </td>
         <td>
             <form *ngIf="produkt.odobrenOdAdmina">

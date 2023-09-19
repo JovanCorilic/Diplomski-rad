@@ -18,14 +18,15 @@ public interface KorisnikRepository extends JpaRepository<Korisnik,Integer> {
     Boolean existsKorisnikByEmail(String email);
     List<Korisnik> findAllByUlogeContainingAndPotvrdjenIsTrueAndOdobrenOdAdminaIsFalse(Uloga uloga);
 
-    Page<Korisnik>findByUlogeContainingAndPotvrdjenIsTrueAndOdobrenOdAdminaIsTrue(Uloga uloga, Pageable pageable);
+    Page<Korisnik>findByUlogeContainingAndPotvrdjenIsTrueOrderByEmailAsc(Uloga uloga, Pageable pageable);
 
     @Query("SELECT k FROM Korisnik k " +
             "WHERE ( :uloga IN k.uloge )" +
-            "AND k.potvrdjen is TRUE AND k.odobrenOdAdmina is TRUE " +
+            "AND k.potvrdjen is TRUE " +
             "AND ( :#{#korisnik.email} is null or k.email = :#{#korisnik.email})"+
             "AND ( :#{#korisnik.ime} is null or k.ime = :#{#korisnik.ime})"+
-            "AND ( :#{#korisnik.prezime} is null or k.prezime = :#{#korisnik.prezime})"
+            "AND ( :#{#korisnik.prezime} is null or k.prezime = :#{#korisnik.prezime})"+
+            "ORDER BY k.email ASC "
     )
     Page<Korisnik>findByCustomCriteria(@Param("korisnik") KorisnikDTO korisnik, @Param("uloga")Uloga uloga, Pageable pageable);
 

@@ -10,6 +10,23 @@ INSERT INTO uloga(id,name) VALUES (2,'ROLE_ADMIN')
 INSERT INTO uloga(id,name) VALUES (3,'ROLE_PRODAVAC')
 INSERT INTO uloga(id,name) VALUES (4,'ROLE_MUSTERIJA')
 
+/*Privilegije*/
+insert into privilegije (id,name) values (0,'LOGOUT')
+insert into privilegije (id,name) values (1,'OPERACIJE_SA_SUPERADMINOM')
+insert into privilegije (id,name) values (2,'OPERACIJE_SA_ADMINOM')
+insert into privilegije (id,name) values (3,'OPERACIJE_SA_PRODAVCEM')
+insert into privilegije (id,name) values (4,'OPERACIJE_SA_MUSTERIJOM')
+
+insert into uloga_privilegije (role_id, privilege_id) values (1,0)
+insert into uloga_privilegije (role_id, privilege_id) values (2,0)
+insert into uloga_privilegije (role_id, privilege_id) values (3,0)
+insert into uloga_privilegije (role_id, privilege_id) values (4,0)
+
+insert into uloga_privilegije (role_id, privilege_id) values (1,1)
+insert into uloga_privilegije (role_id, privilege_id) values (2,2)
+insert into uloga_privilegije (role_id, privilege_id) values (3,3)
+insert into uloga_privilegije (role_id, privilege_id) values (4,4)
+
 /*Uloga konekcija*/
 INSERT INTO korisnik_uloge(korisnik_list_user_id,uloge_id) VALUES (0,4)
 INSERT INTO korisnik_uloge(korisnik_list_user_id,uloge_id) VALUES (1,3)

@@ -61,17 +61,17 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public Page<Korisnik>findAllMusterija(Pageable pageable){
         Uloga uloga = ulogaRepository.findByName("ROLE_MUSTERIJA");
-        return userRepository.findByUlogeContainingAndPotvrdjenIsTrueAndOdobrenOdAdminaIsTrue(uloga,pageable);
+        return userRepository.findByUlogeContainingAndPotvrdjenIsTrueOrderByEmailAsc(uloga,pageable);
     }
 
     public Page<Korisnik>findAllProdavac(Pageable pageable){
         Uloga uloga = ulogaRepository.findByName("ROLE_PRODAVAC");
-        return userRepository.findByUlogeContainingAndPotvrdjenIsTrueAndOdobrenOdAdminaIsTrue(uloga,pageable);
+        return userRepository.findByUlogeContainingAndPotvrdjenIsTrueOrderByEmailAsc(uloga,pageable);
     }
 
     public Page<Korisnik>findAllAdmin(Pageable pageable){
         Uloga uloga = ulogaRepository.findByName("ROLE_ADMIN");
-        return userRepository.findByUlogeContainingAndPotvrdjenIsTrueAndOdobrenOdAdminaIsTrue(uloga,pageable);
+        return userRepository.findByUlogeContainingAndPotvrdjenIsTrueOrderByEmailAsc(uloga,pageable);
     }
 
     public Page<Korisnik>filterAllMusterija(KorisnikDTO korisnikDTO,Pageable pageable){

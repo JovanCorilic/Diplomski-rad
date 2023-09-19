@@ -27,7 +27,7 @@ public class TipService{
     }
 
     public Page<Tip>filterAllPageable(Pageable pageable, FilterDTO filterDTO){
-        return tipRepository.findByNazivContainingIgnoreCase(filterDTO.getNaziv(),pageable);
+        return tipRepository.findByNazivContainingIgnoreCaseOrderByNazivAsc(filterDTO.getNaziv(),pageable);
     }
 
     public Tip findOne(String id) {

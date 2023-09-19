@@ -19,10 +19,10 @@
       <th mat-header-cell *matHeaderCellDef> Povlačenje akaunta </th>
       <td mat-cell *matCellDef="let element">
         <span *ngIf="element.odobrenOdAdmina; else elseBlock">
-          <button mat-raised-button color="warn" (click)="povuci(element.email)">Povuci akaunt</button>
+          <button mat-raised-button color="warn" (click)="povuci(element.email);element.odobrenOdAdmina = !element.odobrenOdAdmina">Povuci akaunt</button>
         </span>
         <ng-template #elseBlock>
-          <button mat-raised-button color="warn" (click)="vrati(element.email)">Vrati akaunt</button>
+          <button mat-raised-button color="accent" (click)="vrati(element.email);element.odobrenOdAdmina = !element.odobrenOdAdmina">Vrati akaunt</button>
         </ng-template>
       </td>
     </ng-container>

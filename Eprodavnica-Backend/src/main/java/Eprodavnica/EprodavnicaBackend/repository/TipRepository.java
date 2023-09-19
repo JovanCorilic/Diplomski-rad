@@ -14,6 +14,6 @@ public interface TipRepository extends JpaRepository<Tip,Integer> {
 
     List<Tip>findByNazivIgnoreCaseIn(List<String>lista);
 
-    Page<Tip>findByNazivContainingIgnoreCase(String naziv, Pageable pageable);
+    Page<Tip>findByNazivContainingIgnoreCaseOrderByNazivAsc(String naziv, Pageable pageable);
 
 }

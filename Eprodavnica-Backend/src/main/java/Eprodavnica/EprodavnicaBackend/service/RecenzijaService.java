@@ -32,12 +32,12 @@ public class RecenzijaService{
 
     public Page<Recenzija>findAllPageable(Pageable pageable,String serijskiBroj){
         Produkt produkt = produktRepository.findBySerijskiBroj(serijskiBroj).orElse(null);
-        return recenzijaRepository.findByProdukt(produkt,pageable);
+        return recenzijaRepository.findByProduktOrderByDatumPravljenjaDesc(produkt,pageable);
     }
 
     public Page<Recenzija>findAllMusterijaPageable(Pageable pageable, String email){
         Korisnik korisnik = korisnikRepository.findByEmail(email);
-        return recenzijaRepository.findByMusterija(korisnik,pageable);
+        return recenzijaRepository.findByMusterijaOrderByDatumPravljenjaDesc(korisnik,pageable);
     }
 
     public Page<Recenzija>findAllAdminPageable(Pageable pageable){
@@ -51,7 +51,7 @@ public class RecenzijaService{
                 ocene.add(ocenaDTO.getOcena());
         }
         Produkt produkt = produktRepository.findBySerijskiBroj(serijskiBroj).orElse(null);
-        return recenzijaRepository.findByOcenaInAndProdukt(ocene,produkt,pageable);
+        return recenzijaRepository.findByOcenaInAndProduktOrderByDatumPravljenjaDesc(ocene,produkt,pageable);
 
     }
 

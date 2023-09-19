@@ -46,11 +46,11 @@
               <button mat-raised-button color="accent" (click)="idiNaProdukt(element.serijskiBroj)">Idi na produkt</button>&nbsp;&nbsp;
               <span *ngIf="element.odobrenOdAdmina && ( getRole()==='ROLE_PRODAVAC' || getRole()==='ROLE_ADMIN' )">
                 <br>
-                <button mat-raised-button color="warn" (click)="povuci(element.serijskiBroj)">Povuci</button>&nbsp;&nbsp;
+                <button mat-raised-button color="warn" (click)="povuci(element.serijskiBroj);element.odobrenOdAdmina=!element.odobrenOdAdmina">Povuci</button>&nbsp;&nbsp;
               </span>
               <span *ngIf="!element.odobrenOdAdmina && ( getRole()==='ROLE_PRODAVAC' || getRole()==='ROLE_ADMIN' )">
                 <br>
-                <button mat-raised-button color="accent" (click)="vrati(element.serijskiBroj)">Vrati</button>&nbsp;&nbsp;
+                <button mat-raised-button color="accent" (click)="vrati(element.serijskiBroj);element.odobrenOdAdmina=!element.odobrenOdAdmina">Vrati</button>&nbsp;&nbsp;
               </span>
             </td>
           </tr>

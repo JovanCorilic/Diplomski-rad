@@ -21,7 +21,7 @@ export class TabelaTipComponent implements OnInit,OnChanges{
 
   tipForm:FormGroup;
 
-  naziv = <string>{}
+  naziv:string="";
 
   tip = <Tip>{}
 
@@ -50,11 +50,12 @@ export class TabelaTipComponent implements OnInit,OnChanges{
     }
   }
 
-  edit(naziv:string){
+  edit(){
     this.tip.naziv = this.tipForm.value.naziv
     this.tipService.updateTip(this.tip).subscribe(
       res=>{
         this.openSnackBar("Uspešno promenjen naziv tipa")
+        this.naziv = this.tip.naziv;
       },
       error=>{
         this.openSnackBar("Tip sa tim nazivom već postoji")
@@ -70,8 +71,8 @@ export class TabelaTipComponent implements OnInit,OnChanges{
   }
 
   open(content:any,naziv:string) {
-    this.naziv = naziv
     this.tipForm.controls.naziv.setValue(naziv);
+    this.naziv = naziv
     this.modalService.open(content,
    {ariaLabelledBy: 'modal-basic-title'}).result.then( 
     result =>  { 
@@ -82,19 +83,8 @@ export class TabelaTipComponent implements OnInit,OnChanges{
   }
 
   getErrorMessage(temp:any) {
-    if (temp.hasError('required')) {
-      return 'Morate uneti vrednost';
+    return temp.hasError('required') ? 'Morate uneti vrednost' : '';
     }
-    else if (temp.hasError('daLiImaBroj')) {
-      return 'Morate uneti broj';
-    }
-    else if (temp.hasError('daLiImaSpecijalanKarakter')) {
-      return 'Morate uneti specijalni karakter';
-    }
-    else if( temp.hasError('minLength')){
-      return 'Mora biti dužine barem 5 karaktera'
-    }
-    else
-    return temp.hasError('email') ? 'To nije validan email' : '';
-  }
+    
+  
 }
