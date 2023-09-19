@@ -31,16 +31,17 @@
 
   <ng-container matColumnDef="ukupnaCena">
     <th mat-header-cell *matHeaderCellDef> Ukupna cena za proizvod </th>
-    <td mat-cell *matCellDef="let element"> {{element.ukupnaCena}}% </td>
+    <td mat-cell *matCellDef="let element"> {{element.ukupnaCena}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="ukloni" *ngIf="deoKorpe">
+  <ng-container matColumnDef="ukloni">
     <th mat-header-cell *matHeaderCellDef> Ukloni artikal </th>
     <td mat-cell *matCellDef="let element">
-      <button mat-raised-button color="warn" (click)="ukloni(element.id)">Ukloni</button>
+      <button mat-raised-button color="warn" (click)="ukloni(element.id, element.ukupnaCena)" *ngIf="korpa">Ukloni</button>
     </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+<br>

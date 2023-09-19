@@ -3,7 +3,7 @@
     <h3 *ngIf="!racun.korpa">Datum kreiranja {{racun.datumKreiranja | date:'dd.MM.yyyy HH:mm'}}</h3>
 
     <div>
-        <app-tabela-artikal [listaArtikala]="lista" [korpa]="racun.korpa">
+        <app-tabela-artikal [listaArtikala]="lista" [korpa]="racun.korpa" (ukupnaCena)="smanjiCenu($event)">
 
         </app-tabela-artikal>
     </div>

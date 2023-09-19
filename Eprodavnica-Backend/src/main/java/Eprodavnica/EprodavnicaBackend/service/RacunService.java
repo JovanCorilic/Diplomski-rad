@@ -46,8 +46,9 @@ public class RacunService implements ServiceInterface<Racun> {
         return racunRepository.findByBrojRacuna(id).orElse(null);
     }
 
-    public Racun dajAktivanRacun(){
-        return racunRepository.findByKorpaIsTrue().orElse(null);
+    public Racun dajAktivanRacun(String email){
+        Korisnik korisnik = korisnikRepository.findByEmail(email);
+        return racunRepository.findByKorpaIsTrueAndMusterija(korisnik).orElse(null);
     }
 
     @Override
@@ -57,23 +58,23 @@ public class RacunService implements ServiceInterface<Racun> {
 
     public void dodajArtikal(Artikal artikal,String email){
         Korisnik korisnik = korisnikRepository.findByEmail(email);
-        Racun racun = racunRepository.findByKorpaIsTrue().orElse(null);
+        Racun racun = racunRepository.findByKorpaIsTrueAndMusterija(korisnik).orElse(null);
         if (racun == null){
             Racun racun1 = new Racun();
             racun1.setMusterija(korisnik);
             racun1.setKonacnaCena(0.0);
-            racun1.setBrojRacuna(generisiRandomBrojRacuna());
-            racun1.getArtikals().add(artikal);
+            racun1.setArtikals(new HashSet<>());
             racun1.setKorpa(true);
             racun1.setKonacnaCena(artikal.getUkupnaCena());
             createSaArtiklom(racun1,artikal);
         }else {
             artikal.setProdukt(produktRepository.findBySerijskiBroj(artikal.getProdukt().getSerijskiBroj()).orElse(null));
-            artikal = artikalRepository.save(artikal);
-            racun.getArtikals().add(artikal);
+
             racun.setKonacnaCena(racun.getKonacnaCena()+artikal.getUkupnaCena());
 
-            racunRepository.save(racun);
+            Racun racun1 =racunRepository.save(racun);
+            artikal.setRacun(racun1);
+            artikalRepository.save(artikal);
         }
     }
 
@@ -82,12 +83,13 @@ public class RacunService implements ServiceInterface<Racun> {
         while (racunRepository.existsRacunByBrojRacuna(entity.getBrojRacuna())){
             entity.setBrojRacuna(generisiRandomBrojRacuna());
         }
+        Produkt produkt = produktRepository.findBySerijskiBroj(artikal.getProdukt().getSerijskiBroj()).orElse(null);
+        artikal.setProdukt(produkt);
 
-        artikal.setProdukt(produktRepository.findBySerijskiBroj(artikal.getProdukt().getSerijskiBroj()).orElse(null));
-        artikal = artikalRepository.save(artikal);
-        entity.getArtikals().add(artikal);
         entity.setId((int) racunRepository.count());
-        racunRepository.save(entity);
+        Racun racun = racunRepository.save(entity);
+        artikal.setRacun(racun);
+        artikalRepository.save(artikal);
     }
 
     public String generisiRandomBrojRacuna() {
@@ -106,7 +108,8 @@ public class RacunService implements ServiceInterface<Racun> {
 
         for (Artikal artikal : entity.getArtikals()){
             if (!racun.getArtikals().contains(artikal)) {
-                artikal.setProdukt(produktRepository.findBySerijskiBroj(artikal.getProdukt().getSerijskiBroj()).orElse(null));
+                Produkt produkt = produktRepository.findBySerijskiBroj(artikal.getProdukt().getSerijskiBroj()).orElse(null);
+                artikal.setProdukt(produkt);
                 racun.getArtikals().add(artikalRepository.save(artikal));
             }
         }
@@ -216,17 +219,18 @@ public class RacunService implements ServiceInterface<Racun> {
         String text = "";
 
         for (Artikal artikal : racun.getArtikals()){
+            double cena = artikal.getCena() - (artikal.getCena()*(artikal.getAkcija()/100.0));
             text+="---------------------------------------------\n" +
                 "Naziv produkta : "+artikal.getNazivProdukta()+"\n" +
-                "Broj uzetih prdukata : "+artikal.getBroj() + "\n" +
+                "Broj uzetih produkata : "+artikal.getBroj() + "\n" +
                 "Akcija : "+artikal.getAkcija()+"%\n" +
-                "Cena :"+(artikal.getCena() - (artikal.getCena()*(artikal.getAkcija()/100))) + "din\n" +
+                "Cena :"+cena + "din\n" +
                 "Ukupna cena za artikal : "+artikal.getUkupnaCena()+"din\n" +
                 "---------------------------------------------";
         }
         racun.setDatumKreiranja(new Date());
         LocalDate date = LocalDate.ofInstant(racun.getDatumKreiranja().toInstant(), ZoneId.systemDefault());
-        text += "Konačna cena : "+racun.getKonacnaCena()+"\n"+
+        text += "\nKonačna cena : "+racun.getKonacnaCena()+"\n"+
                 "Datum pravljenja računa : "+ KonverterDatum.konvertovanjeSamoDatumUString(date);
         ObavestenjeEmail thread = new ObavestenjeEmail(korisniks,javaMailSender,"EProdavnica račun",text);
         thread.start();

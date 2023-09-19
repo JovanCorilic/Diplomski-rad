@@ -139,11 +139,11 @@
       <div class="input-group">
         <mat-form-field>
             <mat-label>Ocena</mat-label>
-            <mat-select formControlName = "ocena" required>
-              <mat-option *ngFor="let oce of listaOcena" [value]="oce">
-                {{oce}}
-              </mat-option>
-            </mat-select>
+            <select matNativeControl formControlName = "ocena" required>
+                <option *ngFor="let oce of listaOcena" [value]="oce">
+                    {{oce}}
+                </option>
+              </select>
             <mat-hint>Ocena produkta</mat-hint>
           </mat-form-field>
       </div>

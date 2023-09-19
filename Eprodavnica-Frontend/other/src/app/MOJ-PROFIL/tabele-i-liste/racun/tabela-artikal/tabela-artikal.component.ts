@@ -1,5 +1,5 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -15,52 +15,51 @@ import { RacunService } from 'src/app/SERVICE/Racun.service';
 export class TabelaArtikalComponent implements OnInit, OnChanges{
   @Input() listaArtikala:Artikal[]|undefined;
   @Input() korpa:boolean|undefined;
+  @Output() ukupnaCena: EventEmitter<number>;
 
   dataSource:Artikal[] = []
   displayedColumns = ['nazivProdukta','cena','akcija','broj','ukupnaCena','ukloni'];
-  expandedElement = <Artikal>{}
-  deoKorpe:boolean = false;
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
-  @ViewChild(MatTable) table: MatTable<Artikal> | undefined;
+  @ViewChild(MatTable)
+  table!: MatTable<Artikal>;
 
   constructor(
     private router:Router,
     private _snackBar: MatSnackBar,
     private racunService:RacunService
   ){
-    if (this.listaArtikala !== undefined)
-      this.dataSource = this.listaArtikala
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
     };
+    this.ukupnaCena = new EventEmitter();
   }
+
   ngOnInit(): void {
     this.dataSource = []
     if (this.listaArtikala !== undefined)
       this.dataSource = this.listaArtikala
-    if (this.korpa !== undefined)
-      this.deoKorpe = this.korpa
   }
+  
   ngOnChanges(changes: any): void {
     this.dataSource = []
-    if (changes.listaArtikala.currentValue !==undefined)
-      this.dataSource = changes.listaArtikala.currentValue
-    if (changes.korpa.currentValue !== undefined)
-      this.deoKorpe = changes.korpa.currentValue
+    if (changes.listaArtikala !== undefined)
+      if (changes.listaArtikala.currentValue !==undefined)
+        this.dataSource = changes.listaArtikala.currentValue
   }
 
   idiNaProdukt(serijskiBroj:string){
     this.router.navigate(['produktDetaljno/'+serijskiBroj])
   }
 
-  ukloni(id:number){
+  ukloni(id:number,cena:number){
     this.racunService.ukloniArtikal(id).subscribe(
       res=>{
         this.removeData(id);
         this.openSnackBar("Uspešno uklonjen artikal")
+        this.ukupnaCena.emit(cena);
       }
     )
   }

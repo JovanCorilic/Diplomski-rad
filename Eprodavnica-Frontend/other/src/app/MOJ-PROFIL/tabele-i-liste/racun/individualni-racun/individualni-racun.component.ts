@@ -76,11 +76,16 @@ export class IndividualniRacunComponent implements OnInit{
       res=>{
         this.status = !this.status
         this.openSnackBar("Uspešno plaćeno!")
+        this.racun.korpa = false;
       },
       error=>{
         this.status = !this.status
       }
     )
+  }
+
+  smanjiCenu(cena:number){
+    this.racun.konacnaCena = this.racun.konacnaCena - cena;
   }
 
 }

@@ -118,10 +118,11 @@ public class RacunController {
 
     @GetMapping("/dajAktivanRacun")
     public ResponseEntity<RacunDTO>dajAktivanRacun(){
-        Racun racun = racunService.dajAktivanRacun();
+        Racun racun = racunService.dajAktivanRacun(TrenutnoUlogovanKorisnik());
         if (racun == null){
             racun = new Racun();
             racun.setBrojRacuna("nema");
+            racun.setMusterija(new Korisnik());
         }
 
         RacunDTO racunDTO = racunMapper.toDto(racun);

@@ -2,6 +2,7 @@ package Eprodavnica.EprodavnicaBackend.mapper;
 
 import Eprodavnica.EprodavnicaBackend.dto.ArtikalDTO;
 import Eprodavnica.EprodavnicaBackend.model.Artikal;
+import Eprodavnica.EprodavnicaBackend.model.Produkt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,7 @@ public class ArtikalMapper implements MapperInterface<Artikal, ArtikalDTO> {
     @Override
     public Artikal toModel(ArtikalDTO dto) {
         return new Artikal(dto.getId(),dto.getBroj(),dto.getNazivProdukta(),dto.getCena(),dto.getAkcija(),
-                dto.getUkupnaCena());
+                dto.getUkupnaCena(),new Produkt(dto.getSerijskiBroj()));
     }
 
     @Override

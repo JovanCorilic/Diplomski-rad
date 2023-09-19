@@ -26,7 +26,7 @@ export class Artikal {
         this.serijskiBroj = serijskiBroj
     }
 
-    konvertuj(produkt:Produkt){
+    public konvertuj(produkt:Produkt):any{
         this.cena = produkt.cena;
         this.nazivProdukta = produkt.naziv;
         this.akcija = produkt.akcija;

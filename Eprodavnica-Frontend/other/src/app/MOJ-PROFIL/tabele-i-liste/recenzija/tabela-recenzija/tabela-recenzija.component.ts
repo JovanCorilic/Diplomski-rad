@@ -24,9 +24,11 @@ export class TabelaRecenzijaComponent implements OnInit, OnChanges{
   @Input() listaRecenzija:Recenzija[]|undefined;
 
   dataSource:Recenzija[] = []
-  columnsToDisplay = ['ocena', 'datumPravljenja', 'serijskiBrojProdukt'];
+  columnsToDisplay = ['ocena', 'datumPravljenja', 'produktNaziv'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement = <Recenzija>{}
+
+  mapa:Map<string,{name:string,retrievedImage:any}>;
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -43,6 +45,7 @@ export class TabelaRecenzijaComponent implements OnInit, OnChanges{
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
     };
+    this.mapa = new Map();
   }
 
   ngOnInit(): void {
@@ -50,6 +53,12 @@ export class TabelaRecenzijaComponent implements OnInit, OnChanges{
     if (this.listaRecenzija !==undefined){
       this.dataSource = this.listaRecenzija;
     }
+
+    this.mapa = new Map();
+    this.listaRecenzija?.forEach(element=>{
+      let listaTemp = element.produkt.slika.name.split('.');
+      this.mapa.set(element.produkt.serijskiBroj, {name:element.produkt.slika.name, retrievedImage:'data:image/'+listaTemp[listaTemp.length-1]+';base64,' + element.produkt.slika.picByte});
+    })
   }
 
   ngOnChanges(changes: any): void {
@@ -57,6 +66,13 @@ export class TabelaRecenzijaComponent implements OnInit, OnChanges{
     if (changes.listaRecenzija.currentValue !== undefined){
       this.dataSource = changes.listaRecenzija.currentValue
     }
+
+    this.mapa = new Map();
+    let lista:Recenzija[] = changes.listaRecenzija.currentValue;
+    lista?.forEach(element=>{
+      let listaTemp = element.produkt.slika.name.split('.');
+      this.mapa.set(element.produkt.serijskiBroj, {name:element.produkt.slika.name, retrievedImage:'data:image/'+listaTemp[listaTemp.length-1]+';base64,' + element.produkt.slika.picByte});
+    })
   }
 
   openSnackBar(poruka:string) {

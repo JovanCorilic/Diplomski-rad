@@ -23,7 +23,10 @@
         <table style="width: 100%;">
           <tr>
             <td style="width: 10%;text-align: center;">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="100" height="60">
+              <img *ngIf="mapa.get(element.serijskiBroj)?.name==='nema'; else elseBlockSlika" src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="100" height="60">
+              <ng-template #elseBlockSlika>
+                <img [src]="mapa.get(element.serijskiBroj)?.retrievedImage" width="100" height="60">
+              </ng-template>
             </td>
             <td>
               Naziv : {{element.naziv}} <br> 

@@ -21,6 +21,8 @@ public interface RecenzijaRepository extends JpaRepository<Recenzija,Integer> {
     )
     Double dajProsecnuOcenu(@Param("produkt")Produkt produkt);
 
+    Integer countByProdukt(Produkt produkt);
+
     Boolean existsByMusterijaAndProdukt(Korisnik korisnik,Produkt produkt);
 
     Page<Recenzija>findByProdukt(Produkt produkt,Pageable pageable);

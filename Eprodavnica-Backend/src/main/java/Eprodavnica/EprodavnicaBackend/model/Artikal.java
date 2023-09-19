@@ -40,12 +40,13 @@ public class Artikal {
     @JoinColumn
     private Racun racun;
 
-    public Artikal(Integer id, int broj, String nazivProdukta, Double cena, Integer akcija, Double ukupnaCena) {
+    public Artikal(Integer id, int broj, String nazivProdukta, Double cena, Integer akcija, Double ukupnaCena,Produkt produkt) {
         this.id = id;
         this.broj = broj;
         this.nazivProdukta = nazivProdukta;
         this.cena = cena;
         this.akcija = akcija;
         this.ukupnaCena = ukupnaCena;
+        this.produkt = produkt;
     }
 }

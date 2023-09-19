@@ -29,6 +29,8 @@ export class TabelaProdukataComponent implements OnInit, OnChanges{
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement = <Produkt>{}
 
+  mapa:Map<string,{name:string,retrievedImage:any}>;
+
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
@@ -40,16 +42,30 @@ export class TabelaProdukataComponent implements OnInit, OnChanges{
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
     };
+    this.mapa = new Map();
   }
   ngOnInit(): void {
     this.dataSource = []
     if (this.listaProdukata !== undefined)
       this.dataSource = this.listaProdukata
+    
+    this.mapa = new Map();
+    this.listaProdukata?.forEach(element=>{
+      let listaTemp = element.slika.name.split('.');
+      this.mapa.set(element.serijskiBroj, {name:element.slika.name, retrievedImage:'data:image/'+listaTemp[listaTemp.length-1]+';base64,' + element.slika.picByte});
+    })
   }
   ngOnChanges(changes: any): void {
     this.dataSource = []
     if (changes.listaProdukata.currentValue !== undefined)
       this.dataSource = changes.listaProdukata.currentValue
+
+    this.mapa = new Map();
+    let lista:Produkt[] = changes.listaProdukata.currentValue;
+    lista?.forEach(element=>{
+      let listaTemp = element.slika.name.split('.');
+      this.mapa.set(element.serijskiBroj, {name:element.slika.name, retrievedImage:'data:image/'+listaTemp[listaTemp.length-1]+';base64,' + element.slika.picByte});
+    })
   }
 
   idiNaProdukt(serijskiBroj:string){

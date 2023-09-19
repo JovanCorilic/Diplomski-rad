@@ -30,12 +30,12 @@ public class RecenzijaController {
     @PostMapping("/create")
     public ResponseEntity<?> createProdukt(@RequestBody RecenzijaDTO recenzijaDTO){
         Recenzija recenzija = recenzijaMapper.toModel(recenzijaDTO);
-        recenzijaService.create(recenzija);
+        recenzijaService.create(recenzija, TrenutnoUlogovanKorisnik());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?>updateProdukt(@RequestBody RecenzijaDTO recenzijaDTO , @PathVariable String id){
+    public ResponseEntity<?>updateProdukt(@RequestBody RecenzijaDTO recenzijaDTO , @PathVariable Integer id){
         Recenzija recenzija = recenzijaMapper.toModel(recenzijaDTO);
         recenzijaService.update(recenzija,id);
         return new ResponseEntity<>(HttpStatus.OK);

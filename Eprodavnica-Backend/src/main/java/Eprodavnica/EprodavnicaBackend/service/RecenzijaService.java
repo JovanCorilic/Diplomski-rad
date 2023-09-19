@@ -86,8 +86,9 @@ public class RecenzijaService{
         return recenzijaRepository.findByMusterijaAndProdukt(korisnik,produkt);
     }
 
-    public void create(Recenzija entity) {
-        entity.setMusterija(korisnikRepository.findByEmail(entity.getMusterija().getEmail()));
+    public void create(Recenzija entity, String email) {
+        Korisnik korisnik = korisnikRepository.findByEmail(email);
+        entity.setMusterija(korisnik);
         entity.setProdukt(produktRepository.findBySerijskiBroj(entity.getProdukt().getSerijskiBroj()).orElse(null));
         entity.setDatumPravljenja(new Date());
         recenzijaRepository.save(entity);
@@ -123,14 +124,14 @@ public class RecenzijaService{
     }
 
     public void IzracunajProsecnuOcenu(Produkt produkt){
-        double ocena = recenzijaRepository.dajProsecnuOcenu(produkt);
+        double ocena = -1.0;
+        int br = recenzijaRepository.countByProdukt(produkt);
+        if (br != 0)
+            ocena = recenzijaRepository.dajProsecnuOcenu(produkt);
+
         produkt.setOcena(ocena);
         produkt.PretvoriUPunBroj();
         produktRepository.save(produkt);
-    }
-
-    public Recenzija update(Recenzija entity, String id) {
-        return null;
     }
 
     public Recenzija findOne(String id) {

@@ -141,16 +141,25 @@ export class ProduktDetaljnoComponent implements OnInit {
     }
   }
 
+  konvertuj(produkt:Produkt,artikal:Artikal):any{
+    artikal.cena = produkt.cena;
+    artikal.nazivProdukta = produkt.naziv;
+    artikal.akcija = produkt.akcija;
+    artikal.ukupnaCena = artikal.broj * ( artikal.cena - (artikal.cena*artikal.akcija/100));
+    artikal.serijskiBroj = produkt.serijskiBroj;
+}
+
   dodajUKorpu(){
     this.status = !this.status;
     let kolicina = this.kolicinaFormControl.value
     let artikal = <Artikal>{}
     if(kolicina!=null)
       artikal.broj=kolicina
-    artikal.konvertuj(this.produkt);
+    this.konvertuj(this.produkt,artikal);
     this.racunService.dodajUKorpu(artikal).subscribe(
       res=>{
         this.status = !this.status;
+        this.openSnackBar("Dodato u korpu!")
       },
       error =>{
         this.status = !this.status;
@@ -297,7 +306,7 @@ export class ProduktDetaljnoComponent implements OnInit {
       if (typeof value == 'string') {
         nV = value.replace(',', '.')
       }
-      return (Number.isNaN(Number(nV)) && !control.pristine && (Number(nV)>0)) ? {viseOdNula: true} : null;
+      return (!Number.isNaN(Number(nV)) && !control.pristine && (Number(nV)<=0)) ? {viseOdNula: true} : null;
     };
   }
 

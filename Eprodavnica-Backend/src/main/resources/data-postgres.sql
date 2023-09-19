@@ -20,9 +20,9 @@ INSERT INTO tip (id,naziv) VALUES (1,'Racunar')
 INSERT INTO tip (id,naziv) VALUES (2,'Test')
 
 /*Produkt*/
-INSERT INTO produkt(id,cena,datum_pravljenja,deskripcija,naziv,ocena,ocena_pun_broj,serijski_broj,prodavac_user_id,akcija,odobren_od_admina,broj_prodato) VALUES (0,100,'2020-12-1','Tako nesto','Jagoda',5,5,'123',1,5,true,0)
-INSERT INTO produkt(id,cena,datum_pravljenja,deskripcija,naziv,ocena,ocena_pun_broj,serijski_broj,prodavac_user_id,akcija,odobren_od_admina,broj_prodato) VALUES (1,200,'2020-10-1','Tako nestowdwdw','Procesor',4,4,'223',1,0,true,0)
-INSERT INTO produkt(id,cena,datum_pravljenja,deskripcija,naziv,ocena,ocena_pun_broj,serijski_broj,prodavac_user_id,akcija,odobren_od_admina,broj_prodato) VALUES (2,300,'2020-11-1','Tako nestowdwdwdwdw','Nesto',3,3,'323',1,40,true,0)
+INSERT INTO produkt(id,cena,datum_pravljenja,deskripcija,naziv,ocena,ocena_pun_broj,serijski_broj,prodavac_user_id,akcija,odobren_od_admina,broj_prodato) VALUES (0,100,'2020-12-1','Tako nesto','Jagoda',5.0,5,'123',1,5,true,0)
+INSERT INTO produkt(id,cena,datum_pravljenja,deskripcija,naziv,ocena,ocena_pun_broj,serijski_broj,prodavac_user_id,akcija,odobren_od_admina,broj_prodato) VALUES (1,200,'2020-10-1','Tako nestowdwdw','Procesor',-1.0,-1,'223',1,0,true,0)
+INSERT INTO produkt(id,cena,datum_pravljenja,deskripcija,naziv,ocena,ocena_pun_broj,serijski_broj,prodavac_user_id,akcija,odobren_od_admina,broj_prodato) VALUES (2,300,'2020-11-1','Tako nestowdwdwdwdw','Nesto',-1.0,-1,'323',1,40,true,0)
 
 /*Veza tipa i produkta*/
 INSERT INTO produkt_lista_tipova(lista_produkata_id,lista_tipova_id) VALUES (0,0)
@@ -35,8 +35,8 @@ INSERT INTO produkt_lista_tipova(lista_produkata_id,lista_tipova_id) VALUES (2,1
 INSERT INTO recenzija(id,datum_pravljenja,komentar,ocena,musterija_user_id,produkt_id) VALUES (5000,'2022-12-1','wdwdwdw wdwdw wdw',5,0,0)
 
 /*Racun*/
-INSERT INTO racun(id,broj_racuna,datum_kreiranja,konacna_cena,musterija_user_id) values (0,'qwe','2021-12-1',5000.0,0)
-INSERT INTO artikal(id,broj,produkt_id,racun_id) VALUES (5000,2,0,0)
+INSERT INTO racun(id,broj_racuna,datum_kreiranja,konacna_cena,musterija_user_id ,korpa) values (0,'qwe','2021-12-1',5000.0,0,false)
+INSERT INTO artikal(id,broj,produkt_id,racun_id,akcija,cena,naziv_produkta,ukupna_cena) VALUES (5000,2,0,0,10,50,'Test',1000)
 
 /*Wishlist*/
 INSERT INTO korisnik_wishlist(wishlist_user_id,wishlist_id) VALUES (0,0)
