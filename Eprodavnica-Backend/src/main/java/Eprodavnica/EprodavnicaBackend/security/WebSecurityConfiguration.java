@@ -66,13 +66,22 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
 
                 // svim korisnicima dopusti da pristupe putanji /auth/**
-                .authorizeRequests().antMatchers("/auth/log-in").permitAll()
+                .authorizeRequests()
                 .antMatchers("/auth/log-in").permitAll()
-                .antMatchers("/produkt/**").permitAll()
-                .antMatchers("/racun/**").permitAll()
-                .antMatchers("/recenzija/**").permitAll()
-                .antMatchers("/tip/**").permitAll()
-                .antMatchers("/korisnik/**").permitAll()
+                .antMatchers("/auth/register").permitAll()
+                .antMatchers("/auth/verifikacijaRegistracijaMusterija/**").permitAll()
+                .antMatchers("/auth/verifikacijaAdminNalog/**").permitAll()
+
+                .antMatchers("/produkt/get/**").permitAll()
+                .antMatchers("/produkt/by-page").permitAll()
+                .antMatchers("/produkt/filter-by-page").permitAll()
+
+                .antMatchers("/recenzija/by-page/**").permitAll()
+                .antMatchers("/recenzija/filter-by-page/**").permitAll()
+
+                .antMatchers("/tip/get/**").permitAll()
+                .antMatchers("/tip/getAll").permitAll()
+
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 // umesto anotacija iynad svake metode, moze i ovde da se proveravaju prava pristupa ya odredjeni URL
                 //.antMatchers(HttpMethod.GET, "/api/cultural-content-category").hasRole("ROLE_ADMIN")
