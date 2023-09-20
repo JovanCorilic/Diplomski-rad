@@ -121,7 +121,7 @@
       <div class="input-group">
         <mat-form-field appearance="outline">
           <mat-label>Unesite vaš email</mat-label>
-          <input matInput placeholder="pat@example.com" class="form-control" formControlName = "email" required>
+          <input matInput placeholder="pat@example.com" class="form-control" formControlName = "email" required id="email2">
           <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="registerForm.controls.email.setValue('')">
             <mat-icon>close</mat-icon>
           </button>
@@ -135,7 +135,7 @@
       <div class="input-group">
         <mat-form-field appearance="outline">
           <mat-label>Unesite vašu šifru</mat-label>
-          <input type="lozinka" matInput placeholder="Nesto89#" class="form-control" formControlName = "lozinka" required>
+          <input type="lozinka" matInput placeholder="Nesto89#" class="form-control" formControlName = "lozinka" required id="lozinka2">
           <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="registerForm.controls.lozinka.setValue('')">
             <mat-icon>close</mat-icon>
           </button>
@@ -149,7 +149,7 @@
       <div class="input-group">
         <mat-form-field appearance="outline">
           <mat-label>Unesite vaše ime</mat-label>
-          <input matInput class="form-control" formControlName = "ime" required>
+          <input matInput class="form-control" formControlName = "ime" required id="ime2">
           <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="registerForm.controls.ime.setValue('')">
             <mat-icon>close</mat-icon>
           </button>
@@ -163,7 +163,7 @@
       <div class="input-group">
         <mat-form-field appearance="outline">
           <mat-label>Unesite vaše prezime</mat-label>
-          <input matInput class="form-control" formControlName = "prezime" required>
+          <input matInput class="form-control" formControlName = "prezime" required id="prezime2">
           <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="registerForm.controls.prezime.setValue('')">
             <mat-icon>close</mat-icon>
           </button>

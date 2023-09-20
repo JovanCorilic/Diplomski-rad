@@ -123,14 +123,14 @@ public class KorisnikController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('OPERACIJE_SA_ADMINOM')")
+    @PreAuthorize("hasAnyAuthority('OPERACIJE_SA_ADMINOM','OPERACIJE_SA_SUPERADMINOM')")
     @PutMapping("/povuciKorisnika")
     public ResponseEntity<?>povuciKorisnika(@RequestBody String email){
         userDetailsService.povuciKorisnika(email);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('OPERACIJE_SA_ADMINOM')")
+    @PreAuthorize("hasAnyAuthority('OPERACIJE_SA_ADMINOM','OPERACIJE_SA_SUPERADMINOM')")
     @PutMapping("/vratiKorisnika")
     public ResponseEntity<?>vratiKorisnika(@RequestBody String email){
         userDetailsService.vratiKorisnika(email);
