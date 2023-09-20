@@ -23,7 +23,7 @@
     </span>
 
     <span *ngIf="getRole()==='ROLE_SUPERADMIN'">
-      <button mat-raised-button color="accent">Odobrenje admin akaunta</button>&nbsp;&nbsp;
+      <button mat-raised-button color="accent" (click)="idiNaPregledSajtaSuperadmin()">Pregled sajta</button>&nbsp;&nbsp;
     </span>
 
     <span class="example-spacer"></span>
@@ -41,6 +41,8 @@
     </span>
     
   </mat-toolbar>
+
+  <router-outlet></router-outlet>
 
   <ng-template #login let-modal>
 

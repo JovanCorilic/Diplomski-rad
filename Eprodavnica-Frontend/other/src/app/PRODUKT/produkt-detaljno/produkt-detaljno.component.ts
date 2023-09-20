@@ -209,19 +209,37 @@ export class ProduktDetaljnoComponent implements OnInit {
     this.router.navigate(['editProdukta/'+this.serijskiBroj])
   }
 
-  povuci(){
-    this.produktService.povuciProizvod(this.serijskiBroj).subscribe(
+  povuciProdavac(){
+    this.produktService.povuciProizvodProdavac(this.serijskiBroj).subscribe(
       res=>{
-        this.openSnackBar("Uspešno povučen produkt")
+        this.openSnackBar("Proizvod sa serijskim brojem "+this.serijskiBroj+" povučen")
+        this.produkt.odobrenOdProdavca = !this.produkt.odobrenOdProdavca
+      }
+    )
+  }
+
+  povuciAdmin(){
+    this.produktService.povuciProizvodAdmin(this.serijskiBroj).subscribe(
+      res=>{
+        this.openSnackBar("Proizvod sa serijskim brojem "+this.serijskiBroj+" povučen")
         this.produkt.odobrenOdAdmina = !this.produkt.odobrenOdAdmina
       }
     )
   }
 
-  vrati(){
-    this.produktService.vratiProizvod(this.serijskiBroj).subscribe(
+  vratiProdavac(){
+    this.produktService.vratiProizvodProdavac(this.serijskiBroj).subscribe(
       res=>{
-        this.openSnackBar("Uspešno vraćen produkt")
+        this.openSnackBar("Vraćen proizvod sa serijskim brojem "+this.serijskiBroj)
+        this.produkt.odobrenOdProdavca = !this.produkt.odobrenOdProdavca
+      }
+    )
+  }
+
+  vratiAdmin(){
+    this.produktService.vratiProizvodAdmin(this.serijskiBroj).subscribe(
+      res=>{
+        this.openSnackBar("Vraćen proizvod sa serijskim brojem "+this.serijskiBroj)
         this.produkt.odobrenOdAdmina = !this.produkt.odobrenOdAdmina
       }
     )

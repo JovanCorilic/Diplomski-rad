@@ -148,7 +148,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public void pravljenjeAdminNaloga(MusterijaDTO musterijaDTO){
         List<Uloga>listaUloga = new ArrayList<>();
-        listaUloga.add(ulogaRepository.findById(1).orElse(null));
+        listaUloga.add(ulogaRepository.findById(2).orElse(null));
         Korisnik korisnik = new Korisnik(musterijaDTO.getIme(), musterijaDTO.getPrezime(), musterijaDTO.getEmail(), musterijaDTO.getLozinka(), false,true,listaUloga);
         korisnik.setId(userRepository.findAll().size()+1);
         korisnik.setLozinka(customPasswordEncoder.encode(korisnik.getLozinka()));

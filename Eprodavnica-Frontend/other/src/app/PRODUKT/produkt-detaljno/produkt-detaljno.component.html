@@ -4,7 +4,7 @@
     <mat-chip *ngFor="let tip of produkt.listaTipova" color="accent">{{tip.naziv}}</mat-chip>
 </mat-chip-listbox>
  
-<table style="text-align: center;width: 100%;">
+<table style="text-align: center;width: 100%;border: 1px solid;">
     <tr>
         <td>
             <img *ngIf="produkt.slika.name==='nema'; else elseBlockSlika" src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="600" height="400">
@@ -47,8 +47,13 @@
 
             <button type="button" mat-raised-button color="accent" *ngIf="getRole()==='ROLE_PRODAVAC'" (click)="edit()">Edit</button> <br><br>
             <span *ngIf="getRole()==='ROLE_PRODAVAC'">
-                <button type="button" mat-raised-button color="warn" *ngIf="produkt.odobrenOdAdmina" (click)="povuci()">Povuci</button>
-                <button type="button" mat-raised-button color="accent" *ngIf="!produkt.odobrenOdAdmina" (click)="vrati()">Vrati</button>
+                <button type="button" mat-raised-button color="warn" *ngIf="produkt.odobrenOdProdavca" (click)="povuciProdavac()">Povuci</button>
+                <button type="button" mat-raised-button color="accent" *ngIf="!produkt.odobrenOdProdavca" (click)="vratiProdavac()">Vrati</button>
+            </span>
+
+            <span *ngIf="getRole()==='ROLE_ADMIN'">
+                <button type="button" mat-raised-button color="warn" *ngIf="produkt.odobrenOdAdmina" (click)="povuciAdmin()">Povuci</button>
+                <button type="button" mat-raised-button color="accent" *ngIf="!produkt.odobrenOdAdmina" (click)="vratiAdmin()">Vrati</button>
             </span>
         </td>
     </tr>

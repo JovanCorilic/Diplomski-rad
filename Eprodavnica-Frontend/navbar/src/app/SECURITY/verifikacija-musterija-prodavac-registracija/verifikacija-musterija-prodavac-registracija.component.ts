@@ -9,7 +9,7 @@ import { AuthenticationService } from 'src/app/SERVICE/authentication.service';
 })
 export class VerifikacijaMusterijaProdavacRegistracijaComponent {
   token = <string>{};
-  status: boolean = true;
+  status: boolean = false;
 
   constructor(
     private authenticationService:AuthenticationService,
@@ -27,6 +27,7 @@ export class VerifikacijaMusterijaProdavacRegistracijaComponent {
     this.status = !this.status; 
     this.authenticationService.verifikacijaRegistracije(this.token).subscribe(
       res=>{
+        this.status = !this.status; 
         this.router.navigate(['']);
       }
     )

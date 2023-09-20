@@ -9,7 +9,7 @@ import { AuthenticationService } from 'src/app/SERVICE/authentication.service';
 })
 export class VerifikacijaAdminRegistracijaComponent {
   token = <string>{};
-  status: boolean = true;
+  status: boolean = false;
 
   constructor(
     private authenticationService:AuthenticationService,

@@ -45,9 +45,9 @@ INSERT INTO tip (id,naziv) VALUES (1,'Racunar')
 INSERT INTO tip (id,naziv) VALUES (2,'Test')
 
 /*Produkt*/
-INSERT INTO produkt(id,cena,datum_pravljenja,deskripcija,naziv,ocena,ocena_pun_broj,serijski_broj,prodavac_user_id,akcija,odobren_od_admina,broj_prodato,odobrenOdProdavca) VALUES (0,100,'2020-12-1','Tako nesto','Jagoda',5.0,5,'123',1,5,true,0,true)
-INSERT INTO produkt(id,cena,datum_pravljenja,deskripcija,naziv,ocena,ocena_pun_broj,serijski_broj,prodavac_user_id,akcija,odobren_od_admina,broj_prodato,odobrenOdProdavca) VALUES (1,200,'2020-10-1','Tako nestowdwdw','Procesor',-1.0,-1,'223',1,0,true,0,true)
-INSERT INTO produkt(id,cena,datum_pravljenja,deskripcija,naziv,ocena,ocena_pun_broj,serijski_broj,prodavac_user_id,akcija,odobren_od_admina,broj_prodato,odobrenOdProdavca) VALUES (2,300,'2020-11-1','Tako nestowdwdwdwdw','Nesto',-1.0,-1,'323',1,40,true,0,true)
+INSERT INTO produkt(id,cena,datum_pravljenja,deskripcija,naziv,ocena,ocena_pun_broj,serijski_broj,prodavac_user_id,akcija,odobren_od_admina,broj_prodato,odobren_od_prodavca) VALUES (0,100,'2020-12-1','Tako nesto','Jagoda',5.0,5,'123',1,5,true,0,true)
+INSERT INTO produkt(id,cena,datum_pravljenja,deskripcija,naziv,ocena,ocena_pun_broj,serijski_broj,prodavac_user_id,akcija,odobren_od_admina,broj_prodato,odobren_od_prodavca) VALUES (1,200,'2020-10-1','Tako nestowdwdw','Procesor',-1.0,-1,'223',1,0,true,0,true)
+INSERT INTO produkt(id,cena,datum_pravljenja,deskripcija,naziv,ocena,ocena_pun_broj,serijski_broj,prodavac_user_id,akcija,odobren_od_admina,broj_prodato,odobren_od_prodavca) VALUES (2,300,'2020-11-1','Tako nestowdwdwdwdw','Nesto',-1.0,-1,'323',1,40,true,0,true)
 
 /*Veza tipa i produkta*/
 INSERT INTO produkt_lista_tipova(lista_produkata_id,lista_tipova_id) VALUES (0,0)

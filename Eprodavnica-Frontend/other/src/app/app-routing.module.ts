@@ -10,6 +10,7 @@ import { AdminComponent } from './MOJ-PROFIL/admin/admin.component';
 import { MusterijaComponent } from './MOJ-PROFIL/musterija/musterija/musterija.component';
 import { ProdavacComponent } from './MOJ-PROFIL/prodavac/prodavac.component';
 import { IndividualniRacunComponent } from './MOJ-PROFIL/tabele-i-liste/racun/individualni-racun/individualni-racun.component';
+import { SuperadminComponent } from './MOJ-PROFIL/superadmin/superadmin.component';
 
 const routes: Routes = [
   {
@@ -45,6 +46,12 @@ const routes: Routes = [
     component:ProdavacComponent,
     canActivate: [RoleGuard],
     data: {expectedRoles: 'ROLE_PRODAVAC'}
+  },
+  {
+    path:'superadmin',
+    component:SuperadminComponent,
+    canActivate: [RoleGuard],
+    data: {expectedRoles: 'ROLE_SUPERADMIN'}
   },
   {
     path:'racun/:brojRacuna',

@@ -24,7 +24,7 @@ public class VerifikacioniTokenSlanjeEmail extends Thread{
 
         simpleMailMessage.setTo(email);
         simpleMailMessage.setSubject("Verifikacija");
-        simpleMailMessage.setText("Aktivacioni link: "+ "\r\n"+"https://localhost:9000/#/navbar"+adresa+"/"+token);
+        simpleMailMessage.setText("Aktivacioni link: "+ "\r\n"+"http://localhost:9000/#/navbar"+adresa+"/"+token);
         javaMailSender.send(simpleMailMessage);
     }
 

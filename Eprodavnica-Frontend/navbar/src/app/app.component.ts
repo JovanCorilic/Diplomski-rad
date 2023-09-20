@@ -58,8 +58,8 @@ export class AppComponent {
     }
   }
 
-  idiNaOdobrenjeAdminAkaunt(){
-    this.router.navigate(['/other/odobrenjeAdminAkaunta']);
+  idiNaPregledSajtaSuperadmin(){
+    this.router.navigate(['/other/superadmin']);
   }
 
   pravljenjeProdukta(){

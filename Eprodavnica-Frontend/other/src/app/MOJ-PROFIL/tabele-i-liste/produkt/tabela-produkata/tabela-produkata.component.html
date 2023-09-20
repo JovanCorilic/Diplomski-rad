@@ -48,7 +48,7 @@
                 <button mat-raised-button color="accent" (click)="idiNaProdukt(element.serijskiBroj)">Idi na produkt</button>&nbsp;&nbsp;
               </span>
               <ng-template #elseKupi>
-                Ovaj produkt je povučen
+                <span *ngIf="getRole()==='ROLE_MUSTERIJA'">Ovaj produkt je povučen</span>
               </ng-template>
 
               <button mat-raised-button color="accent" (click)="idiNaProdukt(element.serijskiBroj)" *ngIf="getRole()!=='ROLE_MUSTERIJA'">Idi na produkt</button>&nbsp;&nbsp;
