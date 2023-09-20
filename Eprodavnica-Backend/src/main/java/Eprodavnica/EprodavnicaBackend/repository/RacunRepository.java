@@ -26,6 +26,7 @@ public interface RacunRepository extends JpaRepository<Racun,Integer> {
             "WHERE ( :od = -1.0 or :do1 = -1.0 or r.konacnaCena BETWEEN :od AND :do1 ) AND (r.korpa is false ) "+
             "AND ( CAST( :odDatum AS date ) is null or CAST( :doDatum AS date ) is null or r.datumKreiranja BETWEEN :odDatum AND :doDatum)" +
             "AND ( :korisnik = r.musterija )"+
+            "GROUP BY r.id, r.konacnaCena, r.korpa, r.datumKreiranja "+
             "ORDER BY r.datumKreiranja DESC "
     )
     Page<Racun>findByCustomCriteriaMusterija(
@@ -36,6 +37,7 @@ public interface RacunRepository extends JpaRepository<Racun,Integer> {
     @Query("SELECT r FROM Racun r " +
             "WHERE ( :od = -1.0 or :do1 = -1.0 or r.konacnaCena BETWEEN :od AND :do1 ) AND (r.korpa is false ) " +
             "AND ( CAST( :odDatum AS date ) is null or CAST( :doDatum AS date ) is null or r.datumKreiranja BETWEEN :odDatum AND :doDatum)"+
+            "GROUP BY r.id, r.konacnaCena, r.korpa, r.datumKreiranja "+
             "ORDER BY r.datumKreiranja DESC "
     )
     Page<Racun>findByCustomCriteriaAdmin(

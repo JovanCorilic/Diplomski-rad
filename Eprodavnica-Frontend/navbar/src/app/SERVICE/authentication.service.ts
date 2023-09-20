@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Musterija } from '../MODEL/Musterija';
+import { Racun } from '../MODEL/Racun';
 
 @Injectable({
 	providedIn: 'root'
@@ -42,5 +43,9 @@ export class AuthenticationService {
 				return false;
 		}
 		return true;
+    }
+
+    dajAktivanRacun():Observable<Racun>{
+        return this.http.get<Racun>("http://localhost:8080/racun/dajAktivanRacun")
     }
 }

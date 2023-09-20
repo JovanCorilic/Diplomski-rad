@@ -1,5 +1,5 @@
 import { AuthenticationService } from './SERVICE/authentication.service';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Musterija } from './MODEL/Musterija';
@@ -10,13 +10,14 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { Racun } from './MODEL/Racun';
 
 @Component({
   selector: 'navbar-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent{
   title = 'navbar';
   registerForm: FormGroup;
   logForm: FormGroup;
@@ -25,6 +26,7 @@ export class AppComponent {
   status: boolean = false;
   status2: boolean = false;
   status3:boolean = false;
+  racun=<Racun>{};
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
@@ -131,6 +133,8 @@ export class AppComponent {
 
         this.status= !this.status;
         this.openSnackBar("Uspešno ulogovan");
+
+        
 			},
 			error => {
         this.status= !this.status;
@@ -139,6 +143,21 @@ export class AppComponent {
 			}
 		);
 	}
+
+  idiNaKorpu(){
+    this.authenticationService.dajAktivanRacun().subscribe(
+      res=>{
+        this.racun = res;
+        if (this.racun.brojRacuna==='nema'){
+          this.openSnackBar("Korpa je prazna")
+        }else if (this.racun.brojRacuna === undefined){
+          this.openSnackBar("Korpa je prazna")
+        }else
+          this.router.navigate(['/other/racun/'+this.racun.brojRacuna])
+      }
+    )
+    
+  }
 
   getRole():string{
     const item = sessionStorage.getItem('user');

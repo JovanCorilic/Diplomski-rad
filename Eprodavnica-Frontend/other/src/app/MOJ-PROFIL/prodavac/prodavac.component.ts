@@ -34,7 +34,7 @@ export class ProdavacComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.korisnikService.dajMusteriju().subscribe(
+    this.korisnikService.dajProdavac().subscribe(
       res=>{
         this.prodavac = res;
         this.korisnikForm.controls.ime.setValue(this.prodavac.ime);

@@ -26,6 +26,10 @@
       <button mat-raised-button color="accent" (click)="idiNaPregledSajtaSuperadmin()">Pregled sajta</button>&nbsp;&nbsp;
     </span>
 
+    <span *ngIf="getRole()==='ROLE_MUSTERIJA'">
+      <button mat-raised-button color="accent" (click)="idiNaKorpu()">Korpa</button>&nbsp;&nbsp;
+    </span>
+
     <span class="example-spacer"></span>
 
     <span *ngIf="getRole()!=='ROLE_ADMIN' && getRole()!=='ROLE_SUPERADMIN' && getRole()!=='ROLE_MUSTERIJA' && getRole()!=='ROLE_PRODAVAC'">

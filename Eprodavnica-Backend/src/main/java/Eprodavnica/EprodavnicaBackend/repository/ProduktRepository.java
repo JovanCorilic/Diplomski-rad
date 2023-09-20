@@ -19,10 +19,11 @@ public interface ProduktRepository extends JpaRepository<Produkt,Integer> {
 
     Page<Produkt>findAllByOdobrenOdAdminaIsTrueAndOdobrenOdProdavcaIsTrueAndProdavacOdobrenOdAdminaIsTrueOrderByDatumPravljenjaDesc(Pageable pageable);
 
-    @Query("SELECT p FROM Produkt p " +
+    @Query("SELECT DISTINCT p FROM Produkt p " +
+            "JOIN p.listaTipova tip " +
             "WHERE ( :naziv is null or LOWER(p.naziv) LIKE LOWER(CONCAT('%', :naziv, '%')) )" +
             "AND ( :od = -1.0 or :do1 = -1.0 or p.cena BETWEEN :od AND :do1 )" +
-            "AND ( COALESCE( :lista , null ) is null or :lista member of p.listaTipova )" +
+            "AND ( COALESCE( :lista , null ) is null or tip IN :lista )" +
             "AND ( COALESCE( :ocene , null ) is null or p.ocenaPunBroj IN :ocene )" +
             "AND p.odobrenOdAdmina is TRUE AND p.odobrenOdProdavca IS TRUE AND p.prodavac.odobrenOdAdmina IS TRUE "+
             "ORDER BY p.datumPravljenja DESC "
@@ -33,10 +34,11 @@ public interface ProduktRepository extends JpaRepository<Produkt,Integer> {
 
     Page<Produkt>findByIstorijaKupacaContainsAndProdavacOdobrenOdAdminaIsTrueOrderByDatumPravljenjaDesc(Korisnik korisnik,Pageable pageable);
 
-    @Query("SELECT p FROM Produkt p " +
+    @Query("SELECT DISTINCT p FROM Produkt p " +
+            "JOIN p.listaTipova tip " +
             "WHERE ( :korisnik member of p.istorijaKupaca )" +
             "AND ( :od = -1.0 or :do1 = -1.0 or p.cena BETWEEN :od AND :do1 )" +
-            "AND ( COALESCE( :lista , null ) is null or :lista member of p.listaTipova )" +
+            "AND ( COALESCE( :lista , null ) is null or tip IN :lista )" +
             "AND ( COALESCE( :ocene , null ) is null or p.ocenaPunBroj IN :ocene )" +
             "AND ( :naziv is null or LOWER(p.naziv) LIKE LOWER(CONCAT('%', :naziv, '%')) )"+
             "AND p.prodavac.odobrenOdAdmina IS TRUE "+
@@ -49,10 +51,11 @@ public interface ProduktRepository extends JpaRepository<Produkt,Integer> {
 
     Page<Produkt>findByWishlistContainsAndProdavacOdobrenOdAdminaIsTrueOrderByDatumPravljenjaDesc(Korisnik korisnik, Pageable pageable);
 
-    @Query("SELECT p FROM Produkt p " +
+    @Query("SELECT DISTINCT p FROM Produkt p " +
+            "JOIN p.listaTipova tip " +
             "WHERE ( :korisnik member of p.wishlist )" +
             "AND ( :od = -1.0 or :do1 = -1.0 or p.cena BETWEEN :od AND :do1 )" +
-            "AND ( COALESCE( :lista , null ) is null or :lista member of p.listaTipova )" +
+            "AND ( COALESCE( :lista , null ) is null or tip IN :lista )" +
             "AND ( COALESCE( :ocene , null ) is null or p.ocenaPunBroj IN :ocene )" +
             "AND ( :naziv is null or LOWER(p.naziv) LIKE LOWER(CONCAT('%', :naziv, '%')) )"+
             "AND p.prodavac.odobrenOdAdmina IS TRUE "+
@@ -65,10 +68,11 @@ public interface ProduktRepository extends JpaRepository<Produkt,Integer> {
 
     Page<Produkt>findByProdavacOrderByDatumPravljenjaDesc(Korisnik korisnik, Pageable pageable);
 
-    @Query("SELECT p FROM Produkt p " +
+    @Query("SELECT DISTINCT p FROM Produkt p " +
+            "JOIN p.listaTipova tip " +
             "WHERE ( :korisnik = p.prodavac )" +
             "AND ( :od = -1.0 or :do1 = -1.0 or p.cena BETWEEN :od AND :do1 )" +
-            "AND ( COALESCE( :lista , null ) is null or :lista member of p.listaTipova )" +
+            "AND ( COALESCE( :lista , null ) is null or tip IN :lista )" +
             "AND ( COALESCE( :ocene , null ) is null or p.ocenaPunBroj IN :ocene )" +
             "AND ( :naziv is null or LOWER(p.naziv) LIKE LOWER(CONCAT('%', :naziv, '%')) )"+
             "ORDER BY p.datumPravljenja DESC "
@@ -77,9 +81,10 @@ public interface ProduktRepository extends JpaRepository<Produkt,Integer> {
             @Param("naziv") String naziv,@Param("od") double od,@Param("do1") double do1,@Param("lista") List<Tip>lista,
             @Param("ocene") List<Integer>ocene, @Param("korisnik") Korisnik korisnik, Pageable pageable);
 
-    @Query("SELECT p FROM Produkt p " +
+    @Query("SELECT DISTINCT p FROM Produkt p " +
+            "JOIN p.listaTipova tip " +
             "WHERE ( :od = -1.0 or :do1 = -1.0 or p.cena BETWEEN :od AND :do1 )" +
-            "AND ( COALESCE( :lista , null ) is null or :lista member of p.listaTipova )" +
+            "AND ( COALESCE( :lista , null ) is null or tip IN :lista )" +
             "AND ( COALESCE( :ocene , null ) is null or p.ocenaPunBroj IN :ocene )" +
             "AND ( :naziv is null or LOWER(p.naziv) LIKE LOWER(CONCAT('%', :naziv, '%')) )"+
             "ORDER BY p.datumPravljenja DESC "
