@@ -4,6 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Recenzija } from 'src/app/MODEL/Recenzija';
 import { RecenzijaService } from 'src/app/SERVICE/Recenzija.service';
@@ -104,6 +105,19 @@ export class TabelaRecenzijaComponent implements OnInit, OnChanges{
         this.openSnackBar("Uspešno uklonjena recenzija")
       }
     )
+  }
+
+  getRole():string{
+    const item = sessionStorage.getItem('user');
+
+    if(!item){
+      return "";
+    }
+
+    const jwt:JwtHelperService = new JwtHelperService();
+    const decodedItem = JSON.parse(item!);
+    const info = jwt.decodeToken(decodedItem.accessToken);
+    return info['uloga'];
   }
 
 }

@@ -58,7 +58,18 @@
               Komentar : {{element.komentar}}
             </td>
             <td style="text-align: right;">
-              <button mat-raised-button color="accent" (click)="idiNaProdukt(element.produkt.serijskiBroj)">Idi na produkt</button>&nbsp;&nbsp;
+              
+              <span *ngIf="element.produkt.odobrenOdProdavca && element.produkt.odobrenOdAdmina && getRole()==='ROLE_MUSTERIJA'; else elseKupi">
+                <button mat-raised-button color="accent" (click)="idiNaProdukt(element.produkt.serijskiBroj)">Idi na produkt</button>&nbsp;&nbsp;
+              </span>
+              <ng-template #elseKupi>
+                Ovaj produkt je povučen
+              </ng-template>
+
+              <span *ngIf="getRole()!=='ROLE_MUSTERIJA'">
+                <button mat-raised-button color="accent" (click)="idiNaProdukt(element.produkt.serijskiBroj)" >Idi na produkt</button>&nbsp;&nbsp;
+              </span>
+
               <br>
               <button mat-raised-button color="warn" (click)="ukloni(element.id)">Obriši recenziju</button>&nbsp;&nbsp;
             </td>

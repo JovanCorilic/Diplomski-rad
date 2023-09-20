@@ -49,12 +49,12 @@ public class ProduktService {
 
     public Page<Produkt>findByIstorijaProdukataPageable(Pageable pageable,String email){
         Korisnik korisnik = korisnikRepository.findByEmail(email);
-        return produktRepository.findByIstorijaKupacaContainsOrderByDatumPravljenjaDesc(korisnik,pageable);
+        return produktRepository.findByIstorijaKupacaContainsAndProdavacOdobrenOdAdminaIsTrueOrderByDatumPravljenjaDesc(korisnik,pageable);
     }
 
     public  Page<Produkt>findByWishlist(Pageable pageable,String email){
         Korisnik korisnik = korisnikRepository.findByEmail(email);
-        return produktRepository.findByWishlistContainsOrderByDatumPravljenjaDesc(korisnik,pageable);
+        return produktRepository.findByWishlistContainsAndProdavacOdobrenOdAdminaIsTrueOrderByDatumPravljenjaDesc(korisnik,pageable);
     }
 
     public  Page<Produkt>findByProdavac(Pageable pageable,String email){
@@ -240,6 +240,7 @@ public class ProduktService {
         entity.setOcenaPunBroj(-1);
         entity.setId((int) produktRepository.count());
         entity.setOdobrenOdAdmina(true);
+        entity.setOdobrenOdProdavca(true);
 
         entity.setSerijskiBroj(generisiRandomSerijskiBroj());
         while (produktRepository.existsProduktBySerijskiBroj(entity.getSerijskiBroj())){
