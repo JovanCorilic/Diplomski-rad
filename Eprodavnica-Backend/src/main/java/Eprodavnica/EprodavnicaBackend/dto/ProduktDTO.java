@@ -25,6 +25,7 @@ public class ProduktDTO {
     private List<TipDTO>listaTipova;
     private String emailProdavac;
     private boolean odobrenOdAdmina;
+    private boolean odobrenOdProdavca;
     private ImageModel slika;
     //private KorisnikDTO prodavac;
 }

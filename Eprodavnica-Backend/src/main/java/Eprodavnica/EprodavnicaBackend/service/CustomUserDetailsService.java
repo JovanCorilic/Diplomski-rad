@@ -10,6 +10,7 @@ import Eprodavnica.EprodavnicaBackend.other.KonverterDatum;
 import Eprodavnica.EprodavnicaBackend.other.ObavestenjeEmail;
 import Eprodavnica.EprodavnicaBackend.other.VerifikacioniTokenSlanjeEmail;
 import Eprodavnica.EprodavnicaBackend.repository.KorisnikRepository;
+import Eprodavnica.EprodavnicaBackend.repository.ProduktRepository;
 import Eprodavnica.EprodavnicaBackend.repository.UlogaRepository;
 import Eprodavnica.EprodavnicaBackend.repository.VerificationTokenRepository;
 import Eprodavnica.EprodavnicaBackend.security.password.CustomPasswordEncoder;
@@ -38,6 +39,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     private JavaMailSender javaMailSender;
     @Autowired
     private VerificationTokenRepository verificationTokenRepository;
+    @Autowired
+    private ProduktRepository produktRepository;
+
     private final CustomPasswordEncoder customPasswordEncoder;
 
     @Override
@@ -187,7 +191,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public Boolean daLiJeOdobrenOdAdmina(String email){
         Korisnik korisnik = userRepository.findByEmail(email);
-        return korisnik.isOdobrenOdAdmina();
+        return korisnik.isOdobrenOdAdmina() && korisnik.isPotvrdjen();
     }
 
     public Korisnik dajKorisnika(String email){

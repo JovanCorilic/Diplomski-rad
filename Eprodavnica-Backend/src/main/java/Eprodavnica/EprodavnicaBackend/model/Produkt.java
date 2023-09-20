@@ -56,6 +56,9 @@ public class Produkt {
     private boolean odobrenOdAdmina;
 
     @Column
+    private boolean odobrenOdProdavca;
+
+    @Column
     private String nazivSlike;
 
     @ManyToMany()
@@ -79,8 +82,8 @@ public class Produkt {
     private List<Korisnik>istorijaKupaca;
 
     public Produkt(String naziv, String deskripcija, String serijskiBroj, double cena, double ocena,
-                   Date datumPravljenja, int akcija,int brojProdato, Boolean odobrenOdAdmina,String nazivSlike ,List<Tip> listaTipova,
-                   Korisnik prodavac) {
+                   Date datumPravljenja, int akcija,int brojProdato, Boolean odobrenOdAdmina, Boolean odobrenOdProdavca,
+                   String nazivSlike ,List<Tip> listaTipova, Korisnik prodavac) {
         this.naziv = naziv;
         this.deskripcija = deskripcija;
         this.serijskiBroj = serijskiBroj;
@@ -93,16 +96,18 @@ public class Produkt {
         this.prodavac = prodavac;
         this.odobrenOdAdmina=odobrenOdAdmina;
         this.nazivSlike = nazivSlike;
+        this.odobrenOdProdavca = odobrenOdProdavca;
     }
 
     public Produkt(String naziv, String serijskiBroj, double cena, double ocena, int akcija,
-                   Boolean odobrenOdAdmina) {
+                   Boolean odobrenOdAdmina,Boolean odobrenOdProdavca) {
         this.naziv = naziv;
         this.serijskiBroj = serijskiBroj;
         this.cena = cena;
         this.ocena = ocena;
         this.akcija = akcija;
         this.odobrenOdAdmina = odobrenOdAdmina;
+        this.odobrenOdProdavca=odobrenOdProdavca;
     }
 
     public Produkt(String serijskiBroj) {

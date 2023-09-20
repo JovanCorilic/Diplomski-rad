@@ -92,16 +92,32 @@ export class TabelaProdukataComponent implements OnInit, OnChanges{
     });
   }
 
-  povuci(serijskiBroj:string){
-    this.produktService.povuciProizvod(serijskiBroj).subscribe(
+  povuciProdavac(serijskiBroj:string){
+    this.produktService.povuciProizvodProdavac(serijskiBroj).subscribe(
       res=>{
         this.openSnackBar("Proizvod sa serijskim brojem "+serijskiBroj+" povučen")
       }
     )
   }
 
-  vrati(serijskiBroj:string){
-    this.produktService.vratiProizvod(serijskiBroj).subscribe(
+  povuciAdmin(serijskiBroj:string){
+    this.produktService.povuciProizvodAdmin(serijskiBroj).subscribe(
+      res=>{
+        this.openSnackBar("Proizvod sa serijskim brojem "+serijskiBroj+" povučen")
+      }
+    )
+  }
+
+  vratiProdavac(serijskiBroj:string){
+    this.produktService.vratiProizvodProdavac(serijskiBroj).subscribe(
+      res=>{
+        this.openSnackBar("Vraćen proizvod sa serijskim brojem "+serijskiBroj)
+      }
+    )
+  }
+
+  vratiAdmin(serijskiBroj:string){
+    this.produktService.vratiProizvodAdmin(serijskiBroj).subscribe(
       res=>{
         this.openSnackBar("Vraćen proizvod sa serijskim brojem "+serijskiBroj)
       }

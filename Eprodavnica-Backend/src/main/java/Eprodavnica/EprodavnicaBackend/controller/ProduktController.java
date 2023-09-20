@@ -122,6 +122,15 @@ public class ProduktController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_ADMINOM')")
+    @GetMapping("/by-pageAdmin")
+    public ResponseEntity<Page<ProduktDTO>>getAdminPageable(Pageable pageable){
+        Page<Produkt>page = produktService.findByAdmin(pageable);
+        List<ProduktDTO>lista = produktMapper.toDTOListProdukt(page.toList());
+        Page<ProduktDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
     @PostMapping("/filter-by-page")
     public ResponseEntity<Page<ProduktMiniDTO>>getProduktFilter(@RequestBody FilterDTO filterDTO, Pageable pageable){
         Page<Produkt>page = produktService.filterPageable(filterDTO,pageable);
@@ -157,6 +166,15 @@ public class ProduktController {
         return new ResponseEntity<>(dtos,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_ADMINOM')")
+    @GetMapping("/filter-by-pageAdmin")
+    public ResponseEntity<Page<ProduktDTO>>getProduktFilterPageAdmin(@RequestBody FilterDTO filterDTO, Pageable pageable){
+        Page<Produkt>page = produktService.filterPageableAdmin(filterDTO,pageable);
+        List<ProduktDTO>lista = produktMapper.toDTOListProdukt(page.toList());
+        Page<ProduktDTO> dtos = new PageImpl<>(lista,page.getPageable(),page.getTotalElements());
+        return new ResponseEntity<>(dtos,HttpStatus.OK);
+    }
+
     @GetMapping("/getAll")
     public ResponseEntity<?>getAll(){
         List<ProduktDTO>lista = new ArrayList<>();
@@ -181,17 +199,31 @@ public class ProduktController {
         return new ResponseEntity<>(odgovor,HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyAuthority('OPERACIJE_SA_ADMINOM','OPERACIJE_SA_PRODAVCEM')")
-    @PutMapping("/povuciProdukt")
-    public ResponseEntity<?>povuciProdukt(@RequestBody String serijskiBroj){
-        produktService.povuciProizvod(serijskiBroj);
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_ADMINOM')")
+    @PutMapping("/povuciProduktAdmin")
+    public ResponseEntity<?>povuciProduktAdmin(@RequestBody String serijskiBroj){
+        produktService.povuciProizvodAdmin(serijskiBroj);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyAuthority('OPERACIJE_SA_ADMINOM','OPERACIJE_SA_PRODAVCEM')")
-    @PutMapping("/vratiProdukt")
-    public ResponseEntity<?>vratiProdukt(@RequestBody String serijskiBroj){
-        produktService.vratiProizvod(serijskiBroj);
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_PRODAVCEM')")
+    @PutMapping("/povuciProduktProdavac")
+    public ResponseEntity<?>povuciProduktProdavac(@RequestBody String serijskiBroj){
+        produktService.povuciProizvodProdavac(serijskiBroj);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_ADMINOM')")
+    @PutMapping("/vratiProduktAdmin")
+    public ResponseEntity<?>vratiProduktAdmin(@RequestBody String serijskiBroj){
+        produktService.vratiProizvodAdmin(serijskiBroj);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAuthority('OPERACIJE_SA_PRODAVCEM')")
+    @PutMapping("/vratiProduktProdavac")
+    public ResponseEntity<?>vratiProduktProdavac(@RequestBody String serijskiBroj){
+        produktService.vratiProizvodProdavac(serijskiBroj);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

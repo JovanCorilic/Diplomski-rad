@@ -29,12 +29,13 @@ public interface RecenzijaRepository extends JpaRepository<Recenzija,Integer> {
 
     Page<Recenzija>findByOcenaInAndProduktOrderByDatumPravljenjaDesc(List<Integer>ocene, Produkt produkt, Pageable pageable);
 
-    Page<Recenzija>findByMusterijaOrderByDatumPravljenjaDesc(Korisnik korisnik,Pageable pageable);
+    Page<Recenzija>findByMusterijaAndProduktOdobrenOdAdminaIsTrueAndProduktOdobrenOdProdavcaIsTrueAndProduktProdavacOdobrenOdAdminaIsTrueOrderByDatumPravljenjaDesc(Korisnik korisnik,Pageable pageable);
 
     @Query("SELECT r FROM Recenzija r " +
             "WHERE ( COALESCE( :ocene , null ) is null or r.ocena IN :ocene )" +
             "AND ( CAST( :odDatum AS date ) is null or CAST( :doDatum AS date ) is null or r.datumPravljenja BETWEEN :odDatum AND :doDatum)"+
             "AND ( r.musterija = :korisnik )"+
+            "AND r.produkt.odobrenOdAdmina IS TRUE AND r.produkt.odobrenOdProdavca IS TRUE AND r.produkt.prodavac.odobrenOdAdmina IS TRUE "+
             "ORDER BY r.datumPravljenja DESC "
     )
     Page<Recenzija>findByCustomCriteria(@Param("ocene") List<Integer>ocene, @Param("odDatum") Date odDatum,

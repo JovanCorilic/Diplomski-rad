@@ -14,6 +14,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { Artikal } from 'src/app/MODEL/Artikal';
 import { RacunService } from 'src/app/SERVICE/Racun.service';
 import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatSnackBar } from '@angular/material/snack-bar';
+import { ImageModel } from 'src/app/MODEL/ImageModel';
 
 @Component({
   selector: 'app-produkt-detaljno',
@@ -75,6 +76,9 @@ export class ProduktDetaljnoComponent implements OnInit {
       ocena:"5",
       komentar: ["",[Validators.required]]
     })
+
+    this.produkt.slika = <ImageModel>{}
+    this.produkt.slika.name = "nema"
   }
 
   ngOnInit(): void {
@@ -99,32 +103,35 @@ export class ProduktDetaljnoComponent implements OnInit {
       this.addOcena();
     }
 
-    if (this.getRole()!=="")
+    if (this.getRole()==="ROLE_MUSTERIJA")
       this.produktService.daLiJeUWishlist(this.serijskiBroj).subscribe(
         res=>{
           this.daLiJeUWishlist = res;
         }
       )
 
-    this.produktService.daLiJeUIstorijiProdukata(this.serijskiBroj).subscribe(
-      res=>{
-        this.daLiJeUIstorijiKupovine = res;
-        this.recenzijaService.daLiImaRecenzijuZaProdukt(this.serijskiBroj).subscribe(
-          res=>{
-            this.daLiJeVecNapravljenaRecenzija = res;
-            if (this.daLiJeVecNapravljenaRecenzija){
-              this.recenzijaService.dajRecenziju(this.serijskiBroj).subscribe(
-                res=>{
-                  this.recenzija = res;
-                  this.recenzijaFrom.controls.ocena.setValue(res.ocena);
-                  this.recenzijaFrom.controls.komentar.setValue(res.komentar);
-                }
-              )
+    if (this.getRole()==="ROLE_MUSTERIJA"){
+      this.produktService.daLiJeUIstorijiProdukata(this.serijskiBroj).subscribe(
+        res=>{
+          this.daLiJeUIstorijiKupovine = res;
+          this.recenzijaService.daLiImaRecenzijuZaProdukt(this.serijskiBroj).subscribe(
+            res=>{
+              this.daLiJeVecNapravljenaRecenzija = res;
+              if (this.daLiJeVecNapravljenaRecenzija){
+                this.recenzijaService.dajRecenziju(this.serijskiBroj).subscribe(
+                  res=>{
+                    this.recenzija = res;
+                    this.recenzijaFrom.controls.ocena.setValue(res.ocena);
+                    this.recenzijaFrom.controls.komentar.setValue(res.komentar);
+                  }
+                )
+              }
             }
-          }
-        )
-      }
-    )
+          )
+        }
+      )
+    }
+
   }
 
   operacijeRecenzije(){
@@ -202,8 +209,22 @@ export class ProduktDetaljnoComponent implements OnInit {
     this.router.navigate(['editProdukta/'+this.serijskiBroj])
   }
 
-  delete(){
+  povuci(){
+    this.produktService.povuciProizvod(this.serijskiBroj).subscribe(
+      res=>{
+        this.openSnackBar("Uspešno povučen produkt")
+        this.produkt.odobrenOdAdmina = !this.produkt.odobrenOdAdmina
+      }
+    )
+  }
 
+  vrati(){
+    this.produktService.vratiProizvod(this.serijskiBroj).subscribe(
+      res=>{
+        this.openSnackBar("Uspešno vraćen produkt")
+        this.produkt.odobrenOdAdmina = !this.produkt.odobrenOdAdmina
+      }
+    )
   }
 
   getRole():string{

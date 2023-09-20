@@ -110,6 +110,28 @@ export class ProduktService{
         return this.http.post(this.path+'/filter-by-pageProdavac',filter, queryParams);
     }
 
+    public getByPageAdmin(page:number,size:number): Observable<any>{
+        return this.http.get(this.path+"/by-pageAdmin?page="+page+"&size="+size, {headers:this.headers})
+	}
+
+    public filterByPageAdmin(filter:Filter, page:number,size:number):Observable<any>{
+        let queryParams = {};
+
+		queryParams = {
+			headers:new HttpHeaders({
+				'Content-Type': 'application/json'
+			}),
+			observe: 'response',
+			params: new HttpParams()
+				.set('page', String(page))
+				.append('size', String(size)),
+		};
+		const headeri=new HttpHeaders({
+			'Content-Type': 'application/json'
+		});
+        return this.http.post(this.path+'/filter-by-pageAdmin',filter, queryParams);
+    }
+
     public izbaciIzWishlista(serijskiBroj:string){
         return this.http.post(this.path+"/izbaciIzWishlista",serijskiBroj);
     }
@@ -118,12 +140,20 @@ export class ProduktService{
         return this.http.get<boolean>(this.path+"/daLiJeUIstorijiProdukata"+`/${serijskiBroj}`);
     }
 
-    public povuciProizvod(serijskiBroj:string){
-        return this.http.put(this.path+"/povuciProdukt",serijskiBroj);
+    public povuciProizvodAdmin(serijskiBroj:string){
+        return this.http.put(this.path+"/povuciProduktAdmin",serijskiBroj);
     }
 
-    public vratiProizvod(serijskiBroj:string){
-        return this.http.put(this.path+"/vratiProdukt",serijskiBroj);
+    public povuciProizvodProdavac(serijskiBroj:string){
+        return this.http.put(this.path+"/povuciProduktProdavac",serijskiBroj);
+    }
+
+    public vratiProizvodAdmin(serijskiBroj:string){
+        return this.http.put(this.path+"/vratiProduktAdmin",serijskiBroj);
+    }
+
+    public vratiProizvodProdavac(serijskiBroj:string){
+        return this.http.put(this.path+"/vratiProduktProdavac",serijskiBroj);
     }
 
     public dodajAkciju(serijskiBroj:string,broj:number){

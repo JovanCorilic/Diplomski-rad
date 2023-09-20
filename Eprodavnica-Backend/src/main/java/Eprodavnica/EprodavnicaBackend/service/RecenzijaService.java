@@ -37,7 +37,7 @@ public class RecenzijaService{
 
     public Page<Recenzija>findAllMusterijaPageable(Pageable pageable, String email){
         Korisnik korisnik = korisnikRepository.findByEmail(email);
-        return recenzijaRepository.findByMusterijaOrderByDatumPravljenjaDesc(korisnik,pageable);
+        return recenzijaRepository.findByMusterijaAndProduktOdobrenOdAdminaIsTrueAndProduktOdobrenOdProdavcaIsTrueAndProduktProdavacOdobrenOdAdminaIsTrueOrderByDatumPravljenjaDesc(korisnik,pageable);
     }
 
     public Page<Recenzija>findAllAdminPageable(Pageable pageable){

@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.jpa.domain.Specification;
+import javax.persistence.criteria.Predicate;
 
 import java.util.List;
 
@@ -20,15 +22,36 @@ public interface KorisnikRepository extends JpaRepository<Korisnik,Integer> {
 
     Page<Korisnik>findByUlogeContainingAndPotvrdjenIsTrueOrderByEmailAsc(Uloga uloga, Pageable pageable);
 
-    @Query("SELECT k FROM Korisnik k " +
-            "WHERE ( :uloga IN k.uloge )" +
-            "AND k.potvrdjen is TRUE " +
-            "AND ( :#{#korisnik.email} is null or k.email = :#{#korisnik.email})"+
-            "AND ( :#{#korisnik.ime} is null or k.ime = :#{#korisnik.ime})"+
-            "AND ( :#{#korisnik.prezime} is null or k.prezime = :#{#korisnik.prezime})"+
-            "ORDER BY k.email ASC "
-    )
-    Page<Korisnik>findByCustomCriteria(@Param("korisnik") KorisnikDTO korisnik, @Param("uloga")Uloga uloga, Pageable pageable);
-
     Boolean existsKorisnikByEmailAndIstorijaKupljenihProdukataContains(String email, Produkt produkt);
+
+    Page<Korisnik> findAll(Specification<Korisnik> korisnikSpecification, Pageable pageable);
+
+    default Page<Korisnik> findByCustomCriteria(KorisnikDTO korisnik, Uloga uloga, Pageable pageable) {
+        return findAll((Specification<Korisnik>) (root, query, criteriaBuilder) -> {
+            Predicate predicate = criteriaBuilder.conjunction();
+
+            if (uloga != null) {
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.isMember(uloga, root.get("uloge")));
+            }
+
+            predicate = criteriaBuilder.and(predicate, criteriaBuilder.isTrue(root.get("potvrdjen")));
+
+            if (korisnik != null) {
+                if (korisnik.getEmail() != null) {
+                    predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(criteriaBuilder.lower(root.get("email")), "%" + korisnik.getEmail().toLowerCase() + "%"));
+                }
+
+                if (korisnik.getIme() != null) {
+                    predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(criteriaBuilder.lower(root.get("ime")), "%" + korisnik.getIme().toLowerCase() + "%"));
+                }
+
+                if (korisnik.getPrezime() != null) {
+                    predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(criteriaBuilder.lower(root.get("prezime")), "%" + korisnik.getPrezime().toLowerCase() + "%"));
+                }
+            }
+
+            return predicate;
+        }, pageable);
+    }
+
 }

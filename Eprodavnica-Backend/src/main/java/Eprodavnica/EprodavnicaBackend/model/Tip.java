@@ -15,7 +15,6 @@ import java.util.List;
 @Entity
 public class Tip {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column

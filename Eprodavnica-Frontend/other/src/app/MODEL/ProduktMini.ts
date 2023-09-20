@@ -7,6 +7,7 @@ export class ProduktMini {
     ocena: number
     akcija: number
     odobrenOdAdmina: boolean
+    odobrenOdProdavca: boolean
     slika: ImageModel
     constructor(
         naziv: string,
@@ -15,6 +16,7 @@ export class ProduktMini {
         ocena: number,
         akcija: number,
         odobrenOdAdmina: boolean,
+        odobrenOdProdavca: boolean,
         slika: ImageModel
     ) {
         this.naziv = naziv
@@ -23,6 +25,7 @@ export class ProduktMini {
         this.ocena = ocena
         this.akcija = akcija
         this.odobrenOdAdmina = odobrenOdAdmina
+        this.odobrenOdProdavca = odobrenOdProdavca
         this.slika = slika
     }
 }

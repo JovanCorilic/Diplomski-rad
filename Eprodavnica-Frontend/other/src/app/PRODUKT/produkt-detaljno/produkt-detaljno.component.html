@@ -13,14 +13,14 @@
             </ng-template>
         </td>
         <td>
-            <form *ngIf="produkt.odobrenOdAdmina">
+            <form *ngIf="produkt.odobrenOdAdmina && getRole()==='ROLE_MUSTERIJA'">
                 Količina <br>
                 <mat-form-field appearance="fill"  [style.height.px]=65>
                     <input matInput class="form-control" [formControl] = "kolicinaFormControl" required>
                     <mat-error *ngIf="kolicinaFormControl.invalid">{{getErrorMessage(kolicinaFormControl)}}</mat-error>
                   </mat-form-field> 
                   <br> <br>
-                <button type="button" mat-raised-button color="accent" *ngIf="getRole()==='ROLE_MUSTERIJA'"  
+                <button type="button" mat-raised-button color="accent"
                 [mtBasicSpinner]="status" [hideText]="status" (click)="dodajUKorpu()"
                 [disabled]="kolicinaFormControl.invalid">Dodaj u korpu</button> 
                 
@@ -45,8 +45,11 @@
             color="accent">Edituj recenziju</button> 
             <br> <br>
 
-            <button type="button" mat-raised-button color="accent" *ngIf="getRole()==='ROLE_ADMIN' || getRole()==='ROLE_PRODAVAC'" (click)="edit()">Edit</button> <br><br>
-            <button type="button" mat-raised-button color="warn" *ngIf="getRole()==='ROLE_ADMIN' || getRole()==='ROLE_PRODAVAC'">Delete</button>
+            <button type="button" mat-raised-button color="accent" *ngIf="getRole()==='ROLE_PRODAVAC'" (click)="edit()">Edit</button> <br><br>
+            <span *ngIf="getRole()==='ROLE_PRODAVAC'">
+                <button type="button" mat-raised-button color="warn" *ngIf="produkt.odobrenOdAdmina" (click)="povuci()">Povuci</button>
+                <button type="button" mat-raised-button color="accent" *ngIf="!produkt.odobrenOdAdmina" (click)="vrati()">Vrati</button>
+            </span>
         </td>
     </tr>
 </table>

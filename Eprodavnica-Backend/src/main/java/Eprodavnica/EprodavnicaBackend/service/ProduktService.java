@@ -44,7 +44,7 @@ public class ProduktService {
     }
 
     public Page<Produkt>findAllPageable(Pageable pageable){
-        return produktRepository.findAllByOdobrenOdAdminaIsTrueOrderByDatumPravljenjaDesc(pageable);
+        return produktRepository.findAllByOdobrenOdAdminaIsTrueAndOdobrenOdProdavcaIsTrueAndProdavacOdobrenOdAdminaIsTrueOrderByDatumPravljenjaDesc(pageable);
     }
 
     public Page<Produkt>findByIstorijaProdukataPageable(Pageable pageable,String email){
@@ -60,6 +60,10 @@ public class ProduktService {
     public  Page<Produkt>findByProdavac(Pageable pageable,String email){
         Korisnik korisnik = korisnikRepository.findByEmail(email);
         return produktRepository.findByProdavacOrderByDatumPravljenjaDesc(korisnik,pageable);
+    }
+
+    public Page<Produkt>findByAdmin(Pageable pageable){
+        return produktRepository.findAll(pageable);
     }
 
     public Page<Produkt>filterPageable(FilterDTO filterDTO, Pageable pageable){
@@ -185,6 +189,37 @@ public class ProduktService {
         return produktRepository.findByCustomCriteriaProdavac(filterDTO.getNaziv(), od,do1,listaTipova,ocene,korisnik,pageable);
     }
 
+    public Page<Produkt>filterPageableAdmin(FilterDTO filterDTO, Pageable pageable){
+        List<Integer>ocene = new ArrayList<>();
+        for (OcenaDTO ocenaDTO : filterDTO.getOcena()){
+            if (ocenaDTO.isKoristiSe())
+                ocene.add(ocenaDTO.getOcena());
+        }
+        List<String>tipovi = new ArrayList<>();
+        for (TipFilterDTO tipFilterDTO : filterDTO.getTip()){
+            if (tipFilterDTO.isKoristiSe())
+                tipovi.add(tipFilterDTO.getNaziv());
+        }
+        List<Tip> listaTipova;
+        if (tipovi.isEmpty()) {
+            listaTipova = new ArrayList<>();
+        }
+        else {
+            listaTipova = tipRepository.findByNazivIgnoreCaseIn(tipovi);
+        }
+        double od = -1;
+        double do1 = -1;
+        if (filterDTO.getCena()!=null)
+            if (filterDTO.getCena().getDoCena()!=null && filterDTO.getCena().getOdCena()!=null){
+                if (isNumeric(filterDTO.getCena().getDoCena()) && isNumeric(filterDTO.getCena().getOdCena())){
+                    od = Double.parseDouble(filterDTO.getCena().getOdCena());
+                    do1 = Double.parseDouble(filterDTO.getCena().getDoCena());
+                }
+            }
+
+        return produktRepository.findByCustomCriteriaAdmin(filterDTO.getNaziv(), od,do1,listaTipova,ocene,pageable);
+    }
+
     public static boolean isNumeric(String str) {
         ParsePosition pos = new ParsePosition(0);
         NumberFormat.getInstance().parse(str, pos);
@@ -301,7 +336,7 @@ public class ProduktService {
         return korisnikRepository.existsKorisnikByEmailAndIstorijaKupljenihProdukataContains(email,produkt);
     }
 
-    public void povuciProizvod(String serijskiBroj){
+    public void povuciProizvodAdmin(String serijskiBroj){
         Produkt produkt = produktRepository.findBySerijskiBroj(serijskiBroj).orElse(null);
         assert produkt != null;
         produkt.setOdobrenOdAdmina(false);
@@ -314,7 +349,15 @@ public class ProduktService {
         slanjeObavestenja(lista,text,"Povlačenje produkta");
     }
 
-    public void vratiProizvod(String serijskiBroj){
+    public void povuciProizvodProdavac(String serijskiBroj){
+        Produkt produkt = produktRepository.findBySerijskiBroj(serijskiBroj).orElse(null);
+        assert produkt != null;
+        produkt.setOdobrenOdProdavca(false);
+        produktRepository.save(produkt);
+
+    }
+
+    public void vratiProizvodAdmin(String serijskiBroj){
         Produkt produkt = produktRepository.findBySerijskiBroj(serijskiBroj).orElse(null);
         assert produkt != null;
         produkt.setOdobrenOdAdmina(true);
@@ -325,6 +368,14 @@ public class ProduktService {
         List<Korisnik>lista = produkt.getWishlist();
         lista.add(produkt.getProdavac());
         slanjeObavestenja(lista,text,"Vraćanje produkta");
+    }
+
+    public void vratiProizvodProdavac(String serijskiBroj){
+        Produkt produkt = produktRepository.findBySerijskiBroj(serijskiBroj).orElse(null);
+        assert produkt != null;
+        produkt.setOdobrenOdProdavca(true);
+        produktRepository.save(produkt);
+
     }
 
     public void dodajAkciju(String serijskiBroj,Integer broj){

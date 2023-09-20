@@ -43,15 +43,36 @@
               Deskripcija : {{element.deskripcija}}
             </td>
             <td style="text-align: right;">
-              <button mat-raised-button color="accent" (click)="idiNaProdukt(element.serijskiBroj)">Idi na produkt</button>&nbsp;&nbsp;
-              <span *ngIf="element.odobrenOdAdmina && ( getRole()==='ROLE_PRODAVAC' || getRole()==='ROLE_ADMIN' )">
-                <br>
-                <button mat-raised-button color="warn" (click)="povuci(element.serijskiBroj);element.odobrenOdAdmina=!element.odobrenOdAdmina">Povuci</button>&nbsp;&nbsp;
+
+              <span *ngIf="element.odobrenOdProdavca && element.odobrenOdAdmina && getRole()==='ROLE_MUSTERIJA'; else elseKupi">
+                <button mat-raised-button color="accent" (click)="idiNaProdukt(element.serijskiBroj)">Idi na produkt</button>&nbsp;&nbsp;
               </span>
-              <span *ngIf="!element.odobrenOdAdmina && ( getRole()==='ROLE_PRODAVAC' || getRole()==='ROLE_ADMIN' )">
+              <ng-template #elseKupi>
+                Ovaj produkt je povučen
+              </ng-template>
+
+              <button mat-raised-button color="accent" (click)="idiNaProdukt(element.serijskiBroj)" *ngIf="getRole()!=='ROLE_MUSTERIJA'">Idi na produkt</button>&nbsp;&nbsp;
+
+              <span *ngIf="element.odobrenOdAdmina && getRole()==='ROLE_ADMIN'">
                 <br>
-                <button mat-raised-button color="accent" (click)="vrati(element.serijskiBroj);element.odobrenOdAdmina=!element.odobrenOdAdmina">Vrati</button>&nbsp;&nbsp;
+                <button mat-raised-button color="warn" (click)="povuciAdmin(element.serijskiBroj);element.odobrenOdAdmina=!element.odobrenOdAdmina">Povuci</button>&nbsp;&nbsp;
               </span>
+
+              <span *ngIf="element.odobrenOdProdavca && getRole()==='ROLE_PRODAVAC'">
+                <br>
+                <button mat-raised-button color="warn" (click)="povuciProdavac(element.serijskiBroj);element.odobrenOdProdavca=!element.odobrenOdProdavca">Povuci</button>&nbsp;&nbsp;
+              </span>
+
+              <span *ngIf="!element.odobrenOdAdmina && getRole()==='ROLE_ADMIN'">
+                <br>
+                <button mat-raised-button color="accent" (click)="vratiAdmin(element.serijskiBroj);element.odobrenOdAdmina=!element.odobrenOdAdmina">Vrati</button>&nbsp;&nbsp;
+              </span>
+
+              <span *ngIf="!element.odobrenOdProdavca && getRole()==='ROLE_PRODAVAC'">
+                <br>
+                <button mat-raised-button color="accent" (click)="vratiProdavac(element.serijskiBroj);element.odobrenOdProdavca=!element.odobrenOdProdavca">Vrati</button>&nbsp;&nbsp;
+              </span>
+
             </td>
           </tr>
         </table>
