@@ -387,7 +387,7 @@ public class ProduktService {
 
         String text = "Proizvod sa nazivom :"+produkt.getNaziv()+" . Data mu je akcija "+produkt.getAkcija()+"%\n"+
                 "Akcija je data : " +KonverterDatum.konvertovanjeSamoDatumUString(KonverterDatum.konvertovanjeDateULocalDate(new Date()));
-        List<Korisnik>lista = produkt.getWishlist();
+        List<Korisnik> lista = new ArrayList<>(produkt.getWishlist());
         lista.add(produkt.getProdavac());
         slanjeObavestenja(lista,text,"Akcija !");
     }

@@ -19,9 +19,7 @@ export class TabelaRacunaComponent implements OnInit, OnChanges{
   @Input() listaRacuna:Racun[]|undefined;
 
   dataSource:Racun[] = []
-  columnsToDisplay = ['konacnaCena', 'datumKreiranja'];
-  columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
-  expandedElement = <Racun>{}
+  columnsToDisplay = ['konacnaCena', 'datumKreiranja','idiNaRacun'];
 
   constructor(
     private router:Router,

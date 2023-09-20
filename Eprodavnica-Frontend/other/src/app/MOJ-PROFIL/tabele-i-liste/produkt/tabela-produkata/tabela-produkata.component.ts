@@ -1,9 +1,11 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, ValidatorFn } from '@angular/forms';
 import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatSnackBar } from '@angular/material/snack-bar';
 
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Produkt } from 'src/app/MODEL/Produkt';
 import { ProduktService } from 'src/app/SERVICE/Produkt.service';
@@ -28,6 +30,8 @@ export class TabelaProdukataComponent implements OnInit, OnChanges{
   columnsToDisplay = ['naziv', 'cena', 'ocena'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   expandedElement = <Produkt>{}
+  akcijaFormControl = new FormControl(0,[this.notANumber(),this.viseOdNula(),this.manjeOdSto()])
+  serijskiBroj:string;
 
   mapa:Map<string,{name:string,retrievedImage:any}>;
 
@@ -37,12 +41,14 @@ export class TabelaProdukataComponent implements OnInit, OnChanges{
   constructor(
     private router:Router,
     private _snackBar: MatSnackBar,
-    private produktService:ProduktService
+    private produktService:ProduktService,
+    private modalService: NgbModal,
   ){
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
     };
     this.mapa = new Map();
+    this.serijskiBroj = "";
   }
   ngOnInit(): void {
     this.dataSource = []
@@ -66,6 +72,17 @@ export class TabelaProdukataComponent implements OnInit, OnChanges{
       let listaTemp = element.slika.name.split('.');
       this.mapa.set(element.serijskiBroj, {name:element.slika.name, retrievedImage:'data:image/'+listaTemp[listaTemp.length-1]+';base64,' + element.slika.picByte});
     })
+  }
+
+  dodajAkciju(){
+    let temp:number|null = this.akcijaFormControl.value
+    if (temp !== null){
+      this.produktService.dodajAkciju(this.serijskiBroj,temp).subscribe(
+        res=>{
+          this.openSnackBar("Postavljena akcija!")
+        }
+      )
+    }
   }
 
   idiNaProdukt(serijskiBroj:string){
@@ -122,5 +139,62 @@ export class TabelaProdukataComponent implements OnInit, OnChanges{
         this.openSnackBar("Vraćen proizvod sa serijskim brojem "+serijskiBroj)
       }
     )
+  }
+
+  getErrorMessage(temp:any) {
+    if (temp.hasError('required')) {
+      return 'Morate uneti vrednost';
+    }
+    else if (temp.hasError('notANumber')) {
+      return 'Morate uneti broj';
+    }
+    else if(temp.hasError('manjeOdSto')){
+      return 'Mora biti manje ili jednako od 100'
+    }
+    else
+    return temp.hasError('viseOdNula') ? 'Mora biti više ili jednako od 0' : '';
+  }
+
+  open(content:any) {
+    this.modalService.open(content,
+   {ariaLabelledBy: 'modal-basic-title'}).result.then( 
+    result =>  { 
+      
+    }, (reason) => {
+      
+    });
+  }
+
+  viseOdNula():ValidatorFn{
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      const value = control.value
+      let nV = value
+      if (typeof value == 'string') {
+        nV = value.replace(',', '.')
+      }
+      return (!Number.isNaN(Number(nV)) && !control.pristine && (Number(nV)<=0)) ? {viseOdNula: true} : null;
+    };
+  }
+
+  manjeOdSto():ValidatorFn{
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      const value = control.value
+      let nV = value
+      if (typeof value == 'string') {
+        nV = value.replace(',', '.')
+      }
+      return (!Number.isNaN(Number(nV)) && !control.pristine && (Number(nV)>100)) ? {viseOdNula: true} : null;
+    };
+  }
+
+  notANumber(): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      const value = control.value
+      let nV = value
+      if (typeof value == 'string') {
+        nV = value.replace(',', '.')
+      }
+      return (Number.isNaN(Number(nV)) && !control.pristine) ? {notANumber: true} : null;
+    };
   }
 }

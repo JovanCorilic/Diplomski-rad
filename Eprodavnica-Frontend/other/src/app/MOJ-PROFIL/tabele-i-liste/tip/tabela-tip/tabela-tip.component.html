@@ -7,8 +7,8 @@
 
     <ng-container matColumnDef="edit">
       <th mat-header-cell *matHeaderCellDef> Edit tipa </th>
-      <td mat-cell *matCellDef="let element" (click)="open(NapraviTip,element.naziv)">
-        <button mat-raised-button color="warn">Promeni</button>
+      <td mat-cell *matCellDef="let element" >
+        <button mat-raised-button color="warn" (click)="open(NapraviTip,element.naziv)">Promeni</button>
       </td>
     </ng-container>
   
