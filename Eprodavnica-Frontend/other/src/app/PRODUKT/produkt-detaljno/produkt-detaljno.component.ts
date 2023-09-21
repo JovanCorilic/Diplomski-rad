@@ -58,7 +58,7 @@ export class ProduktDetaljnoComponent implements OnInit {
     private router:Router,
     private _snackBar: MatSnackBar
   ){
-    this.pageSize = 2;
+    this.pageSize = 3;
 		this.currentPage = 1;
 		this.totalSize = 1;
 

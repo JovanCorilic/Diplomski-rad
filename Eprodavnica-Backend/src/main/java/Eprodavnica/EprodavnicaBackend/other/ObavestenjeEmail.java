@@ -23,7 +23,7 @@ public class ObavestenjeEmail extends Thread{
     @Override
     public void run() {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-
+        System.out.println(listaKorisnika.size());
         for (Korisnik korisnik : listaKorisnika){
             simpleMailMessage.setTo(korisnik.getEmail());
             simpleMailMessage.setSubject(subject);

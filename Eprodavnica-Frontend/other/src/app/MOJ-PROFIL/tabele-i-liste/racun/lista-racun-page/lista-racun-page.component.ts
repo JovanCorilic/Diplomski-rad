@@ -37,7 +37,7 @@ export class ListaRacunPageComponent {
     private racunService:RacunService,
     private _snackBar: MatSnackBar
   ){
-    this.pageSize = 2;
+    this.pageSize = 6;
 		this.currentPage = 1;
 		this.totalSize = 1;
 

@@ -1,8 +1,11 @@
 /*Musterija*/
-INSERT INTO korisnik(user_id,email,ime,lozinka,odobren_od_admina,potvrdjen,prezime) VALUES (0,'nesto@gmail.com','Test','tERtm+D3BqYvXbDztPObaVg4xH90ZSMBi5Z8bWJgPiYt6dpGZaEDkvMyClBGwHJWHq7gBuSvtxjq7w1vi2jwL4A=yCwn9GttRJnMYxVwCs8qFyHtl5LIXtFFuuAK+W+tvQ==',true,true,'ĆČŠĐĆ')
+INSERT INTO korisnik(user_id,email,ime,lozinka,odobren_od_admina,potvrdjen,prezime) VALUES (0,'nesto@gmail.com','Jovan','tERtm+D3BqYvXbDztPObaVg4xH90ZSMBi5Z8bWJgPiYt6dpGZaEDkvMyClBGwHJWHq7gBuSvtxjq7w1vi2jwL4A=yCwn9GttRJnMYxVwCs8qFyHtl5LIXtFFuuAK+W+tvQ==',true,true,'Savić')
+INSERT INTO korisnik(user_id,email,ime,lozinka,odobren_od_admina,potvrdjen,prezime) VALUES (5,'nesto1@gmail.com','Marko','tERtm+D3BqYvXbDztPObaVg4xH90ZSMBi5Z8bWJgPiYt6dpGZaEDkvMyClBGwHJWHq7gBuSvtxjq7w1vi2jwL4A=yCwn9GttRJnMYxVwCs8qFyHtl5LIXtFFuuAK+W+tvQ==',true,true,'Tesić')
+
 
 /*Prodavac*/
-INSERT INTO korisnik(user_id,email,ime,lozinka,odobren_od_admina,potvrdjen,prezime) VALUES (1,'nesto2@gmail.com','wdwdw','tERtm+D3BqYvXbDztPObaVg4xH90ZSMBi5Z8bWJgPiYt6dpGZaEDkvMyClBGwHJWHq7gBuSvtxjq7w1vi2jwL4A=yCwn9GttRJnMYxVwCs8qFyHtl5LIXtFFuuAK+W+tvQ==',true,true,'wdwdw')
+INSERT INTO korisnik(user_id,email,ime,lozinka,odobren_od_admina,potvrdjen,prezime) VALUES (1,'nesto2@gmail.com','Nikola','tERtm+D3BqYvXbDztPObaVg4xH90ZSMBi5Z8bWJgPiYt6dpGZaEDkvMyClBGwHJWHq7gBuSvtxjq7w1vi2jwL4A=yCwn9GttRJnMYxVwCs8qFyHtl5LIXtFFuuAK+W+tvQ==',true,true,'Ščepić')
+INSERT INTO korisnik(user_id,email,ime,lozinka,odobren_od_admina,potvrdjen,prezime) VALUES (4,'nesto21@gmail.com','Vladimir','tERtm+D3BqYvXbDztPObaVg4xH90ZSMBi5Z8bWJgPiYt6dpGZaEDkvMyClBGwHJWHq7gBuSvtxjq7w1vi2jwL4A=yCwn9GttRJnMYxVwCs8qFyHtl5LIXtFFuuAK+W+tvQ==',true,true,'Nikloć')
 
 /*Admin*/
 INSERT INTO korisnik(user_id,email,ime,lozinka,odobren_od_admina,potvrdjen,prezime) VALUES (2,'nesto3@gmail.com','bbbb','tERtm+D3BqYvXbDztPObaVg4xH90ZSMBi5Z8bWJgPiYt6dpGZaEDkvMyClBGwHJWHq7gBuSvtxjq7w1vi2jwL4A=yCwn9GttRJnMYxVwCs8qFyHtl5LIXtFFuuAK+W+tvQ==',true,true,'grgrgr')
@@ -41,13 +44,26 @@ INSERT INTO korisnik_uloge(korisnik_list_user_id,uloge_id) VALUES (3,1)
 
 /*TIP*/
 INSERT INTO tip (id,naziv) VALUES (0,'Voce')
-INSERT INTO tip (id,naziv) VALUES (1,'Racunar')
-INSERT INTO tip (id,naziv) VALUES (2,'Test')
+INSERT INTO tip (id,naziv) VALUES (1,'Letnje')
+INSERT INTO tip (id,naziv) VALUES (2,'Jesenje')
+INSERT INTO tip (id,naziv) VALUES (3,'Računar')
+INSERT INTO tip (id,naziv) VALUES (4,'Računarska komponenta')
+INSERT INTO tip (id,naziv) VALUES (5,'Gaming komponenta')
+INSERT INTO tip (id,naziv) VALUES (6,'Zvučnici')
+INSERT INTO tip (id,naziv) VALUES (7,'Miš')
+INSERT INTO tip (id,naziv) VALUES (8,'Monitor')
 
 /*Produkt*/
-INSERT INTO produkt(id,cena,datum_pravljenja,deskripcija,naziv,ocena,ocena_pun_broj,serijski_broj,prodavac_user_id,akcija,odobren_od_admina,broj_prodato,odobren_od_prodavca) VALUES (0,100,'2020-12-1','Tako nesto','Jagoda',5.0,5,'123',1,5,true,0,true)
-INSERT INTO produkt(id,cena,datum_pravljenja,deskripcija,naziv,ocena,ocena_pun_broj,serijski_broj,prodavac_user_id,akcija,odobren_od_admina,broj_prodato,odobren_od_prodavca) VALUES (1,200,'2020-10-1','Tako nestowdwdw','Procesor',-1.0,-1,'223',1,0,true,0,true)
-INSERT INTO produkt(id,cena,datum_pravljenja,deskripcija,naziv,ocena,ocena_pun_broj,serijski_broj,prodavac_user_id,akcija,odobren_od_admina,broj_prodato,odobren_od_prodavca) VALUES (2,300,'2020-11-1','Tako nestowdwdwdwdw','Nesto',-1.0,-1,'323',1,40,true,0,true)
+INSERT INTO produkt(naziv_slike,id,cena,datum_pravljenja,deskripcija,naziv,ocena,ocena_pun_broj,serijski_broj,prodavac_user_id,akcija,odobren_od_admina,broj_prodato,odobren_od_prodavca) VALUES ('jagoda.jpg',0,200,'2023-09-21','Zdrava jagoda','Jagoda',5,5,'123',1,0,true,0,true)
+INSERT INTO produkt(naziv_slike,id,cena,datum_pravljenja,deskripcija,naziv,ocena,ocena_pun_broj,serijski_broj,prodavac_user_id,akcija,odobren_od_admina,broj_prodato,odobren_od_prodavca) VALUES ('borovnica.jpg',1,100,'2023-09-21','Zdrava borovnica','Borovnica',-1,-1,'456',1,0,true,0,true)
+INSERT INTO produkt(naziv_slike,id,cena,datum_pravljenja,deskripcija,naziv,ocena,ocena_pun_broj,serijski_broj,prodavac_user_id,akcija,odobren_od_admina,broj_prodato,odobren_od_prodavca) VALUES ('jabuka.jpg',2,200,'2023-09-21','Zdrava jabuka','Jabuka',-1,-1,'789',1,0,true,0,true)
+INSERT INTO produkt(naziv_slike,id,cena,datum_pravljenja,deskripcija,naziv,ocena,ocena_pun_broj,serijski_broj,prodavac_user_id,akcija,odobren_od_admina,broj_prodato,odobren_od_prodavca) VALUES ('kolac.jpg',3,300,'2023-09-12','Kolač je vrsta peciva koji se pravi za određene praznike i svečane trenutke.','Kolač',-1,-1,'321',1,0,true,0,true)
+INSERT INTO produkt(naziv_slike,id,cena,datum_pravljenja,deskripcija,naziv,ocena,ocena_pun_broj,serijski_broj,prodavac_user_id,akcija,odobren_od_admina,broj_prodato,odobren_od_prodavca) VALUES ('tepih.jpg',4,1300,'2022-09-12','Tepisi su tekstilije, koje pokrivaju podove ili zidove. U prvobitnoj formi to su bili komadi ka kojim se prilagođava celokupna dekoracija, uzorak i konstrukcija. Od 50-ih godina se proizvodi tepih u proizvoljnoj dužini odnosno traka u raznim širinama čak do 6 m koja se seče po potrebi korisnika.','Tepih',-1,-1,'654',1,0,true,0,true)
+
+INSERT INTO produkt(naziv_slike,id,cena,datum_pravljenja,deskripcija,naziv,ocena,ocena_pun_broj,serijski_broj,prodavac_user_id,akcija,odobren_od_admina,broj_prodato,odobren_od_prodavca) VALUES ('racunar.jpg',5,70000,'2023-07-21','Složeni uređaj koji služi za izvršavanje matematičkih operacija ili kontrolnih operacija koje se mogu izraziti u numeričkom ili logičkom obliku. Računari su sastavljeni od komponenata koje obavljaju jednostavnije, jasno određene funkcije. Kompleksna interakcija tih komponenata omogućava računar da obrađuje informacije.','Računar',-1,-1,'987',4,0,true,0,true)
+INSERT INTO produkt(naziv_slike,id,cena,datum_pravljenja,deskripcija,naziv,ocena,ocena_pun_broj,serijski_broj,prodavac_user_id,akcija,odobren_od_admina,broj_prodato,odobren_od_prodavca) VALUES ('monitor.jpg',6,20000,'2023-05-13','Monitor je električni izlazni uređaj koji služi za prikazivanje slike poslate sa drugog uređaja, obično grafičke karte u sklopu računara. Na njemu pratimo rezultate obrade i trenutna dešavanja.','Monitor',-1,-1,'258',4,0,true,0,true)
+INSERT INTO produkt(naziv_slike,id,cena,datum_pravljenja,deskripcija,naziv,ocena,ocena_pun_broj,serijski_broj,prodavac_user_id,akcija,odobren_od_admina,broj_prodato,odobren_od_prodavca) VALUES ('zvucnici.jpg',7,5000,'2023-02-15','Prvi je zvučnik je bila telefonska slušalica koju je 1876. patentirao Aleksander Grejam Bel. Nedugo zatim usledila je poboljšana verzija Ernsta Simensa u Nemačkoj i Engleskoj 1878. Veruje se da je sličnu napravu stvorio 1881. i Nikola Tesla. Modernu konstrukciju zvučnika s pomičnom zavojnicom ostvario je Oliver Lodž u Engleskoj 1898.','Zvučnici',-1,-1,'147',4,0,true,0,true)
+INSERT INTO produkt(naziv_slike,id,cena,datum_pravljenja,deskripcija,naziv,ocena,ocena_pun_broj,serijski_broj,prodavac_user_id,akcija,odobren_od_admina,broj_prodato,odobren_od_prodavca) VALUES ('mouse.jpg',8,3000,'2021-09-21','Miš je spoljašnji uređaj za unos podataka računara, jedan od sastavnih delova današnjeg stonog računara i funkcija mu je da se pomoću njega pomera kursor na ekranu monitora.','Miš',-1,-1,'369',4,0,true,0,true)
 
 /*Veza tipa i produkta*/
 INSERT INTO produkt_lista_tipova(lista_produkata_id,lista_tipova_id) VALUES (0,0)

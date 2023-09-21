@@ -345,7 +345,7 @@ public class ProduktService {
 
         String text = "Povučen je proizvod sa nazivom :"+produkt.getNaziv()+"\n"+
                 "Povučen je : " +KonverterDatum.konvertovanjeSamoDatumUString(KonverterDatum.konvertovanjeDateULocalDate(new Date()));
-        List<Korisnik>lista = produkt.getWishlist();
+        List<Korisnik>lista = new ArrayList<>(produkt.getWishlist());
         lista.add(produkt.getProdavac());
         slanjeObavestenja(lista,text,"Povlačenje produkta");
     }
@@ -355,6 +355,11 @@ public class ProduktService {
         assert produkt != null;
         produkt.setOdobrenOdProdavca(false);
         produktRepository.save(produkt);
+
+        String text = "Povučen je proizvod sa nazivom :"+produkt.getNaziv()+"\n"+
+                "Povučen je : " +KonverterDatum.konvertovanjeSamoDatumUString(KonverterDatum.konvertovanjeDateULocalDate(new Date()));
+        List<Korisnik>lista = new ArrayList<>(produkt.getWishlist());
+        slanjeObavestenja(lista,text,"Povlačenje produkta");
 
     }
 
@@ -366,7 +371,7 @@ public class ProduktService {
 
         String text = "Vraćen je proizvod sa nazivom :"+produkt.getNaziv()+"\n"+
                 "Vraćen je : " +KonverterDatum.konvertovanjeSamoDatumUString(KonverterDatum.konvertovanjeDateULocalDate(new Date()));
-        List<Korisnik>lista = produkt.getWishlist();
+        List<Korisnik>lista = new ArrayList<>(produkt.getWishlist());
         lista.add(produkt.getProdavac());
         slanjeObavestenja(lista,text,"Vraćanje produkta");
     }
@@ -376,6 +381,11 @@ public class ProduktService {
         assert produkt != null;
         produkt.setOdobrenOdProdavca(true);
         produktRepository.save(produkt);
+
+        String text = "Vraćen je proizvod sa nazivom :"+produkt.getNaziv()+"\n"+
+                "Vraćen je : " +KonverterDatum.konvertovanjeSamoDatumUString(KonverterDatum.konvertovanjeDateULocalDate(new Date()));
+        List<Korisnik>lista = new ArrayList<>(produkt.getWishlist());
+        slanjeObavestenja(lista,text,"Vraćanje produkta");
 
     }
 

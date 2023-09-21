@@ -39,7 +39,7 @@ export class AppComponent implements OnInit{
     private tipService:TipService,
     private modalService: NgbModal
   ){
-    this.pageSize = 2;
+    this.pageSize = 6;
 		this.currentPage = 1;
 		this.totalSize = 1;
 

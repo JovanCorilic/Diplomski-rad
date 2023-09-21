@@ -28,7 +28,7 @@ export class ListaKorisnikPageComponent implements OnInit{
     private fBuilder: FormBuilder,
     private korisnikService:KorisnikService
   ){
-    this.pageSize = 2;
+    this.pageSize = 6;
 		this.currentPage = 1;
 		this.totalSize = 1;
 

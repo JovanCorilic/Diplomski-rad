@@ -33,7 +33,7 @@ export class ListaRecenzijaPageComponent implements OnInit{
     private modalService: NgbModal,
     private recenzijaService:RecenzijaService
   ){
-    this.pageSize = 2;
+    this.pageSize = 6;
 		this.currentPage = 1;
 		this.totalSize = 1;
 
