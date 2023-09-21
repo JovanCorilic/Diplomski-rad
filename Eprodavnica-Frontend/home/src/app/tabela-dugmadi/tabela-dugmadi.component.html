@@ -3,11 +3,11 @@
 </div>
 <b *ngFor="let produktMini of listaProdukataMini">
   <button mat-stroked-button matTooltip={{produktMini.naziv}}  (click)="idiNaProdukt(produktMini.serijskiBroj)"
-    [disableRipple]="true" style="width : 450px;height: 450px;">
+    [disableRipple]="true" style="width : 350px;height: 350px;">
     
-    <img *ngIf="mapa.get(produktMini.serijskiBroj)?.name==='nema'; else elseBlockSlika" src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="370" height="300">
+    <img *ngIf="mapa.get(produktMini.serijskiBroj)?.name==='nema'; else elseBlockSlika" src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="270" height="200">
     <ng-template #elseBlockSlika>
-      <img [src]="mapa.get(produktMini.serijskiBroj)?.retrievedImage" width="370" height="300">
+      <img [src]="mapa.get(produktMini.serijskiBroj)?.retrievedImage" width="270" height="200">
     </ng-template>
 
     <p class="ellipsis">

@@ -65,7 +65,7 @@
               <ng-template #elseKupi>
                 Ovaj produkt je povučen
               </ng-template>
-
+              <br>
               <span *ngIf="getRole()!=='ROLE_MUSTERIJA'">
                 <button mat-raised-button color="accent" (click)="idiNaProdukt(element.produkt.serijskiBroj)" >Idi na produkt</button>&nbsp;&nbsp;
               </span>

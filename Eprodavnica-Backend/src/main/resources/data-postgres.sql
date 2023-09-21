@@ -38,7 +38,9 @@ insert into uloga_privilegije (role_id, privilege_id) values (4,4)
 
 /*Uloga konekcija*/
 INSERT INTO korisnik_uloge(korisnik_list_user_id,uloge_id) VALUES (0,4)
+INSERT INTO korisnik_uloge(korisnik_list_user_id,uloge_id) VALUES (5,4)
 INSERT INTO korisnik_uloge(korisnik_list_user_id,uloge_id) VALUES (1,3)
+INSERT INTO korisnik_uloge(korisnik_list_user_id,uloge_id) VALUES (4,3)
 INSERT INTO korisnik_uloge(korisnik_list_user_id,uloge_id) VALUES (2,2)
 INSERT INTO korisnik_uloge(korisnik_list_user_id,uloge_id) VALUES (3,1)
 

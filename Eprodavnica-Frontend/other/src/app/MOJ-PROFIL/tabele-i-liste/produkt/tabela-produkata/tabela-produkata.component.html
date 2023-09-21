@@ -64,11 +64,11 @@
                 <button mat-raised-button color="accent" (click)="idiNaProdukt(element.serijskiBroj)">Idi na produkt</button>&nbsp;&nbsp;
               </span>
               <ng-template #elseKupi>
-                <span *ngIf="getRole()==='ROLE_MUSTERIJA'">Ovaj produkt je povučen</span>
+                <span *ngIf="getRole()==='ROLE_MUSTERIJA'">Ovaj produkt je povučen</span><
               </ng-template>
-
+              
               <button mat-raised-button color="accent" (click)="idiNaProdukt(element.serijskiBroj)" *ngIf="getRole()!=='ROLE_MUSTERIJA'">Idi na produkt</button>&nbsp;&nbsp;
-
+              <br>
               <span *ngIf="element.odobrenOdAdmina && getRole()==='ROLE_ADMIN'">
                 <br>
                 <button mat-raised-button color="warn" (click)="povuciAdmin(element.serijskiBroj);element.odobrenOdAdmina=!element.odobrenOdAdmina">Povuci</button>&nbsp;&nbsp;
@@ -88,6 +88,7 @@
                 <br>
                 <button mat-raised-button color="accent" (click)="vratiProdavac(element.serijskiBroj);element.odobrenOdProdavca=!element.odobrenOdProdavca">Vrati</button>&nbsp;&nbsp;
               </span>
+              <br>
 
               <span *ngIf="getRole()==='ROLE_PRODAVAC'">
                 <br>
