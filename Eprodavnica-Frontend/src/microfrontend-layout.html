@@ -18,15 +18,15 @@
   -->
 
   <nav>
-    <application name="@app/navbar"></application>
+    <application name="@app/authentication"></application>
   </nav>
   <main>
     <redirect from="/" to="/home"></redirect>
     <route default>
-      <application name="@app/home" loader="customLoader"></application>
+      <application name="@app/dashboard" loader="customLoader"></application>
     </route>
     <route path="other">
-      <application name="@app/other" loader="customLoader"></application>
+      <application name="@app/product-management" loader="customLoader"></application>
     </route>
   </main>
 </single-spa-router>
