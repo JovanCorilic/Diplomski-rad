@@ -155,6 +155,11 @@ public class CustomUserDetailsService implements UserDetailsService {
         pravljenjePotvrde(userRepository.save(korisnik),"/VerifikacijaAdminPravljenje");
     }
 
+    public void slanjeEmailZaPromenuLozinke(String email){
+        Korisnik korisnik = userRepository.findByEmail(email);
+        pravljenjePotvrde(korisnik,"/primanjePromeneLozinke");
+    }
+
     @Async
     public void pravljenjePotvrde(Korisnik korisnik,String adresa){
         String komeSalje = korisnik.getEmail();
@@ -169,6 +174,19 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         VerifikacioniTokenSlanjeEmail thread = new VerifikacioniTokenSlanjeEmail(token,adresa,komeSalje,javaMailSender);
         thread.start();
+    }
+
+    public void promenaSifre(String token, String lozinka) throws Exception {
+        VerificationToken verificationToken = verificationTokenRepository.findByToken(token);
+        Korisnik korisnik = verificationToken.getKorisnik();
+        assert korisnik != null;
+        CustomPasswordEncoder passwordEncoder = new CustomPasswordEncoder();
+        Date date = new Date();
+        if (!verificationToken.getExpiryDate().before(date))
+            korisnik.setLozinka(passwordEncoder.encode(lozinka));
+        else
+            throw new Exception("Istekao");
+        userRepository.save(korisnik);
     }
 
     public void potvrdaNaloga(String token) throws Exception {

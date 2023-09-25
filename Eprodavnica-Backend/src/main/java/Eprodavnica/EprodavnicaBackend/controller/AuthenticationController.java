@@ -63,6 +63,22 @@ public class AuthenticationController {
         return ResponseEntity.ok().headers(headers).body(new UserTokenStateDTO(jwt, expiresIn));
     }
 
+    @PostMapping("/promeniLozinkuSlanjeEmail")
+    public ResponseEntity<?>promeniLozinkuSlanjeEmail(@RequestBody String email){
+        userDetailsService.slanjeEmailZaPromenuLozinke(email);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/promeniLozinku/{token}")
+    public ResponseEntity<?>promeniLozinku(@RequestBody String lozinka, @PathVariable String token){
+        try {
+            userDetailsService.promenaSifre(token,lozinka);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PreAuthorize("hasAuthority('LOGOUT')")
     @GetMapping( "/log-out")
     public ResponseEntity<?> logoutUser(){
@@ -80,14 +96,24 @@ public class AuthenticationController {
     }
 
     @GetMapping("/verifikacijaRegistracijaMusterija/{token}")
-    public ResponseEntity<?>VerifikacijaRegistracije(@PathVariable String token) throws Exception {
-        userDetailsService.potvrdaNaloga(token);
+    public ResponseEntity<?>VerifikacijaRegistracije(@PathVariable String token){
+        try {
+            userDetailsService.potvrdaNaloga(token);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/verifikacijaAdminNalog/{token}")
-    public ResponseEntity<?>VerifikacijaAdminNaloga(@PathVariable String token) throws Exception {
-        userDetailsService.potvrdaNaloga(token);
+    public ResponseEntity<?>VerifikacijaAdminNaloga(@PathVariable String token){
+        try {
+            userDetailsService.potvrdaNaloga(token);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

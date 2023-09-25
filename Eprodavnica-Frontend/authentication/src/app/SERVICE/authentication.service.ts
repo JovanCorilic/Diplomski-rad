@@ -30,6 +30,10 @@ export class AuthenticationService {
 		return this.http.post(this.path+"/register",musterija);
 	}
 
+    posaljiZaPromenuSifre(email:string){
+        return this.http.post(this.path+"/promeniLozinkuSlanjeEmail",email);
+    }
+
     verifikacijaRegistracije(token:string){
         return this.http.get(this.path+"/verifikacijaRegistracijaMusterija"+`/${token}`);
     }
@@ -47,5 +51,9 @@ export class AuthenticationService {
 
     dajAktivanRacun():Observable<Racun>{
         return this.http.get<Racun>("http://localhost:8080/racun/dajAktivanRacun")
+    }
+
+    promeniLozinku(token:string,lozinka:string){
+        return this.http.post(this.path+"/promeniLozinku"+`/${token}`,lozinka);
     }
 }

@@ -20,7 +20,7 @@ import { VerifikacijaAdminRegistracijaComponent, VerifikacijaAdminRegistracijaCo
 import { VerifikacijaMusterijaProdavacRegistracijaComponent, VerifikacijaMusterijaProdavacRegistracijaComponentDialog } from './SECURITY/verifikacija-musterija-prodavac-registracija/verifikacija-musterija-prodavac-registracija.component';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDialogModule} from '@angular/material/dialog';
-import { PregledComponent } from './pregled/pregled.component';
+import { PromenaLozinkeComponent, PromenaLozinkeDialog } from './SECURITY/promena-lozinke/promena-lozinke.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +29,8 @@ import { PregledComponent } from './pregled/pregled.component';
     VerifikacijaMusterijaProdavacRegistracijaComponent,
     VerifikacijaMusterijaProdavacRegistracijaComponentDialog,
     VerifikacijaAdminRegistracijaComponentDialog,
-    PregledComponent
+    PromenaLozinkeComponent,
+    PromenaLozinkeDialog
   ],
   imports: [
     BrowserModule,

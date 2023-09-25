@@ -1,0 +1,28 @@
+<h1 mat-dialog-title>Promena lozinke</h1>
+<form [formGroup]="promenaSifreForm" (ngSubmit)="promeniSifru()">
+    <div mat-dialog-content>
+        
+        <mat-form-field appearance="outline">
+            <mat-label>Unesite vašu šifru</mat-label>
+            <input type="password" matInput placeholder="Nesto89#" class="form-control" formControlName = "lozinka" required id="password25">
+            <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="promenaSifreForm.controls.lozinka.setValue('')">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="promenaSifreForm.controls.lozinka.invalid">{{getErrorMessage(promenaSifreForm.controls.lozinka)}}</mat-error>
+            <mat-hint>Lozinka</mat-hint>
+        </mat-form-field>
+        <br><br>
+        <mat-form-field appearance="outline">
+            <mat-label>Unesite ponovo vašu šifru</mat-label>
+            <input type="password" matInput placeholder="Nesto89#" class="form-control" formControlName = "lozinkaPonovo" required id="password23">
+            <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="promenaSifreForm.controls.lozinkaPonovo.setValue('')">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="promenaSifreForm.controls.lozinkaPonovo.invalid">{{getErrorMessage(promenaSifreForm.controls.lozinkaPonovo)}}</mat-error>
+            <mat-hint>Lozinka ponovo</mat-hint>
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions [align]="'center'">
+    <button type="submit" mat-button mat-dialog-close color="warn" [disabled]="promenaSifreForm.invalid">Potvrdi registraciju</button>
+    </div>
+</form>

@@ -2,13 +2,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <mat-toolbar color="primary">
-    <button mat-mini-fab  (click)="goToHome()" id="home_btn">
+    <button mat-mini-fab  (click)="router.navigate(['/']);" id="home_btn">
       <mat-icon>home</mat-icon>
     </button>&nbsp;&nbsp;
     <span>E-Prodavnica</span>&nbsp;&nbsp;
 
     <span *ngIf="getRole()==='ROLE_PRODAVAC'">
-      <button mat-raised-button color="accent" (click)="pravljenjeProdukta()">Pravljenje proizvoda</button>
+      <button mat-raised-button color="accent" (click)="router.navigate(['/other/pravljenjeProdukta']);">Pravljenje proizvoda</button>
       &nbsp;&nbsp;
       <button mat-raised-button color="accent" (click)="router.navigate(['/other/prodavac']);">Pregled mojih proizvoda</button>
       &nbsp;&nbsp;
@@ -17,7 +17,7 @@
     </span>
 
     <span *ngIf="getRole()==='ROLE_ADMIN'">
-      <button mat-raised-button color="accent" (click)="pregledSajta()">Pregled proizvoda</button>
+      <button mat-raised-button color="accent" (click)="router.navigate(['/other/admin']);">Pregled proizvoda</button>
       &nbsp;&nbsp;
       <button mat-raised-button color="accent" (click)="router.navigate(['/review-management/admin']);">Pregled recenzija</button>
       &nbsp;&nbsp;
@@ -30,7 +30,7 @@
     </span>
 
     <span *ngIf="getRole()==='ROLE_SUPERADMIN'">
-      <button mat-raised-button color="accent" (click)="idiNaPregledSajtaSuperadmin()">Upravljanje admin korisnicima</button>&nbsp;&nbsp;
+      <button mat-raised-button color="accent" (click)="router.navigate(['/user-management/superadmin']);">Upravljanje admin korisnicima</button>&nbsp;&nbsp;
     </span>
 
     <span *ngIf="getRole()==='ROLE_MUSTERIJA'">
@@ -104,7 +104,12 @@
           <mat-hint>Lozinka</mat-hint>
         </mat-form-field>
       </div>
-
+      <div class="input-group"><br></div>
+      <div class="input-group">
+        <button  mat-raised-button type="button" (click)="modal.close('Save click');open(zaboravioLozinku)">
+                  Zaboravio lozinku
+              </button>
+      </div>
     </div>
 
     <div class="modal-footer">
@@ -112,6 +117,54 @@
                   color="accent" 
                   (click)="modal.close('Save click')"  [disabled]="logForm.invalid">
                   Login
+              </button>
+    </div>
+
+  </form >
+    
+  </ng-template>
+
+  <ng-template #zaboravioLozinku let-modal>
+
+    <div class="modal-header">
+      <h4 class="modal-title" 
+          id="modal-basic-title">
+          Zaboravio lozinku
+      </h4>
+      <button type="button" class="close"
+              aria-label="Close" (click)=
+              "modal.dismiss('Cross click')">
+          <span aria-hidden="true">
+              ×
+          </span>
+      </button>
+  </div>
+
+  <form [formGroup]="logForm" (ngSubmit)="posaljiZaPromenuLozinke()">
+    <div class="modal-body">
+      <div class="input-group">
+        <mat-form-field appearance="outline">
+          <mat-label>Unesite vaš email</mat-label>
+          <input matInput placeholder="pat@example.com" class="form-control" formControlName = "email" required id="email">
+          <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="logForm.controls.email.setValue('')">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-error *ngIf="logForm.controls.email.invalid">{{getErrorMessage(logForm.controls.email)}}</mat-error>
+          <mat-hint>Email</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="input-group"><br></div>
+      <div class="input-group">
+        Unesite email za slanje promene lozinke
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <button  mat-raised-button type="submit"
+                  color="accent" 
+                  (click)="modal.close('Save click')"  [disabled]="logForm.controls.email.invalid">
+                  Pošalji
               </button>
     </div>
 

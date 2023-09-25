@@ -71,6 +71,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/register").permitAll()
                 .antMatchers("/auth/verifikacijaRegistracijaMusterija/**").permitAll()
                 .antMatchers("/auth/verifikacijaAdminNalog/**").permitAll()
+                .antMatchers("/auth/promeniLozinkuSlanjeEmail").permitAll()
+                .antMatchers("/auth/promeniLozinku/**").permitAll()
 
                 .antMatchers("/produkt/get/**").permitAll()
                 .antMatchers("/produkt/by-page").permitAll()

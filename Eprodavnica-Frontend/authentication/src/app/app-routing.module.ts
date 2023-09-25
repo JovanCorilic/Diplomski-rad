@@ -4,7 +4,7 @@ import { EmptyRouteComponent } from './empty-route/empty-route.component';
 import { APP_BASE_HREF } from '@angular/common';
 import { VerifikacijaMusterijaProdavacRegistracijaComponent } from './SECURITY/verifikacija-musterija-prodavac-registracija/verifikacija-musterija-prodavac-registracija.component';
 import { VerifikacijaAdminRegistracijaComponent } from './SECURITY/verifikacija-admin-registracija/verifikacija-admin-registracija.component';
-import { PregledComponent } from './pregled/pregled.component';
+import { PromenaLozinkeComponent } from './SECURITY/promena-lozinke/promena-lozinke.component';
 
 const routes: Routes = [
   {
@@ -14,6 +14,10 @@ const routes: Routes = [
   {
     path: 'navbar/VerifikacijaAdminPravljenje/:token',
     component: VerifikacijaAdminRegistracijaComponent
+  },
+  {
+    path: 'navbar/primanjePromeneLozinke/:token',
+    component: PromenaLozinkeComponent
   },
 
   { path: '**', component: EmptyRouteComponent}

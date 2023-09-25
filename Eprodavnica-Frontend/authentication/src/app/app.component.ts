@@ -52,26 +52,6 @@ export class AppComponent{
     });
   }
 
-  idiNaProfil(uloga:string){
-    if (uloga === "ROLE_MUSTERIJA"){
-      this.router.navigate(['/other/musterija']);
-    }else if(uloga === "ROLE_PRODAVAC"){
-      this.router.navigate(['/other/prodavac']);
-    }
-  }
-
-  idiNaPregledSajtaSuperadmin(){
-    this.router.navigate(['/user-management/superadmin']);
-  }
-
-  pravljenjeProdukta(){
-    this.router.navigate(['/other/pravljenjeProdukta']);
-  }
-
-  pregledSajta(){
-    this.router.navigate(['/other/admin']);
-  }
-
   logOut() {
     this.status3 = !this.status3
     this.authenticationService.logout().subscribe(
@@ -144,6 +124,15 @@ export class AppComponent{
 		);
 	}
 
+  posaljiZaPromenuLozinke(){
+    let email = this.logForm.value.email;
+    this.authenticationService.posaljiZaPromenuSifre(email).subscribe(
+      res=>{
+        this.openSnackBar("Poslat email za promenu šifre.")
+      }
+    )
+  }
+
   idiNaKorpu(){
     this.authenticationService.dajAktivanRacun().subscribe(
       res=>{
@@ -199,16 +188,7 @@ export class AppComponent{
       
     });
   }
-
-  goToHome() {
-    this.router.navigate(['/']);
-  }
-
-  goToLogin(){
-    
-    this.router.navigate(['/home']);
-  }
-
+  
   daLiImaBroj(): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} | null => {
       const value = control.value
@@ -229,9 +209,7 @@ export class AppComponent{
     return (control: AbstractControl): {[key: string]: any} | null => {
       const value = control.value
       let nV = value
-      if (typeof value == 'string') {
-        nV = value.replace(',', '.')
-      }
+
       const hasSpecialChars = (str: string): boolean => {
         const regex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
         return regex.test(str);
