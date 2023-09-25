@@ -40,7 +40,7 @@ export class TabelaDugmadiComponent implements OnInit, OnChanges{
 
 
   idiNaProdukt(serijskiBroj:string){
-    this.router.navigate(['/other/produktDetaljno/'+serijskiBroj]);
+    this.router.navigate(['/product-management/produktDetaljno/'+serijskiBroj]);
   }
 
 }

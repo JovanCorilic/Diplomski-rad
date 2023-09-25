@@ -52,7 +52,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes,{useHash : true})],
-  providers: [{provide: APP_BASE_HREF, useValue:'/other'}],
+  providers: [{provide: APP_BASE_HREF, useValue:'/product-management'}],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

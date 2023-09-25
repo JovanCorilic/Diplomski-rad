@@ -9,13 +9,13 @@ import { EmptyRouteComponent } from './empty-route/empty-route.component';
 
 const routes: Routes = [
   {
-    path: 'admin',
+    path: 'review-management/admin',
     component:AdminComponent,
     canActivate: [RoleGuard],
     data: {expectedRoles: 'ROLE_ADMIN'}
   },
   {
-    path: 'musterija',
+    path: 'review-management/musterija',
     component:MusterijaComponent,
     canActivate: [RoleGuard],
     data: {expectedRoles: 'ROLE_MUSTERIJA'}
@@ -27,7 +27,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes,{useHash : true})],
-  providers: [{provide: APP_BASE_HREF, useValue:'/review-management'}],
+  providers: [{provide: APP_BASE_HREF, useValue:'/'}],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

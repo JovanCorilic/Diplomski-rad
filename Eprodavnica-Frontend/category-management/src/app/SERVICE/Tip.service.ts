@@ -45,7 +45,7 @@ export class TipService{
         return this.http.post(this.path+"/create",tip)
     }
 
-    public updateTip(tip:Tip){
-        return this.http.put(this.path+"/update"+`/${tip.naziv}`,tip)
+    public updateTip(tip:Tip,naziv:string){
+        return this.http.put(this.path+"/update"+`/${naziv}`,tip)
     }
 }

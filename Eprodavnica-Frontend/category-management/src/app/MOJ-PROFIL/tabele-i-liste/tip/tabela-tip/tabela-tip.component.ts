@@ -52,7 +52,7 @@ export class TabelaTipComponent implements OnInit,OnChanges{
 
   edit(){
     this.tip.naziv = this.tipForm.value.naziv
-    this.tipService.updateTip(this.tip).subscribe(
+    this.tipService.updateTip(this.tip,this.naziv).subscribe(
       res=>{
         this.openSnackBar("Uspešno promenjen naziv tipa")
         this.naziv = this.tip.naziv;

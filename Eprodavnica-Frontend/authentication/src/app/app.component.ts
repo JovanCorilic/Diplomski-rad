@@ -89,7 +89,7 @@ export class AppComponent{
     else if (temp.hasError('daLiImaSpecijalanKarakter')) {
       return 'Morate uneti specijalni karakter';
     }
-    else if( temp.hasError('minLength')){
+    else if( temp.hasError('minlength')){
       return 'Mora biti dužine barem 5 karaktera'
     }
     else

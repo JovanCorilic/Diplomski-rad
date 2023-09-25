@@ -1,6 +1,6 @@
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -30,9 +30,13 @@ export class TabelaRecenzijaComponent implements OnInit, OnChanges{
   expandedElement = <Recenzija>{}
 
   mapa:Map<string,{name:string,retrievedImage:any}>;
+  listaOcena: number[] = [1,2,3,4,5]
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
+
+  recenzijaFrom:FormGroup;
+  recenzija = <Recenzija>{}
 
   @ViewChild(MatTable) table: MatTable<Recenzija> | undefined;
 
@@ -47,6 +51,49 @@ export class TabelaRecenzijaComponent implements OnInit, OnChanges{
       return false;
     };
     this.mapa = new Map();
+    this.recenzijaFrom = fBuilder.group({
+      ocena:"5",
+      komentar: ["",[Validators.required]]
+    })
+  }
+
+  operacijeRecenzije(){
+    this.recenzija.ocena = this.recenzijaFrom.value.ocena;
+    this.recenzija.komentar = this.recenzijaFrom.value.komentar; 
+    this.recenzijaService.updateRecenziju(this.recenzija).subscribe(
+      res=>{
+        this.openSnackBar("Uspešno ažurirana recenzija");
+      }
+    )
+  }
+
+  open(content:any) {
+    this.modalService.open(content,
+   {ariaLabelledBy: 'modal-basic-title'}).result.then( 
+    result =>  { 
+      
+    }, (reason) => {
+      
+    });
+  }
+
+  AzurirajVrendost(element:Recenzija){
+    this.recenzija.produkt = element.produkt
+    this.recenzija.emailMustarija= element.emailMustarija
+    this.recenzija.id=element.id
+    this.recenzija.komentar=element.komentar
+    this.recenzija.ocena=element.ocena
+    
+    this.recenzijaFrom.controls.ocena.setValue(element.ocena);
+    this.recenzijaFrom.controls.komentar.setValue(element.komentar);
+  }
+
+  getErrorMessage(temp:any) {
+    if (temp.hasError('notANumber')) {
+      return 'Uneta vrednost nije broj';
+    }
+    else
+      return temp.hasError('viseOdNula') ? 'Količina mora biti više od 0' : '';
   }
 
   ngOnInit(): void {
@@ -84,7 +131,7 @@ export class TabelaRecenzijaComponent implements OnInit, OnChanges{
   }
 
   idiNaProdukt(serijskiBroj:string){
-    this.router.navigate(['produktDetaljno/'+serijskiBroj])
+    this.router.navigate(['/product-management/produktDetaljno/'+serijskiBroj])
   }
 
   removeData(id:number) {

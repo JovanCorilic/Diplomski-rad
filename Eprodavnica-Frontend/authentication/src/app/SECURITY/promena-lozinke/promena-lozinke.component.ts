@@ -56,8 +56,8 @@ export class PromenaLozinkeDialog {
   ){
 
     this.promenaSifreForm = this.fBuilder.group({
-      lozinka : ["",[Validators.required,this.daLiSuLozinkeJednake2()]],
-      lozinkaPonovo : ["",[Validators.required, this.daLiSuLozinkeJednake()]]
+      lozinka : ["",[Validators.required,this.daLiSuLozinkeJednake2(),this.daLiImaBroj(),this.daLiImaSpecijalanKarakter(),Validators.minLength(5)]],
+      lozinkaPonovo : ["",[Validators.required, this.daLiSuLozinkeJednake(),this.daLiImaBroj(),this.daLiImaSpecijalanKarakter(),Validators.minLength(5)]]
     })
 
   }
@@ -110,7 +110,7 @@ export class PromenaLozinkeDialog {
           }
         }
         else
-          return true;
+          return false;
       }
 
       return (!jednake(nV) && !control.pristine) ? {daLiSuLozinkeJednake2: true} : null;
@@ -124,8 +124,47 @@ export class PromenaLozinkeDialog {
     else if(temp.hasError('daLiSuLozinkeJednake2')){
       return 'Nisu iste lozinke';
     }
+    else if(temp.hasError('daLiImaBroj')){
+      return 'Mora da ima broj';
+    }
+    else if(temp.hasError('daLiImaSpecijalanKarakter')){
+      return 'Mora da ima specijalan karakter';
+    }
+    else if( temp.hasError('minlength')){
+      return 'Mora biti dužine barem 5 karaktera'
+    }
     else
       return temp.hasError('daLiSuLozinkeJednake') ? 'Nisu iste lozinke' : '';
+  }
+
+  daLiImaBroj(): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      const value = control.value
+      let nV = value
+      if (typeof value == 'string') {
+        nV = value.replace(',', '.')
+      }
+      const hasNumbers = (str: string): boolean => {
+        const regex = /\d/;
+        return regex.test(str);
+      }
+
+      return (!hasNumbers(nV) && !control.pristine) ? {daLiImaBroj: true} : null;
+    };
+  }
+
+  daLiImaSpecijalanKarakter(): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      const value = control.value
+      let nV = value
+
+      const hasSpecialChars = (str: string): boolean => {
+        const regex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+        return regex.test(str);
+      }
+
+      return (!hasSpecialChars(nV) && !control.pristine) ? {daLiImaSpecijalanKarakter: true} : null;
+    };
   }
 
 }

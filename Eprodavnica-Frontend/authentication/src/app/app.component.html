@@ -8,16 +8,16 @@
     <span>E-Prodavnica</span>&nbsp;&nbsp;
 
     <span *ngIf="getRole()==='ROLE_PRODAVAC'">
-      <button mat-raised-button color="accent" (click)="router.navigate(['/other/pravljenjeProdukta']);">Pravljenje proizvoda</button>
+      <button mat-raised-button color="accent" (click)="router.navigate(['/product-management/pravljenjeProdukta']);">Pravljenje proizvoda</button>
       &nbsp;&nbsp;
-      <button mat-raised-button color="accent" (click)="router.navigate(['/other/prodavac']);">Pregled mojih proizvoda</button>
+      <button mat-raised-button color="accent" (click)="router.navigate(['/product-management/prodavac']);">Pregled mojih proizvoda</button>
       &nbsp;&nbsp;
       <button mat-raised-button color="accent" (click)="router.navigate(['/user-management/prodavac']);">Moj profil</button>
       &nbsp;&nbsp;
     </span>
 
     <span *ngIf="getRole()==='ROLE_ADMIN'">
-      <button mat-raised-button color="accent" (click)="router.navigate(['/other/admin']);">Pregled proizvoda</button>
+      <button mat-raised-button color="accent" (click)="router.navigate(['/product-management/admin']);">Pregled proizvoda</button>
       &nbsp;&nbsp;
       <button mat-raised-button color="accent" (click)="router.navigate(['/review-management/admin']);">Pregled recenzija</button>
       &nbsp;&nbsp;
@@ -41,7 +41,7 @@
       &nbsp;&nbsp;
       <button mat-raised-button color="accent" (click)="router.navigate(['/user-management/musterija']);">Moj profil</button>
       &nbsp;&nbsp;
-      <button mat-raised-button color="accent" (click)="router.navigate(['/other/musterija']);">Proizvodi</button>
+      <button mat-raised-button color="accent" (click)="router.navigate(['/product-management/musterija']);">Proizvodi</button>
       &nbsp;&nbsp;
     </span>
 

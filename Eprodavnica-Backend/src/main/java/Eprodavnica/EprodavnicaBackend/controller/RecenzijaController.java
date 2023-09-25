@@ -36,7 +36,7 @@ public class RecenzijaController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('OPERACIJE_SA_MUSTERIJOM')")
+    @PreAuthorize("hasAnyAuthority('OPERACIJE_SA_ADMINOM','OPERACIJE_SA_MUSTERIJOM')")
     @PutMapping("/update/{id}")
     public ResponseEntity<?>updateProdukt(@RequestBody RecenzijaDTO recenzijaDTO , @PathVariable Integer id){
         Recenzija recenzija = recenzijaMapper.toModel(recenzijaDTO);
