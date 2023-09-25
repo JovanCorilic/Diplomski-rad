@@ -5,7 +5,7 @@ import { AdminComponent } from './MOJ-PROFIL/admin/admin.component';
 import { MusterijaComponent } from './MOJ-PROFIL/musterija/musterija/musterija.component';
 import { ProdavacComponent } from './MOJ-PROFIL/prodavac/prodavac.component';
 import { SuperadminComponent } from './MOJ-PROFIL/superadmin/superadmin.component';
-import { IndividualniRacunComponent } from './MOJ-PROFIL/tabele-i-liste/racun/individualni-racun/individualni-racun.component';
+
 import { RoleGuard } from './SECURITY/RoleGuard';
 import { EmptyRouteComponent } from './empty-route/empty-route.component';
 
@@ -34,12 +34,7 @@ const routes: Routes = [
     canActivate: [RoleGuard],
     data: {expectedRoles: 'ROLE_SUPERADMIN'}
   },
-  {
-    path:'racun/:brojRacuna',
-    component:IndividualniRacunComponent,
-    canActivate: [RoleGuard],
-    data: {expectedRoles: 'ROLE_MUSTERIJA|ROLE_ADMIN'}
-  },
+
   { path: '**', component: EmptyRouteComponent},
   
 ];

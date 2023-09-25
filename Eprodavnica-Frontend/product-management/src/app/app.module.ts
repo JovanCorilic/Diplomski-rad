@@ -37,23 +37,16 @@ import { MusterijaComponent } from './MOJ-PROFIL/musterija/musterija/musterija.c
 import { ProdavacComponent } from './MOJ-PROFIL/prodavac/prodavac.component';
 import { AdminComponent } from './MOJ-PROFIL/admin/admin.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import { ListaRecenzijaPageComponent } from './MOJ-PROFIL/tabele-i-liste/recenzija/lista-recenzija-page/lista-recenzija-page.component';
+
 import {MatTableModule} from '@angular/material/table';
 import { TabelaProdukataComponent } from './MOJ-PROFIL/tabele-i-liste/produkt/tabela-produkata/tabela-produkata.component';
 import { ListaProduktPageComponent } from './MOJ-PROFIL/tabele-i-liste/produkt/lista-produkt-page/lista-produkt-page.component';
-import { TabelaRacunaComponent } from './MOJ-PROFIL/tabele-i-liste/racun/tabela-racuna/tabela-racuna.component';
-import { ListaRacunPageComponent } from './MOJ-PROFIL/tabele-i-liste/racun/lista-racun-page/lista-racun-page.component';
+
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
-import { IndividualniRacunComponent } from './MOJ-PROFIL/tabele-i-liste/racun/individualni-racun/individualni-racun.component';
-import { TabelaArtikalComponent } from './MOJ-PROFIL/tabele-i-liste/racun/tabela-artikal/tabela-artikal.component';
-import { TabelaRecenzijaComponent } from './MOJ-PROFIL/tabele-i-liste/recenzija/tabela-recenzija/tabela-recenzija.component';
-import { ListaKorisnikPageComponent } from './MOJ-PROFIL/tabele-i-liste/korisnik/lista-korisnik-page/lista-korisnik-page.component';
-import { TabelaKorisnikComponent } from './MOJ-PROFIL/tabele-i-liste/korisnik/tabela-korisnik/tabela-korisnik.component';
-import { SuperadminComponent } from './MOJ-PROFIL/superadmin/superadmin.component';
+
 import {MatSelectModule} from '@angular/material/select';
-import { ListaTipPageComponent } from './MOJ-PROFIL/tabele-i-liste/tip/lista-tip-page/lista-tip-page.component';
-import { TabelaTipComponent } from './MOJ-PROFIL/tabele-i-liste/tip/tabela-tip/tabela-tip.component';
+
 import {MatToolbarModule} from '@angular/material/toolbar';
 
 @NgModule({
@@ -68,19 +61,9 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     MusterijaComponent,
     ProdavacComponent,
     AdminComponent,
-    ListaRecenzijaPageComponent,
     TabelaProdukataComponent,
     ListaProduktPageComponent,
-    TabelaRacunaComponent,
-    ListaRacunPageComponent,
-    IndividualniRacunComponent,
-    TabelaArtikalComponent,
-    TabelaRecenzijaComponent,
-    ListaKorisnikPageComponent,
-    TabelaKorisnikComponent,
-    SuperadminComponent,
-    ListaTipPageComponent,
-    TabelaTipComponent
+
   ],
   imports: [
     BrowserModule,

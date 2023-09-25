@@ -1,67 +1,9 @@
 <mat-tab-group>
-    <mat-tab label="Lične informacije">
-      <br>
-      <div style="text-align: center;">
-        <form [formGroup]="korisnikForm" (ngSubmit)="update()">
-            <p>Email : {{admin.email}}</p>
-            <div>
-                <mat-form-field appearance="outline">
-                    <mat-label>Unesite vaše ime</mat-label>
-                    <input matInput class="form-control" formControlName = "ime" required>
-                    <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="korisnikForm.controls.ime.setValue('')">
-                      <mat-icon>close</mat-icon>
-                    </button>
-                    <mat-error *ngIf="korisnikForm.controls.ime.invalid">{{getErrorMessage(korisnikForm.controls.ime)}}</mat-error>
-                    <mat-hint>Ime</mat-hint>
-                  </mat-form-field>
-            </div>
-            <div>
-                  <mat-form-field appearance="outline">
-                    <mat-label>Unesite vaše prezime</mat-label>
-                    <input matInput class="form-control" formControlName = "prezime" required>
-                    <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="korisnikForm.controls.prezime.setValue('')">
-                      <mat-icon>close</mat-icon>
-                    </button>
-                    <mat-error *ngIf="korisnikForm.controls.prezime.invalid">{{getErrorMessage(korisnikForm.controls.prezime)}}</mat-error>
-                    <mat-hint>Prezime</mat-hint>
-                  </mat-form-field>
-            </div>
-            <div>
-              <button  mat-raised-button type="submit" color="accent" [disabled]="korisnikForm.invalid">
-                  Promeni lične informacije
-              </button>
-            </div>
-        </form>
-      </div>
-    </mat-tab>
-    <mat-tab label="Mušterije">
-        <app-lista-korisnik-page [svrha]="'Musterija'">
-
-        </app-lista-korisnik-page>
-    </mat-tab>
-    <mat-tab label="Prodavci">
-        <app-lista-korisnik-page [svrha]="'Prodavac'">
-            
-        </app-lista-korisnik-page>
-    </mat-tab>
-    <mat-tab label="Svi Računi">
-      <app-lista-racun-page [svrha]="'Admin'">
-
-      </app-lista-racun-page>
-    </mat-tab>
+    
     <mat-tab label="Sve Recenzije">
       <app-lista-recenzija-page [svrha]="'Admin'">
 
       </app-lista-recenzija-page>
     </mat-tab>
-    <mat-tab label="Svi tipovi">
-      <app-lista-tip-page>
-
-      </app-lista-tip-page>
-    </mat-tab>
-    <mat-tab label="Produkti">
-      <app-lista-produkt-page [svrha]="'Admin'">
-          
-      </app-lista-produkt-page>
-    </mat-tab>
+    
 </mat-tab-group>

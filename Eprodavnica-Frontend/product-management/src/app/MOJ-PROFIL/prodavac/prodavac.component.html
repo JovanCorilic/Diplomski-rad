@@ -1,39 +1,4 @@
 <mat-tab-group>
-    <mat-tab label="Lične informacije">
-      <br>
-      <div style="text-align: center;">
-        <form [formGroup]="korisnikForm" (ngSubmit)="update()">
-            <p>Email : {{prodavac.email}}</p>
-            <div>
-                <mat-form-field appearance="outline">
-                    <mat-label>Unesite vaše ime</mat-label>
-                    <input matInput class="form-control" formControlName = "ime" required>
-                    <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="korisnikForm.controls.ime.setValue('')">
-                      <mat-icon>close</mat-icon>
-                    </button>
-                    <mat-error *ngIf="korisnikForm.controls.ime.invalid">{{getErrorMessage(korisnikForm.controls.ime)}}</mat-error>
-                    <mat-hint>Ime</mat-hint>
-                  </mat-form-field>
-            </div>
-            <div>
-                  <mat-form-field appearance="outline">
-                    <mat-label>Unesite vaše prezime</mat-label>
-                    <input matInput class="form-control" formControlName = "prezime" required>
-                    <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="korisnikForm.controls.prezime.setValue('')">
-                      <mat-icon>close</mat-icon>
-                    </button>
-                    <mat-error *ngIf="korisnikForm.controls.prezime.invalid">{{getErrorMessage(korisnikForm.controls.prezime)}}</mat-error>
-                    <mat-hint>Prezime</mat-hint>
-                  </mat-form-field>
-            </div>
-            <div>
-              <button  mat-raised-button type="submit" color="accent" [disabled]="korisnikForm.invalid">
-                  Promeni lične informacije
-              </button>
-            </div>
-        </form>
-      </div>
-    </mat-tab>
     <mat-tab label="Napravi produkt">
         <app-produkt-create>
 
