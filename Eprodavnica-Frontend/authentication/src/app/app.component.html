@@ -7,27 +7,42 @@
     </button>&nbsp;&nbsp;
     <span>E-Prodavnica</span>&nbsp;&nbsp;
 
-    <span *ngIf="getRole()==='ROLE_MUSTERIJA' || getRole()==='ROLE_PRODAVAC'">
-      <button mat-raised-button color="accent" (click)="idiNaProfil(getRole())">Moj profil</button>
-      &nbsp;&nbsp;
-    </span>
-
     <span *ngIf="getRole()==='ROLE_PRODAVAC'">
-      <button mat-raised-button color="accent" (click)="pravljenjeProdukta()">Pravljenje produkta</button>
+      <button mat-raised-button color="accent" (click)="pravljenjeProdukta()">Pravljenje proizvoda</button>
+      &nbsp;&nbsp;
+      <button mat-raised-button color="accent" (click)="router.navigate(['/other/prodavac']);">Pregled mojih proizvoda</button>
+      &nbsp;&nbsp;
+      <button mat-raised-button color="accent" (click)="router.navigate(['/user-management/prodavac']);">Moj profil</button>
       &nbsp;&nbsp;
     </span>
 
     <span *ngIf="getRole()==='ROLE_ADMIN'">
       <button mat-raised-button color="accent" (click)="pregledSajta()">Pregled sajta</button>
       &nbsp;&nbsp;
+      <button mat-raised-button color="accent" (click)="router.navigate(['/review-management/admin']);">Pregled recenzija</button>
+      &nbsp;&nbsp;
+      <button mat-raised-button color="accent" (click)="router.navigate(['/category-management/admin']);">Pregled kategorija</button>
+      &nbsp;&nbsp;
+      <button mat-raised-button color="accent" (click)="router.navigate(['/bill-management/admin']);">Pregled računa</button>
+      &nbsp;&nbsp;
+      <button mat-raised-button color="accent" (click)="router.navigate(['/user-management/admin']);">Pregled korisnika</button>
+      &nbsp;&nbsp;
     </span>
 
     <span *ngIf="getRole()==='ROLE_SUPERADMIN'">
-      <button mat-raised-button color="accent" (click)="idiNaPregledSajtaSuperadmin()">Pregled sajta</button>&nbsp;&nbsp;
+      <button mat-raised-button color="accent" (click)="idiNaPregledSajtaSuperadmin()">Upravljanje admin korisnicima</button>&nbsp;&nbsp;
     </span>
 
     <span *ngIf="getRole()==='ROLE_MUSTERIJA'">
       <button mat-raised-button color="accent" (click)="idiNaKorpu()">Korpa</button>&nbsp;&nbsp;
+      <button mat-raised-button color="accent" (click)="router.navigate(['/review-management/musterija']);">Recenzija</button>
+      &nbsp;&nbsp;
+      <button mat-raised-button color="accent" (click)="router.navigate(['/bill-management/musterija']);">Moji računi</button>
+      &nbsp;&nbsp;
+      <button mat-raised-button color="accent" (click)="router.navigate(['/user-management/musterija']);">Moj profil</button>
+      &nbsp;&nbsp;
+      <button mat-raised-button color="accent" (click)="router.navigate(['/other/musterija']);">Proizvodi</button>
+      &nbsp;&nbsp;
     </span>
 
     <span class="example-spacer"></span>

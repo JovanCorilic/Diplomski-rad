@@ -32,7 +32,7 @@ export class AppComponent{
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
   constructor(
-    private router:Router,
+    public router:Router,
     private authenticationService:AuthenticationService,
     private fBuilder: FormBuilder,
     private modalService: NgbModal,
@@ -61,7 +61,7 @@ export class AppComponent{
   }
 
   idiNaPregledSajtaSuperadmin(){
-    this.router.navigate(['/other/superadmin']);
+    this.router.navigate(['/user-management/superadmin']);
   }
 
   pravljenjeProdukta(){
@@ -153,7 +153,7 @@ export class AppComponent{
         }else if (this.racun.brojRacuna === undefined){
           this.openSnackBar("Korpa je prazna")
         }else
-          this.router.navigate(['/other/racun/'+this.racun.brojRacuna])
+          this.router.navigate(['/bill-management/racun/'+this.racun.brojRacuna])
       }
     )
     
