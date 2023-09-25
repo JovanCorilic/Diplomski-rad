@@ -54,6 +54,7 @@ import { SuperadminComponent } from './MOJ-PROFIL/superadmin/superadmin.componen
 import {MatSelectModule} from '@angular/material/select';
 import { ListaTipPageComponent } from './MOJ-PROFIL/tabele-i-liste/tip/lista-tip-page/lista-tip-page.component';
 import { TabelaTipComponent } from './MOJ-PROFIL/tabele-i-liste/tip/tabela-tip/tabela-tip.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 @NgModule({
   declarations: [
@@ -110,6 +111,7 @@ import { TabelaTipComponent } from './MOJ-PROFIL/tabele-i-liste/tip/tabela-tip/t
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
+    MatToolbarModule
   ],
   providers: [
     {

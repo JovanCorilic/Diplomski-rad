@@ -1,0 +1,51 @@
+<mat-drawer-container  style="height: 120vh;" autosize>
+    <mat-drawer #drawer class="example-sidenav" mode="side" opened>
+      <p style="font-size: 25px;">Pretraga</p>
+
+      <mat-divider></mat-divider> <br>
+
+      <form [formGroup]="filterForm" (ngSubmit)="filters()">
+        Email <br>
+        <mat-form-field appearance="fill"  [style.height.px]=65>
+          <input matInput class="form-control" formControlName = "email" required>
+        </mat-form-field> 
+
+        <br> <br><mat-divider></mat-divider> <br>
+
+        Ime <br>
+        <mat-form-field appearance="fill"  [style.height.px]=65>
+          <input matInput class="form-control" formControlName = "ime" required>
+        </mat-form-field> 
+
+        <br> <br><mat-divider></mat-divider> <br>
+
+        Prezime <br>
+        <mat-form-field appearance="fill"  [style.height.px]=65>
+          <input matInput class="form-control" formControlName = "prezime" required>
+        </mat-form-field> 
+
+        <br> <br><mat-divider></mat-divider> <br>
+
+        <button type="submit" mat-raised-button color="primary"  style="height: 50px;width: 250px;font-size: 15px;" 
+        [mtBasicSpinner]="status" [hideText]="status">Pretraži</button>
+
+        <br> <br><mat-divider></mat-divider> <br>
+
+        <button type="button" mat-raised-button color="warn"  style="height: 50px;width: 250px;font-size: 15px;" (click)="resetuj()" 
+        [mtBasicSpinner]="status2" [hideText]="status2">Resetuj</button>
+      </form>
+
+    </mat-drawer>
+  
+    <div class="example-sidenav-content">
+      <div>
+        <app-tabela-korisnik [listaKorisnika]="lista"></app-tabela-korisnik>
+      </div>
+      <br>
+      <div style="text-align: center;">
+        <app-pagination [totalItems]="totalSize" [pageSize]="pageSize" (pageSelected)="changePage($event)">
+          
+        </app-pagination>
+      </div>  
+    </div>
+</mat-drawer-container>

@@ -1,0 +1,68 @@
+<mat-drawer-container  style="height: 120vh;" autosize>
+    <mat-drawer #drawer class="example-sidenav" mode="side" opened>
+      <p style="font-size: 25px;">Pretraga</p>
+
+      <mat-divider></mat-divider> <br>
+
+      <form [formGroup]="filterForm" (ngSubmit)="filters()">
+
+        Cena <br>Od
+        <mat-form-field appearance="fill"  [style.height.px]=65>
+          <input matInput class="form-control" formControlName = "od" required>
+          <mat-error *ngIf="filterForm.controls.od.invalid">{{getErrorMessageFilter(filterForm.controls.od)}}</mat-error>
+        </mat-form-field> 
+        <br>Do 
+        <mat-form-field appearance="fill"  [style.height.px]=65>
+          <input matInput class="form-control" formControlName = "do" required>
+          <mat-error *ngIf="filterForm.controls.do.invalid">{{getErrorMessageFilter(filterForm.controls.do)}}</mat-error>
+        </mat-form-field>
+
+        <br> <br><mat-divider></mat-divider> <br>
+
+        Datum <br>Od
+        <mat-form-field>
+            <mat-label>Izberite datum</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName = "odDatum">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <br>Do
+        <mat-form-field>
+            <mat-label>Izberite datum</mat-label>
+            <input matInput [matDatepicker]="picker2" formControlName = "doDatum">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+
+        <br> <br><mat-divider></mat-divider> <br>
+
+        <button type="submit" mat-raised-button color="primary"  style="height: 50px;width: 250px;font-size: 15px;" 
+        [mtBasicSpinner]="status" [hideText]="status">Pretraži</button>
+
+        <br> <br><mat-divider></mat-divider> <br>
+
+        <button type="button" mat-raised-button color="warn"  style="height: 50px;width: 250px;font-size: 15px;" (click)="resetuj()" 
+        [mtBasicSpinner]="status2" [hideText]="status2">Resetuj</button>
+      </form>
+
+    </mat-drawer>
+  
+    <div class="example-sidenav-content">
+      <span *ngIf="svrha === 'Musterija' && racun.brojRacuna!=='nema'">
+        <br>
+        <button type="button" mat-raised-button color="warn"  style="width: 100%;" (click)="idiNaKorpu(racun.brojRacuna)">Korpa</button>
+        <br>
+      </span>
+      <div>
+        <app-tabela-racuna [listaRacuna]="lista"></app-tabela-racuna>
+      </div>
+      <br>
+      <div style="text-align: center;">
+        <app-pagination [totalItems]="totalSize" [pageSize]="pageSize" (pageSelected)="changePage($event)">
+          
+        </app-pagination>
+      </div>  
+    </div>
+</mat-drawer-container>

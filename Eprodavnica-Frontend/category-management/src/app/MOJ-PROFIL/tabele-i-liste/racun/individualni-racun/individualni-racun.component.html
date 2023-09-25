@@ -1,0 +1,24 @@
+<br>
+<div style="text-align: center;">
+    <h3 *ngIf="!racun.korpa">Datum kreiranja {{racun.datumKreiranja | date:'dd.MM.yyyy HH:mm'}}</h3>
+
+    <div>
+        <app-tabela-artikal [listaArtikala]="lista" [korpa]="racun.korpa" (ukupnaCena)="smanjiCenu($event)">
+
+        </app-tabela-artikal>
+    </div>
+
+    <div style="text-align: center;">
+        <app-pagination [totalItems]="totalSize" [pageSize]="pageSize" (pageSelected)="changePage($event)">
+            
+        </app-pagination>
+    </div>
+    <br>
+    Ukupna cena : {{racun.konacnaCena}}din
+    <br>
+    <br>
+    <span *ngIf="racun.korpa">
+        <button mat-raised-button color="warn" (click)="plati()">Plati</button>
+        <br>
+    </span>
+</div>
