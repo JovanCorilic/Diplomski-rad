@@ -1,5 +1,4 @@
 import { ImageModel } from "./ImageModel"
-import { Recenzija } from "./Recenzija"
 import { Tip } from "./Tip"
 
 export class Produkt {

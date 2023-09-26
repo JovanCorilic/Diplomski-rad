@@ -1,4 +1,3 @@
-import { Korisnik } from "../Korisnik";
 import { Tip } from "../Tip";
 import { Cena } from "./Cena";
 import { Datum } from "./Datum";

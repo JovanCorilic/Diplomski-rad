@@ -8,9 +8,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxLoadingButtonsModule } from 'ngx-loading-buttons';
 import { Interceptor } from './SECURITY/Interceptor';
-import { ProduktService } from './SERVICE/Produkt.service';
-import { RacunService } from './SERVICE/Racun.service';
-import { RecenzijaService } from './SERVICE/Recenzija.service';
 import { TipService } from './SERVICE/Tip.service';
 
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -84,9 +81,6 @@ import { PaginationComponent } from './pagination/pagination.component';
       useClass: Interceptor, 
       multi: true
     },
-    ProduktService,
-    RacunService,
-    RecenzijaService,
     TipService
   ],
   bootstrap: [AppComponent]

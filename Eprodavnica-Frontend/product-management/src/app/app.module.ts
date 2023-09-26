@@ -28,7 +28,6 @@ import { ProduktEditComponent } from './PRODUKT/produkt-edit/produkt-edit.compon
 import {MatTabsModule} from '@angular/material/tabs';
 import { PaginationComponent } from './pagination/pagination.component';
 import { RecenzijaTableComponent } from './RECENZIJA/recenzija-table/recenzija-table.component';
-import { RecenzijaCreateComponent } from './RECENZIJA/recenzija-create/recenzija-create.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips';
 import {CdkDrag, CdkDropList} from '@angular/cdk/drag-drop';
@@ -57,7 +56,6 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     ProduktEditComponent,
     PaginationComponent,
     RecenzijaTableComponent,
-    RecenzijaCreateComponent,
     MusterijaComponent,
     ProdavacComponent,
     AdminComponent,

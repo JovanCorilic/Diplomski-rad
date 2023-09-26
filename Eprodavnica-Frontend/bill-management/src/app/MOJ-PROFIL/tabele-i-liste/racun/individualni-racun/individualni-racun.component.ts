@@ -28,7 +28,7 @@ export class IndividualniRacunComponent implements OnInit{
     private route:ActivatedRoute,
     private _snackBar: MatSnackBar
   ){
-    this.pageSize = 6;
+    this.pageSize = 12;
 		this.currentPage = 1;
 		this.totalSize = 1;
 

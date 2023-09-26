@@ -7,7 +7,6 @@ import { Filter } from 'src/app/MODEL/Filter/Filter';
 import { Ocena } from 'src/app/MODEL/Filter/Ocena';
 import { TipFilter } from 'src/app/MODEL/Filter/TipFilter';
 import { Produkt } from 'src/app/MODEL/Produkt';
-import { Tip } from 'src/app/MODEL/Tip';
 import { ProduktService } from 'src/app/SERVICE/Produkt.service';
 import { TipService } from 'src/app/SERVICE/Tip.service';
 
@@ -39,7 +38,7 @@ export class ListaProduktPageComponent {
     private tipService:TipService,
     private modalService: NgbModal
   ){
-    this.pageSize = 6;
+    this.pageSize = 9;
 		this.currentPage = 1;
 		this.totalSize = 1;
 

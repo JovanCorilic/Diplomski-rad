@@ -8,10 +8,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxLoadingButtonsModule } from 'ngx-loading-buttons';
 import { Interceptor } from './SECURITY/Interceptor';
-import { ProduktService } from './SERVICE/Produkt.service';
-import { RacunService } from './SERVICE/Racun.service';
-import { RecenzijaService } from './SERVICE/Recenzija.service';
-import { TipService } from './SERVICE/Tip.service';
 
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSelectModule} from '@angular/material/select';
@@ -42,6 +38,7 @@ import { ListaKorisnikPageComponent } from './MOJ-PROFIL/tabele-i-liste/korisnik
 import { TabelaKorisnikComponent } from './MOJ-PROFIL/tabele-i-liste/korisnik/tabela-korisnik/tabela-korisnik.component';
 
 import { PaginationComponent } from './pagination/pagination.component';
+import { KorisnikService } from './SERVICE/Korisnik.service';
 
 @NgModule({
   declarations: [
@@ -93,10 +90,7 @@ import { PaginationComponent } from './pagination/pagination.component';
       useClass: Interceptor, 
       multi: true
     },
-    ProduktService,
-    RacunService,
-    RecenzijaService,
-    TipService
+    KorisnikService
   ],
   bootstrap: [AppComponent]
 })

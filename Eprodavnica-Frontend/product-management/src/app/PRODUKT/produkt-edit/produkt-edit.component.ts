@@ -3,7 +3,6 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidatorFn, Valida
 import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TipFilter } from 'src/app/MODEL/Filter/TipFilter';
 import { ImageModel } from 'src/app/MODEL/ImageModel';
 import { Produkt } from 'src/app/MODEL/Produkt';
 import { Tip } from 'src/app/MODEL/Tip';

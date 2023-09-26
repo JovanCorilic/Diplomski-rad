@@ -1,10 +1,8 @@
-import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Artikal } from 'src/app/MODEL/Artikal';
-import { Recenzija } from 'src/app/MODEL/Recenzija';
 import { RacunService } from 'src/app/SERVICE/Racun.service';
 
 @Component({
