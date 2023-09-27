@@ -1,0 +1,14 @@
+Kojeg formata papir da bude ? b5
+Kakave margine ?
+Koliko min strana ? 50
+Da li treba navigacija ?
+Koriscenje slika ? 
+Slika programa, slika programskog koda ?
+Sta cu sve trebati da napisem ?
+Sadrzaj : Prva strana uput . problem koji resavam
+Teorijske osnove - 15 strana , pregled toga sta je frontend programiranje + sta su mikrofrontendi za sta se koriste , ...
+Pise se i o single spa radni okvir.
+Specifikacija zahteva - 10,15 strana . Dijagram slucaja koriscenja zajedno sa tabelama slucaja koriscenja .
+Arhitektura sistema - dijagram komponenti da opisem arhitekturu i svaku pojedinacnu komponentu (servis , kontroller ...) - 10,15
+prototipska implementacija  - klasni dijagram i opis klasnog , zatim prikaz korisnickog interfejsa sa screenshot - 15,20
+Zakljucak - jedna strana.
