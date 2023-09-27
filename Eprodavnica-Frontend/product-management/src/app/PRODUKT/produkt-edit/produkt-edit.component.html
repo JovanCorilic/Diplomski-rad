@@ -1,75 +1,82 @@
 <form [formGroup]="produktForm" (ngSubmit)="update()" style="text-align: center;">
-    
-    <img *ngIf="produkt.slika.name==='nema'; else elseBlockSlika" src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="600" height="400">
-    <ng-template #elseBlockSlika>
-      <img [src]="retrievedImage" width="600" height="400">
-    </ng-template>
+  <table style="width: 100%;text-align: center;">
+    <tr>
+      
+      <td>
+        <img *ngIf="produkt.slika.name==='nema'; else elseBlockSlika" src="https://upload.wikimedia.org/wikipedia/commons/2/25/Icon-round-Question_mark.jpg" alt="Girl in a jacket" width="600" height="400">
+        <ng-template #elseBlockSlika>
+          <img [src]="retrievedImage" width="600" height="400">
+        </ng-template>
+      </td>
+      <td>
+        <div>
+          <br>
+          <label class="custom-file-upload">
+              <input type="file" (change)="onFileChanged($event)" accept=".jpg,.jpeg,.png" />
+              <i></i> Promeni sliku
+          </label>
+          <br><br>
+        </div>
 
-    <div>
-      <br>
-      <label class="custom-file-upload">
-          <input type="file" (change)="onFileChanged($event)" accept=".jpg,.jpeg,.png" />
-          <i></i> Promeni sliku
-      </label>
-      <br><br>
-    </div>
-
-    <mat-form-field appearance="outline">
-        <mat-label>Unesite naziv produkta</mat-label>
-        <input matInput placeholder="Naziv produkta" class="form-control" formControlName = "naziv" required>
-        <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="produktForm.controls.naziv.setValue('')">
-          <mat-icon>close</mat-icon>
-        </button>
-        <mat-error *ngIf="produktForm.controls.naziv.invalid">{{getErrorMessage(produktForm.controls.naziv)}}</mat-error>
-        <mat-hint>Naziv produkta</mat-hint>
-    </mat-form-field>
-
-    <div><br></div>
-
-    <mat-form-field appearance="outline">
-        <mat-label>Unesite deskripciju produkta</mat-label>
-        <textarea matInput placeholder="Deskripcija produkta" class="form-control" formControlName = "deskripcija" required></textarea>
-        <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="produktForm.controls.deskripcija.setValue('')">
-          <mat-icon>close</mat-icon>
-        </button>
-        <mat-error *ngIf="produktForm.controls.deskripcija.invalid">{{getErrorMessage(produktForm.controls.deskripcija)}}</mat-error>
-        <mat-hint>Deskripcija produkta</mat-hint>
-    </mat-form-field>
-
-    <div><br></div>
-
-    <mat-form-field appearance="outline">
-        <mat-label>Unesite cenu produkta</mat-label>
-        <input matInput placeholder="1000.50" class="form-control" formControlName = "cena" required>
-        <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="produktForm.controls.cena.setValue(-1)">
-          <mat-icon>close</mat-icon>
-        </button>
-        <mat-error *ngIf="produktForm.controls.cena.invalid">{{getErrorMessage(produktForm.controls.cena)}}</mat-error>
-        <mat-hint>Cena produkta</mat-hint>
-    </mat-form-field>
-
-    <div><br></div>
-
-    <mat-form-field appearance="outline">
-        <mat-label>Unesite akciju produkta</mat-label>
-        <input matInput placeholder="10" class="form-control" formControlName = "akcija" required>
-        <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="produktForm.controls.akcija.setValue(0)">
-          <mat-icon>close</mat-icon>
-        </button>
-        <mat-error *ngIf="produktForm.controls.akcija.invalid">{{getErrorMessage(produktForm.controls.akcija)}}</mat-error>
-        <mat-hint>Akcija produkta</mat-hint>
-    </mat-form-field>
-
-    <div><br></div>
-
-    <button type="button" mat-raised-button color="accent" (click)="open(tipoviProzor)">Tipovi</button>
-
-    <div><br></div>
-
-    <button type="submit" [mtBasicSpinner]="status" [hideText]="status" mat-raised-button color="warn"
-                [disabled]="produktForm.invalid">
-                Promeni
+        <mat-form-field appearance="outline">
+            <mat-label>Unesite naziv produkta</mat-label>
+            <input matInput placeholder="Naziv produkta" class="form-control" formControlName = "naziv" required>
+            <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="produktForm.controls.naziv.setValue('')">
+              <mat-icon>close</mat-icon>
             </button>
+            <mat-error *ngIf="produktForm.controls.naziv.invalid">{{getErrorMessage(produktForm.controls.naziv)}}</mat-error>
+            <mat-hint>Naziv produkta</mat-hint>
+        </mat-form-field>
+
+        <div><br></div>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Unesite deskripciju produkta</mat-label>
+            <textarea matInput placeholder="Deskripcija produkta" class="form-control" formControlName = "deskripcija" required></textarea>
+            <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="produktForm.controls.deskripcija.setValue('')">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="produktForm.controls.deskripcija.invalid">{{getErrorMessage(produktForm.controls.deskripcija)}}</mat-error>
+            <mat-hint>Deskripcija produkta</mat-hint>
+        </mat-form-field>
+
+        <div><br></div>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Unesite cenu produkta</mat-label>
+            <input matInput placeholder="1000.50" class="form-control" formControlName = "cena" required>
+            <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="produktForm.controls.cena.setValue(-1)">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="produktForm.controls.cena.invalid">{{getErrorMessage(produktForm.controls.cena)}}</mat-error>
+            <mat-hint>Cena produkta</mat-hint>
+        </mat-form-field>
+
+        <div><br></div>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Unesite akciju produkta</mat-label>
+            <input matInput placeholder="10" class="form-control" formControlName = "akcija" required>
+            <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="produktForm.controls.akcija.setValue(0)">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="produktForm.controls.akcija.invalid">{{getErrorMessage(produktForm.controls.akcija)}}</mat-error>
+            <mat-hint>Akcija produkta</mat-hint>
+        </mat-form-field>
+
+        <div><br></div>
+
+        <button type="button" mat-raised-button color="accent" (click)="open(tipoviProzor)">Tipovi</button>
+
+        <div><br></div>
+
+        <button type="submit" [mtBasicSpinner]="status" [hideText]="status" mat-raised-button color="warn"
+                    [disabled]="produktForm.invalid">
+                    Promeni
+                </button>
+      </td>
+    </tr>
+  </table>
 </form>
 
 <ng-template #tipoviProzor let-modal>

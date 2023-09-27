@@ -118,7 +118,7 @@ export class AppComponent{
 			},
 			error => {
         this.status= !this.status;
-        alert("Loš login!");
+        this.openSnackBar("Loš login!");
         this.failLogin += 1;
 			}
 		);
@@ -173,7 +173,7 @@ export class AppComponent{
         this.status2= !this.status2;
         this.openSnackBar("Uspešno napravljen zahtev za registraciju, molimo vas potvrdite preko email da bi ste nastavili dalje");
       },error =>{
-        alert("Nisu pravilno uneti podaci!")
+        this.openSnackBar("Nisu pravilno uneti podaci!")
         this.status2 = !this.status2;
       }
     )

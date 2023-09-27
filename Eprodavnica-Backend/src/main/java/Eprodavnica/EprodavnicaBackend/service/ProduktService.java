@@ -299,17 +299,25 @@ public class ProduktService {
                 produkt.getListaTipova().add(tip);
         }
 
-        List<Tip>temp = produkt.getListaTipova();
+        List<Tip>temp = new ArrayList<>(produkt.getListaTipova());
         for (Tip tip : produkt.getListaTipova()){
             if(!daLiSadrziTip(entity.getListaTipova(),tip)){
                 temp.remove(tip);
             }
         }
+
+        if ( entity.getAkcija()!=0 && entity.getAkcija()!=produkt.getAkcija() ){
+            dodajAkciju(produkt.getSerijskiBroj(),entity.getAkcija());
+        }
+
         produkt.setListaTipova(temp);
-        produkt.setNazivSlike(entity.getNazivSlike());
-        produkt = produktRepository.save(produkt);
-        if (!img.getName().equals("nema"))
+
+        if (!img.getName().equals("nema")) {
+            produkt.setNazivSlike(entity.getNazivSlike());
             SacuvajSliku(img);
+        }
+
+        produkt = produktRepository.save(produkt);
         return produkt;
     }
 
