@@ -4,7 +4,7 @@
 
 <Workspace>
 	<Local Expanded="Yes">
-		<Model Expanded="Yes" ID="{0F985892-B077-428E-AE1F-8C93FCE3E990}" Name="Diplomski-rad-grafovi" Selected="Yes" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="Diplomski-rad-grafovi.prj"/>
+		<Model Expanded="Yes" ID="{0F985892-B077-428E-AE1F-8C93FCE3E990}" Name="Diplomski-rad-grafovi" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="Diplomski-rad-grafovi.prj"/>
 	</Local>
 	<BrowserModule Name="Repository"/>
 </Workspace>
