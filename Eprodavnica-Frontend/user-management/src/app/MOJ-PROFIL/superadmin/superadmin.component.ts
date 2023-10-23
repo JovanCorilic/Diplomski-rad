@@ -44,6 +44,7 @@ export class SuperadminComponent {
       },
       error=>{
         this.status = !this.status
+        this.openSnackBar("Admin sa tim mejlom već postoji!");
       }
     )
   }
