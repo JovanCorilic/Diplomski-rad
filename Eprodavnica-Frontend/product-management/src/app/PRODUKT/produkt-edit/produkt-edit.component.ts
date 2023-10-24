@@ -175,10 +175,10 @@ export class ProduktEditComponent implements OnInit{
       return 'Morate uneti broj';
     }
     else if(temp.hasError('manjeOdSto')){
-      return 'Mora biti manje ili jednako od 100'
+      return 'Mora biti manje ili jednako 100'
     }
     else
-    return temp.hasError('viseOdNula') ? 'Mora biti više ili jednako od 0' : '';
+    return temp.hasError('viseOdNula') ? 'Mora biti više ili jednako 0' : '';
   }
 
   viseOdNula():ValidatorFn{
@@ -210,7 +210,7 @@ export class ProduktEditComponent implements OnInit{
       if (typeof value == 'string') {
         nV = value.replace(',', '.')
       }
-      return (!Number.isNaN(Number(nV)) && !control.pristine && (Number(nV)>100)) ? {viseOdNula: true} : null;
+      return (!Number.isNaN(Number(nV)) && !control.pristine && (Number(nV)>100)) ? {manjeOdSto: true} : null;
     };
   }
 
