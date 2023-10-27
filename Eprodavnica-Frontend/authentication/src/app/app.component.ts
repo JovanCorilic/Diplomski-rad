@@ -112,8 +112,6 @@ export class AppComponent{
         //sessionStorage.setItem('uloga', info['uloga']);
 
         this.status= !this.status;
-        this.openSnackBar("Uspešno ulogovan");
-
         
 			},
 			error => {
