@@ -6,7 +6,7 @@
 	<Local Expanded="Yes">
 		<Model Expanded="Yes" ID="{0F985892-B077-428E-AE1F-8C93FCE3E990}" Loaded="No" Name="EprodavnicaUseCaseDijagram" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="Diplomski-rad-grafovi.prj"/>
 		<Model Expanded="Yes" ID="{5E2AE330-9347-4A6F-908B-F467A24F095D}" Loaded="No" Name="EprodavnicaClassDijagram" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="../EprodavnicaClassDijagram/EprodavnicaClassDijagram.prj"/>
-		<Model Expanded="Yes" ID="{0C414AF3-6AFB-4BF4-9966-DD1C74B89EF8}" Name="EprodavnicaDijagramKomponenti" Selected="Yes" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="../EprodavnicaDijagramKomponenti/EprodavnicaDijagramKomponenti.prj"/>
+		<Model Expanded="Yes" ID="{0C414AF3-6AFB-4BF4-9966-DD1C74B89EF8}" Name="EprodavnicaDijagramKomponenti" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="../EprodavnicaDijagramKomponenti/EprodavnicaDijagramKomponenti.prj"/>
 	</Local>
 	<BrowserModule Name="Repository"/>
 </Workspace>
