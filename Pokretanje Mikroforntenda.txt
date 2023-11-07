@@ -1,5 +1,9 @@
 npm run serve:single-spa:home
 npm run serve:single-spa:navbar
 npm run serve:single-spa:other
+npm run serve:single-spa:category-management
+npm run serve:single-spa:bill-management 
+npm run serve:single-spa:review-management
+npm run serve:single-spa:user-management
 npm run build:webpack
 npm start
