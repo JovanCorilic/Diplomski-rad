@@ -45,6 +45,7 @@
             color="accent">Edituj recenziju</button> 
             <br> <br>
 
+            <!--
             <button type="button" mat-raised-button color="accent" *ngIf="getRole()==='ROLE_PRODAVAC'" (click)="edit()">Edit</button> <br><br>
             <span *ngIf="getRole()==='ROLE_PRODAVAC'">
                 <button type="button" mat-raised-button color="warn" *ngIf="produkt.odobrenOdProdavca" (click)="povuciProdavac()">Povuci</button>
@@ -55,6 +56,7 @@
                 <button type="button" mat-raised-button color="warn" *ngIf="produkt.odobrenOdAdmina" (click)="povuciAdmin()">Povuci</button>
                 <button type="button" mat-raised-button color="accent" *ngIf="!produkt.odobrenOdAdmina" (click)="vratiAdmin()">Vrati</button>
             </span>
+            -->
         </td>
     </tr>
 </table>

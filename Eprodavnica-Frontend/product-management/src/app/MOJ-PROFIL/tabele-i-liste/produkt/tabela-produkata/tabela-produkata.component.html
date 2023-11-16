@@ -93,6 +93,8 @@
               <span *ngIf="getRole()==='ROLE_PRODAVAC'">
                 <br>
                 <button mat-raised-button color="accent" (click)="open(AkcijaProzor);serijskiBroj = element.serijskiBroj;">Postavi akciju</button>&nbsp;&nbsp;
+                <br>
+                <button type="button" mat-raised-button color="accent" (click)="edit(element.serijskiBroj)">Edit produkta</button>&nbsp;&nbsp;
               </span>
 
             </td>

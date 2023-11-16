@@ -117,6 +117,10 @@ export class TabelaProdukataComponent implements OnInit, OnChanges{
     )
   }
 
+  edit(serijskiBroj:string){
+    this.router.navigate(['editProdukta/'+serijskiBroj])
+  }
+
   povuciAdmin(serijskiBroj:string){
     this.produktService.povuciProizvodAdmin(serijskiBroj).subscribe(
       res=>{
