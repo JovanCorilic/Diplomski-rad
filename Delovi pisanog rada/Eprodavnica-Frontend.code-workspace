@@ -1,0 +1,32 @@
+{
+	"folders": [
+		{
+			"path": "../Documents/GitHub/Diplomski-rad/Eprodavnica-Frontend"
+		},
+		{
+			"path": "../Documents/GitHub/Diplomski-rad/Eprodavnica-Frontend/src"
+		},
+		{
+			"path": "../Documents/GitHub/Diplomski-rad/Eprodavnica-Frontend/user-management"
+		},
+		{
+			"path": "../Documents/GitHub/Diplomski-rad/Eprodavnica-Frontend/review-management"
+		},
+		{
+			"path": "../Documents/GitHub/Diplomski-rad/Eprodavnica-Frontend/bill-management"
+		},
+		{
+			"path": "../Documents/GitHub/Diplomski-rad/Eprodavnica-Frontend/category-management"
+		},
+		{
+			"path": "../Documents/GitHub/Diplomski-rad/Eprodavnica-Frontend/authentication"
+		},
+		{
+			"path": "../Documents/GitHub/Diplomski-rad/Eprodavnica-Frontend/dashboard"
+		},
+		{
+			"path": "../Documents/GitHub/Diplomski-rad/Eprodavnica-Frontend/product-management"
+		}
+	],
+	"settings": {}
+}
